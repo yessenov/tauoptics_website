@@ -89,17 +89,17 @@
 
   /* PARTNERS */
   .partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--rule); }
-  .partner-card { padding: 2rem 1.25rem; border-right: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; min-height: 140px; transition: background 0.2s; }
+  .partner-card {  padding: 2rem 1.25rem; display: flex; align-items: center; justify-content: center; min-height: 140px; transition: background 0.2s; background: #fff;  }
   .partner-card:last-child { border-right: none; }
   .partner-card:hover { background: var(--surface); }
-  .partner-card img { max-width: 100%; max-height: 70px; width: auto; height: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.75; transition: opacity 0.2s; }
+  .partner-card img { max-width: 100%; max-height: 120px; width: auto; height: auto; object-fit: contain; opacity: 0.85; transition: opacity 0.2s; }
   .partner-card:hover img { opacity: 1; }
 
   /* BACKED BY */
   .backed-grid { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
-  .backed-logo { display: flex; align-items: center; justify-content: center; padding: 1.5rem 2.5rem; border: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
+  .backed-logo { display: flex; align-items: center; justify-content: center; padding: 1.5rem 2.5rem; border: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; background: #000000;}
   .backed-logo:hover { background: var(--raised); }
-  .backed-logo img { max-height: 80px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.75; transition: opacity 0.2s; }
+  .backed-logo img { max-height: 150px; width: auto; object-fit: contain; opacity: 0.85; transition: opacity 0.2s; }
   .backed-logo:hover img { opacity: 1; }
 
   /* NEWS */
@@ -146,7 +146,7 @@
     .app-grid { grid-template-columns: 1fr; }
     .partner-grid { grid-template-columns: repeat(3, 1fr); }
     .partner-card:nth-child(3) { border-right: none; }
-    .partner-card:nth-child(4), .partner-card:nth-child(5) { border-top: 1px solid var(--rule); }
+    .partner-card:nth-child(4), .partner-card:nth-child(5) { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
     .partner-card:nth-child(5) { border-right: none; }
     .app-card { border-right: none; border-bottom: 1px solid var(--rule); }
     .nav-links { display: none; }
@@ -346,18 +346,6 @@
   </div>
 </section>
 
-<section id="backed">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2>Backed By</h2>
-    </div>
-    <div class="backed-grid">
-      <div class="backed-logo">
-        <img src="NSF Seed fund logo.jpg" alt="National Science Foundation">
-      </div>
-    </div>
-  </div>
-</section>
 
 <section id="news">
   <div class="section-inner">
@@ -376,9 +364,9 @@
       <div class="news-item">
         <div class="news-date">2025</div>
         <div>
-          <div class="news-source">NSF SBIR Program</div>
-          <div class="news-headline">Tau Optics awarded NSF SBIR Phase I grant for SpectraMini development</div>
-          <div class="news-snippet">The National Science Foundation selected Tau Optics for Phase I SBIR funding to develop proof-of-principle prototypes of SpectraMini for Raman spectroscopy and color measurement — validating the technical and commercial merit of the r-CBG platform.</div>
+          <div class="news-source">NSF STTR Program</div>
+          <div class="news-headline">Tau Optics awarded NSF STTR Phase I grant for SpectraMini development</div>
+          <div class="news-snippet">The National Science Foundation selected Tau Optics for Phase I STTR funding to develop proof-of-principle prototypes of SpectraMini for Raman spectroscopy and color measurement — validating the technical and commercial merit of the r-CBG platform.</div>
           <a class="news-link" href="https://seedfund.nsf.gov/" target="_blank">NSF Seed Fund &#8599;</a>
         </div>
       </div>
@@ -390,6 +378,20 @@
           <div class="news-snippet">Spun out from the University of Central Florida's College of Optics &amp; Photonics, Tau Optics was incorporated in Orlando, Florida to commercialize the patented r-CBG spectral analysis technology developed at CREOL.</div>
           <a class="news-link" href="https://incubator.ucf.edu" target="_blank">UCF Incubator &#8599;</a>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="backed">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Backed By</h2>
+    </div>
+    <div class="backed-grid">
+      <div class="backed-logo">
+        <img src="Images/NSF Seed fund logo.jpg" alt="National Science Foundation">
       </div>
     </div>
   </div>
