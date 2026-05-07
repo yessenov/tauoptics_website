@@ -7,7 +7,7 @@
 <meta name="description" content="Tau Optics develops SpectraMini — the world's most compact high-resolution Raman spectrometer, powered by patented rotated chirped Bragg grating technology.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -55,10 +55,8 @@
   /* SECTIONS */
   section { border-bottom: 1px solid var(--rule); padding: 5rem 2rem; }
   .section-inner { max-width: var(--max); margin: 0 auto; }
-  .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3rem; }
-  .section-num { font-family: var(--mono); font-size: 0.70rem; color: var(--accent2); letter-spacing: 0.10em; flex-shrink: 0; padding-top: 0.15rem; }
-  h2 { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); }
-  h2 em { font-style: italic; color: var(--accent); }
+  .section-header { margin-bottom: 3rem; }
+  h2 { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); font-style: normal; }
   h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
 
   /* TECHNOLOGY */
@@ -73,7 +71,7 @@
   .diagram-label { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.25rem; }
   .diagram-caption { font-size: 0.80rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.5; }
 
-  /* APPLICATIONS */
+  /* USE CASES */
   .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); }
   .app-card { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); transition: background 0.2s; }
   .app-card:last-child { border-right: none; }
@@ -86,31 +84,23 @@
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
   .about-body p { margin-bottom: 1.2rem; font-size: 1rem; }
-  .team-list { display: flex; flex-direction: column; }
-  .team-member { padding: 1.25rem 0; border-bottom: 1px solid var(--rule); }
-  .team-member:first-child { border-top: 1px solid var(--rule); }
-  .member-name { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--text); }
-  .member-role { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.10em; margin-top: 0.2rem; }
-  .member-bio { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.55; }
   .affiliation-wrap { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .affiliation { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); border: 1px solid var(--rule); padding: 0.35rem 0.8rem; }
 
   /* PARTNERS */
-  .partners-intro { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; max-width: 55ch; }
-  .partner-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); }
-  .partner-card { padding: 2rem 1.5rem; border-right: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; transition: background 0.2s; }
+  .partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .partner-card { padding: 2rem 1.25rem; border-right: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; min-height: 140px; transition: background 0.2s; }
   .partner-card:last-child { border-right: none; }
   .partner-card:hover { background: var(--surface); }
-  .partner-type { font-family: var(--mono); font-size: 0.60rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; text-align: center; }
+  .partner-card img { max-width: 100%; max-height: 70px; width: auto; height: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.75; transition: opacity 0.2s; }
+  .partner-card:hover img { opacity: 1; }
 
-  /* Typographic partner logos */
-  .logo-pastore { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; line-height: 1.4; }
-  .logo-pastore span { display: block; font-size: 0.60rem; color: var(--muted); letter-spacing: 0.14em; margin-top: 0.2rem; }
-  .logo-apollon { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--text); letter-spacing: 0.02em; text-align: center; font-style: italic; }
-  .logo-lifeplus { font-family: var(--mono); font-size: 0.90rem; font-weight: 500; color: var(--text); letter-spacing: 0.06em; text-align: center; }
-  .logo-lifeplus::before { content: '+ '; color: var(--accent); }
-  .logo-divliansky { font-family: var(--body); font-size: 0.80rem; font-weight: 300; color: var(--text); letter-spacing: 0.01em; text-align: center; line-height: 1.45; }
-  .logo-divliansky strong { display: block; font-weight: 400; font-size: 0.70rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent); margin-bottom: 0.35rem; }
+  /* BACKED BY */
+  .backed-grid { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
+  .backed-logo { display: flex; align-items: center; justify-content: center; padding: 1.5rem 2.5rem; border: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
+  .backed-logo:hover { background: var(--raised); }
+  .backed-logo img { max-height: 80px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.75; transition: opacity 0.2s; }
+  .backed-logo:hover img { opacity: 1; }
 
   /* NEWS */
   .news-item { display: grid; grid-template-columns: 120px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
@@ -152,12 +142,13 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .masthead-inner, .tech-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .app-grid { grid-template-columns: 1fr; }
-    .partner-grid { grid-template-columns: repeat(2, 1fr); }
+    .partner-grid { grid-template-columns: repeat(3, 1fr); }
+    .partner-card:nth-child(3) { border-right: none; }
+    .partner-card:nth-child(4), .partner-card:nth-child(5) { border-top: 1px solid var(--rule); }
+    .partner-card:nth-child(5) { border-right: none; }
     .app-card { border-right: none; border-bottom: 1px solid var(--rule); }
-    .partner-card:nth-child(2) { border-right: none; }
-    .partner-card:nth-child(3), .partner-card:nth-child(4) { border-top: 1px solid var(--rule); }
     .nav-links { display: none; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
   }
@@ -167,10 +158,10 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#top"><img src="TauOpticsLogoBlack2.png" alt="Tau Optics"></a>
+    <a class="nav-logo" href="#top"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></a>
     <ul class="nav-links">
       <li><a href="#technology">Technology</a></li>
-      <li><a href="#applications">Applications</a></li>
+      <li><a href="#applications">Use Cases</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#partners">Partners</a></li>
       <li><a href="#news">News</a></li>
@@ -182,7 +173,7 @@
 <header class="masthead" id="top">
   <div class="masthead-inner">
     <div>
-      <div class="masthead-eyebrow">Patented r-CBG Technology · NSF STTR-Backed</div>
+      <div class="masthead-eyebrow">Patented r-CBG Technology · NSF SBIR-Backed</div>
       <h1>High-resolution Raman,<br><em>smartwatch scale.</em></h1>
       <p class="masthead-sub">Tau Optics engineers SpectraMini — the world's most compact high-resolution Raman spectrometer. Ten times smaller. Sixty times more light throughput. A fraction of the cost of existing solutions.</p>
     </div>
@@ -195,7 +186,6 @@
         <div class="spec-row"><span class="spec-label">Size vs. competitors</span><span class="spec-value">10× smaller</span></div>
         <div class="spec-row"><span class="spec-label">Light throughput</span><span class="spec-value">60× higher</span></div>
         <div class="spec-row"><span class="spec-label">Parts count</span><span class="spec-value">20 fewer parts</span></div>
-        <div class="spec-row"><span class="spec-label">Target price</span><span class="spec-value">~$1,500</span></div>
       </div>
     </div>
   </div>
@@ -204,15 +194,14 @@
 <section id="technology">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">01 ·</span>
-      <h2>How the technology <em>works</em></h2>
+      <h2>Technology</h2>
     </div>
     <div class="tech-grid">
       <div class="tech-body">
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The entire spectrometer fits within ~5 cm².</p>
-        <span class="patent-badge">&#9632; &nbsp; Patented · UCF Exclusive License</span>
+        <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
           <li><span class="adv-num">02</span><span><strong>60× more light throughput</strong> — no narrow input slit means orders of magnitude less signal loss.</span></li>
@@ -276,8 +265,7 @@
 <section id="applications">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">02 ·</span>
-      <h2>Where SpectraMini <em>opens new doors</em></h2>
+      <h2>Use Cases</h2>
     </div>
     <div class="app-grid">
       <div class="app-card">
@@ -317,14 +305,13 @@
 <section id="about">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">03 ·</span>
-      <h2>Rooted in <em>fundamental research</em></h2>
+      <h2>Revolutionizing Spectroscopy</h2>
     </div>
     <div class="about-grid">
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
         <p>Over 103 customer interviews conducted through the NSF I-Corps program validated safety &amp; security — specifically fentanyl detection — as the primary beachhead. Ongoing discovery deepens engagement with harm reduction organizations, universities, and public health agencies across the United States, with pilot programs planned at partner institutions.</p>
-        <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication.</p>
+        <p>Tau Optics is backed by NSF SBIR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
           <span class="affiliation">&#9632; &nbsp; Backed by NSF Seed Fund</span>
@@ -337,40 +324,37 @@
 <section id="partners">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">04 ·</span>
-      <h2>Partners &amp; <em>collaborators</em></h2>
+      <h2>Partners &amp; Collaborators</h2>
     </div>
     <div class="partner-grid">
-
-      <!-- Pastore Solutions -->
       <div class="partner-card">
-        <div class="partner-type">Commercial</div>
-        <div class="logo-pastore">
-          PASTORE<span>SOLUTIONS</span>
-        </div>
+        <img src="Images/apollon.png" alt="Apollon">
       </div>
-
-      <!-- Apollon -->
       <div class="partner-card">
-        <div class="partner-type">Pilot · CGM</div>
-        <div class="logo-apollon">apollon</div>
+        <img src="Images/lifeplus.png" alt="LifePlus">
       </div>
-
-      <!-- LifePlus -->
       <div class="partner-card">
-        <div class="partner-type">Pilot · Health</div>
-        <div class="logo-lifeplus">LifePlus</div>
+        <img src="Images/pastore.png" alt="Pastore Solutions">
       </div>
-
-      <!-- Divliansky Group -->
       <div class="partner-card">
-        <div class="partner-type">Research</div>
-        <div class="logo-divliansky">
-          <strong>UCF · CREOL</strong>
-          Divliansky<br>Research Group
-        </div>
+        <img src="Images/ucf-incubator.png" alt="UCF Business Incubation Program">
       </div>
+      <div class="partner-card">
+        <img src="Images/ucf.png" alt="University of Central Florida">
+      </div>
+    </div>
+  </div>
+</section>
 
+<section id="backed">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Backed By</h2>
+    </div>
+    <div class="backed-grid">
+      <div class="backed-logo">
+        <img src="Images/nsf.png" alt="National Science Foundation">
+      </div>
     </div>
   </div>
 </section>
@@ -378,8 +362,7 @@
 <section id="news">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">05 ·</span>
-      <h2>News &amp; <em>recognition</em></h2>
+      <h2>News &amp; Recognition</h2>
     </div>
     <div>
       <div class="news-item">
@@ -393,8 +376,8 @@
       <div class="news-item">
         <div class="news-date">2025</div>
         <div>
-          <div class="news-source">NSF STTR Program</div>
-          <div class="news-headline">Tau Optics awarded NSF STTR Phase I grant for SpectraMini development</div>
+          <div class="news-source">NSF SBIR Program</div>
+          <div class="news-headline">Tau Optics awarded NSF SBIR Phase I grant for SpectraMini development</div>
           <div class="news-snippet">The National Science Foundation selected Tau Optics for Phase I SBIR funding to develop proof-of-principle prototypes of SpectraMini for Raman spectroscopy and color measurement — validating the technical and commercial merit of the r-CBG platform.</div>
           <a class="news-link" href="https://seedfund.nsf.gov/" target="_blank">NSF Seed Fund &#8599;</a>
         </div>
@@ -415,8 +398,7 @@
 <section id="contact">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-num">06 ·</span>
-      <h2>Get in <em>touch</em></h2>
+      <h2>Get in Touch</h2>
     </div>
     <div class="contact-grid">
       <div class="contact-info">
@@ -425,7 +407,7 @@
           <div class="contact-row"><span class="c-label">Email</span><span class="c-value"><a href="mailto:info@tauoptics.com">info@tauoptics.com</a></span></div>
           <div class="contact-row"><span class="c-label">Location</span><span class="c-value">Orlando, Florida · United States</span></div>
           <div class="contact-row"><span class="c-label">Affiliation</span><span class="c-value">UCF Business Incubation Program</span></div>
-          <div class="contact-row"><span class="c-label">Funding</span><span class="c-value">NSF STTR Phase I</span></div>
+          <div class="contact-row"><span class="c-label">Funding</span><span class="c-value">NSF SBIR Phase I</span></div>
         </div>
       </div>
       <form class="contact-form">
@@ -442,7 +424,7 @@
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo"><img src="TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
+    <div class="footer-logo"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
     <div class="footer-copy">&copy; 2025 Tau Optics Inc. · Orlando, FL<br><a href="mailto:info@tauoptics.com">info@tauoptics.com</a></div>
   </div>
 </footer>
