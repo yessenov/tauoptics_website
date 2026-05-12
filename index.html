@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js-animations');</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -151,25 +152,33 @@
   .footer-copy a { color: var(--muted); text-decoration: none; }
   .footer-copy a:hover { color: var(--text); }
 
-  /* REVEAL ANIMATIONS */
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  [data-reveal].is-revealed {
-    opacity: 1;
-    transform: none;
-  }
-  [data-reveal][data-delay="1"] { transition-delay: 0.07s; }
-  [data-reveal][data-delay="2"] { transition-delay: 0.14s; }
-  [data-reveal][data-delay="3"] { transition-delay: 0.21s; }
-  [data-reveal][data-delay="4"] { transition-delay: 0.28s; }
-  [data-reveal][data-delay="5"] { transition-delay: 0.35s; }
-  [data-reveal][data-delay="6"] { transition-delay: 0.42s; }
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal], [data-reveal].is-revealed { opacity: 1; transform: none; transition: none; }
-  }
+  /* COMPARISON TABLE */
+  .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .compare-table { min-width: 600px; border: 1px solid var(--rule); }
+  .compare-thead { display: grid; grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr; border-bottom: 2px solid var(--rule); }
+  .compare-th-label { padding: 1.25rem 1rem; }
+  .compare-th { padding: 1.25rem 1rem; border-left: 1px solid var(--rule); }
+  .compare-th-hero { background: rgba(91,143,232,0.06); border-top: 2px solid var(--accent); }
+  .compare-badge { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); display: block; margin-bottom: 0.5rem; }
+  .compare-product-name { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--text); }
+  .compare-sub { font-family: var(--mono); font-size: 0.60rem; color: var(--muted); margin-top: 0.3rem; }
+  .compare-row { display: grid; grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr; border-bottom: 1px solid var(--rule); transition: background 0.15s; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row:hover { background: rgba(255,255,255,0.025); }
+  .compare-cell { padding: 0.8rem 1rem; display: flex; align-items: center; }
+  .compare-cell + .compare-cell { border-left: 1px solid var(--rule); }
+  .compare-cell-label { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.04em; }
+  .compare-cell-hero { background: rgba(91,143,232,0.04); }
+  .compare-row:hover .compare-cell-hero { background: rgba(91,143,232,0.09); }
+  .cv-best { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; }
+  .cv-mid  { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+  .cv-low  { font-family: var(--mono); font-size: 0.78rem; color: #4A4742; }
+  .compare-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; }
+
+  /* SCROLL REVEAL */
+  .js-animations .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -229,12 +238,12 @@
 </header>
 
 <section id="technology">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Technology</h2>
     </div>
     <div class="tech-grid">
-      <div class="tech-body" data-reveal data-delay="1">
+      <div class="tech-body">
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
@@ -250,7 +259,7 @@
         </ul>
       </div>
       <div>
-        <div class="tech-diagram" data-reveal data-delay="2">
+        <div class="tech-diagram">
           <div class="diagram-label">r-CBG Spectrometer — Operating Principle</div>
           <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
             <line x1="10" y1="130" x2="55" y2="130" stroke="#5B8FE8" stroke-width="2.5"/>
@@ -302,38 +311,109 @@
   </div>
 </section>
 
+<section id="comparison">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Competitive Landscape</div>
+      <h2>SpectraMini vs. the Field</h2>
+    </div>
+    <div class="compare-scroll">
+      <div class="compare-table">
+        <div class="compare-thead">
+          <div class="compare-th-label"></div>
+          <div class="compare-th compare-th-hero">
+            <span class="compare-badge">Tau Optics &middot; r-CBG</span>
+            <div class="compare-product-name">SpectraMini</div>
+          </div>
+          <div class="compare-th">
+            <div class="compare-product-name">Portable Raman</div>
+            <div class="compare-sub">Slit-grating / MEMS</div>
+          </div>
+          <div class="compare-th">
+            <div class="compare-product-name">Benchtop Raman</div>
+            <div class="compare-sub">Free-space optics</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Footprint</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">~5 cm²</span></div>
+          <div class="compare-cell"><span class="cv-mid">~100–500 cm²</span></div>
+          <div class="compare-cell"><span class="cv-low">&gt;2,000 cm²</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Spectral Resolution (NIR)</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">~0.1 nm</span></div>
+          <div class="compare-cell"><span class="cv-low">0.5–2 nm</span></div>
+          <div class="compare-cell"><span class="cv-mid">~0.05–0.1 nm</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Light Throughput</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">60&times; higher (no slit)</span></div>
+          <div class="compare-cell"><span class="cv-low">Slit-limited</span></div>
+          <div class="compare-cell"><span class="cv-low">Slit-limited</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Optical Part Count</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">~5</span></div>
+          <div class="compare-cell"><span class="cv-mid">20+</span></div>
+          <div class="compare-cell"><span class="cv-low">30+</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Moving Parts</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">None</span></div>
+          <div class="compare-cell"><span class="cv-best">None</span></div>
+          <div class="compare-cell"><span class="cv-low">Yes</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Field &amp; Wearable Deployable</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">Yes</span></div>
+          <div class="compare-cell"><span class="cv-mid">Limited</span></div>
+          <div class="compare-cell"><span class="cv-low">No</span></div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell compare-cell-label">Cost Tier</div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">$$ &ensp;<span style="color:var(--muted);font-size:0.68rem;">(target)</span></span></div>
+          <div class="compare-cell"><span class="cv-mid">$$$</span></div>
+          <div class="compare-cell"><span class="cv-low">$$$$</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="compare-note">Representative comparison vs. portable instruments (Ocean Insight, B&amp;WTek) and benchtop systems (Renishaw, Horiba). SpectraMini target cost reflects projected volume-production pricing.</p>
+  </div>
+</section>
+
 <section id="applications">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Use Cases</h2>
     </div>
     <div class="app-grid">
-      <div class="app-card" data-reveal data-delay="1">
+      <div class="app-card">
         <div class="app-icon">01 &mdash; Safety &amp; Security</div>
         <h3>Fentanyl Detection</h3>
         <p>A self-service, connected Raman station for non-destructive fentanyl screening — no consumables, no sample preparation. Detects a lethal dose through a whole tablet, deployable at schools, venues, and harm reduction programs.</p>
       </div>
-      <div class="app-card" data-reveal data-delay="2">
+      <div class="app-card">
         <div class="app-icon">02 &mdash; Health</div>
         <h3>Needle-less Glucose Monitoring</h3>
         <p>Raman spectroscopy at smartwatch scale enables non-invasive continuous glucose monitoring — a long-term platform opportunity where no FDA-approved needle-less solution currently exists.</p>
       </div>
-      <div class="app-card" data-reveal data-delay="3">
+      <div class="app-card">
         <div class="app-icon">03 &mdash; Pharmaceuticals</div>
         <h3>Drug Quality Assurance</h3>
         <p>Inline Raman verification of active ingredient concentrations across the pharmaceutical supply chain — confirming composition and detecting counterfeits at point of production.</p>
       </div>
-      <div class="app-card" data-reveal data-delay="4">
+      <div class="app-card">
         <div class="app-icon">04 &mdash; Food &amp; Agriculture</div>
         <h3>Food Quality Detection</h3>
         <p>Rapid, in-situ spectral analysis of nutritional content, adulteration, and ripeness markers — without sample preparation or laboratory infrastructure.</p>
       </div>
-      <div class="app-card" data-reveal data-delay="5">
+      <div class="app-card">
         <div class="app-icon">05 &mdash; Environmental</div>
         <h3>Emissions Monitoring</h3>
         <p>Handheld and embedded sensors for field quantification of atmospheric pollutants and contaminants in air and water — where lab-grade Raman precision was previously inaccessible.</p>
       </div>
-      <div class="app-card" data-reveal data-delay="6">
+      <div class="app-card">
         <div class="app-icon">06 &mdash; Industrial</div>
         <h3>Process &amp; Color Analysis</h3>
         <p>Compact spectroscopic modules for real-time production quality control — from color consistency in textiles and paints to material identification in manufacturing environments.</p>
@@ -343,12 +423,12 @@
 </section>
 
 <section id="about">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Revolutionizing Spectroscopy</h2>
     </div>
     <div class="about-grid">
-      <div class="about-body" data-reveal data-delay="1">
+      <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
         <p>Over 103 customer interviews conducted through the NSF I-Corps program validated safety &amp; security — specifically fentanyl detection — as the primary beachhead. Ongoing discovery deepens engagement with harm reduction organizations, universities, and public health agencies across the United States, with pilot programs planned at partner institutions.</p>
         <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication.</p>
@@ -362,24 +442,24 @@
 </section>
 
 <section id="partners">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Partners &amp; Collaborators</h2>
     </div>
     <div class="partner-grid">
-      <div class="partner-card" data-reveal data-delay="1">
+      <div class="partner-card">
         <img src="Images/apollon logo.png" alt="Apollon">
       </div>
-      <div class="partner-card" data-reveal data-delay="2">
+      <div class="partner-card">
         <img src="Images/life plus logo.jpg" alt="LifePlus">
       </div>
-      <div class="partner-card" data-reveal data-delay="3">
+      <div class="partner-card">
         <img src="Images/Pastore solutions.jpg" alt="Pastore Solutions">
       </div>
-      <div class="partner-card" data-reveal data-delay="4">
+      <div class="partner-card">
         <img src="Images/UCF Business incubator.png" alt="UCF Business Incubation Program">
       </div>
-      <div class="partner-card" data-reveal data-delay="5">
+      <div class="partner-card">
         <img src="Images/UCF.png" alt="University of Central Florida">
       </div>
     </div>
@@ -388,12 +468,12 @@
 
 
 <section id="news">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>News &amp; Recognition</h2>
     </div>
     <div>
-      <div class="news-item" data-reveal data-delay="1">
+      <div class="news-item">
         <div class="news-date">Feb 2026</div>
         <div>
           <div class="news-source">External Characterization</div>
@@ -401,7 +481,7 @@
           <div class="news-snippet">Independent characterization of AR-coated r-CBG samples validated spectral linewidths as narrow as 2.4 nm FWHM across multiple grating configurations in the 900–920 nm band — consistent with SpectraMini's performance targets for NIR Raman applications. Multiple beam geometries were tested, confirming design robustness.</div>
         </div>
       </div>
-      <div class="news-item" data-reveal data-delay="2">
+      <div class="news-item">
         <div class="news-date">Dec 2025</div>
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
@@ -409,7 +489,7 @@
           <div class="news-snippet">Following ten weeks of customer discovery across seven market segments, Tau Optics identified fentanyl detection within safety &amp; security as the primary beachhead — characterized by strong value proposition, minimal direct competition, and a clear path to hardware and recurring subscription revenue.</div>
         </div>
       </div>
-      <div class="news-item" data-reveal data-delay="3">
+      <div class="news-item">
         <div class="news-date">2025</div>
         <div>
           <div class="news-source">NSF STTR Program</div>
@@ -418,7 +498,7 @@
           <a class="news-link" href="https://seedfund.nsf.gov/" target="_blank">NSF Seed Fund &#8599;</a>
         </div>
       </div>
-      <div class="news-item" data-reveal data-delay="4">
+      <div class="news-item">
         <div class="news-date">May 2025</div>
         <div>
           <div class="news-source">MIT · Invited Presentation</div>
@@ -426,7 +506,7 @@
           <div class="news-snippet">Founder Murat Yessenov presented SpectraMini at MIT, covering the full r-CBG platform — from operating principles and fabrication in photo-thermo-refractive glass to dual-band X-CBG operation and Bluetooth-enabled field deployment. The presentation highlighted a wavelength coverage from 400 nm to 2.5 μm and diffraction efficiency up to 95%.</div>
         </div>
       </div>
-      <div class="news-item" data-reveal data-delay="4">
+      <div class="news-item">
         <div class="news-date">2024</div>
         <div>
           <div class="news-source">UCF Business Incubation Program</div>
@@ -441,12 +521,12 @@
 
 
 <section id="publications">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Research &amp; Publications</h2>
     </div>
     <ul class="pub-list">
-      <li class="pub-item" data-reveal data-delay="1">
+      <li class="pub-item">
         <div class="pub-year">2023</div>
         <div>
           <div class="pub-journal">Optics Letters · Vol. 48, No. 5</div>
@@ -455,7 +535,7 @@
           <a class="pub-link" href="https://doi.org/10.1364/OL.479498" target="_blank">View Paper &#8599;</a>
         </div>
       </li>
-      <li class="pub-item" data-reveal data-delay="2">
+      <li class="pub-item">
         <div class="pub-year">2023</div>
         <div>
           <div class="pub-journal">Optics Letters · Vol. 48, No. 19</div>
@@ -464,7 +544,7 @@
           <a class="pub-link" href="https://doi.org/10.1364/OL.503241" target="_blank">View Paper &#8599;</a>
         </div>
       </li>
-      <li class="pub-item" data-reveal data-delay="3">
+      <li class="pub-item">
         <div class="pub-year">2023</div>
         <div>
           <div class="pub-journal">Optics Letters · Vol. 48, No. 10</div>
@@ -478,11 +558,11 @@
 </section>
 
 <section id="backed">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Backed By</h2>
     </div>
-    <div class="backed-grid" data-reveal data-delay="1">
+    <div class="backed-grid">
       <div class="backed-logo">
         <img src="Images/NSF Seed fund logo.jpg" alt="National Science Foundation">
       </div>
@@ -491,12 +571,12 @@
 </section>
 
 <section id="contact">
-  <div class="section-inner">
-    <div class="section-header" data-reveal>
+  <div class="section-inner reveal">
+    <div class="section-header">
       <h2>Get in Touch</h2>
     </div>
     <div class="contact-grid">
-      <div class="contact-info" data-reveal data-delay="1">
+      <div class="contact-info">
         <p>We welcome inquiries from potential partners, customers, investors, and pilot program participants. Whether you are exploring a specific application, seeking to deploy SpectraMini, or interested in technology licensing — reach out.</p>
         <div class="contact-detail">
           <div class="contact-row"><span class="c-label">Email</span><span class="c-value"><a href="mailto:info@tauoptics.com">info@tauoptics.com</a></span></div>
@@ -505,7 +585,7 @@
           <div class="contact-row"><span class="c-label">Funding</span><span class="c-value">NSF STTR Phase I</span></div>
         </div>
       </div>
-      <form class="contact-form" data-reveal data-delay="2">
+      <form class="contact-form">
         <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Dr. Jane Smith" required></div>
         <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="jane@institution.edu" required></div>
         <div class="form-group"><label for="org">Organization</label><input type="text" id="org" name="organization" placeholder="University / Company"></div>
@@ -536,6 +616,14 @@
   }, { rootMargin: '-40% 0px -55% 0px' });
   sections.forEach(s => observer.observe(s));
 
+  // Scroll reveal — fires once per element, then unobserves
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
@@ -545,16 +633,6 @@
     const body = `Name: ${name}\nOrganization: ${org}\nEmail: ${email}\n\n${message}`;
     window.location.href = `mailto:info@tauoptics.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
   });
-
-  const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 </script>
 </body>
 </html>
