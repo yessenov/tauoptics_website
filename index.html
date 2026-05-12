@@ -30,13 +30,25 @@
 
   /* NAV */
   nav { position: sticky; top: 0; z-index: 100; background: rgba(12,12,12,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 0 2rem; }
-  .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; position: relative; }
   .nav-logo img { height: 46px; width: auto; display: block; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.10em; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
   .nav-cta { background: var(--accent); color: var(--bg) !important; padding: 0.45rem 1.1rem; text-decoration: none; transition: background 0.2s; font-weight: 500; }
   .nav-cta:hover { background: #7aaaf0 !important; }
+
+  /* HAMBURGER */
+  .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0.5rem; margin: -0.5rem; }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s; transform-origin: center; }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-links.mobile-open { display: flex; flex-direction: column; gap: 0; position: absolute; top: 64px; left: -2rem; right: -2rem; background: rgba(12,12,12,0.98); backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); padding: 0.5rem 0 1rem; }
+  .nav-links.mobile-open li { width: 100%; }
+  .nav-links.mobile-open a { display: block; padding: 0.8rem 2rem; font-size: 0.78rem; border-bottom: 1px solid var(--rule); }
+  .nav-links.mobile-open a:hover { background: var(--surface); }
+  .nav-links.mobile-open .nav-cta { background: var(--accent); color: var(--bg) !important; margin: 0.75rem 2rem 0; padding: 0.7rem 1rem; text-align: center; border-bottom: none; }
 
   /* MASTHEAD */
   .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; }
@@ -190,6 +202,7 @@
     .partner-card:nth-child(5) { border-right: none; }
     .app-card { border-right: none; border-bottom: 1px solid var(--rule); }
     .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
   }
@@ -200,7 +213,10 @@
 <nav>
   <div class="nav-inner">
     <a class="nav-logo" href="#top"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></a>
-    <ul class="nav-links">
+    <button class="nav-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-menu">
       <li><a href="#technology">Technology</a></li>
       <li><a href="#applications">Use Cases</a></li>
       <li><a href="#about">About</a></li>
@@ -623,6 +639,25 @@
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Hamburger mobile nav
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navMenu = document.getElementById('nav-menu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!open));
+    navMenu.classList.toggle('mobile-open', !open);
+  });
+  navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    hamburger.setAttribute('aria-expanded', 'false');
+    navMenu.classList.remove('mobile-open');
+  }));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('nav') && navMenu.classList.contains('mobile-open')) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      navMenu.classList.remove('mobile-open');
+    }
+  });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
