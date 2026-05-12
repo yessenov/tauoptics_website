@@ -132,6 +132,17 @@
   .form-submit:hover { background: #7aaaf0; }
   .form-note { font-size: 0.78rem; color: var(--muted); font-style: italic; }
 
+  /* PUBLICATIONS */
+  .pub-list { list-style: none; }
+  .pub-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .pub-item:first-child { border-top: 1px solid var(--rule); }
+  .pub-year { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.06em; }
+  .pub-journal { font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent2); margin-bottom: 0.35rem; }
+  .pub-title { font-size: 0.95rem; font-weight: 400; color: var(--text); line-height: 1.45; margin-bottom: 0.3rem; }
+  .pub-authors { font-size: 0.82rem; color: var(--muted); }
+  .pub-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent); text-decoration: none; margin-top: 0.6rem; }
+  .pub-link:hover { color: var(--text); }
+
   /* FOOTER */
   footer { padding: 2.5rem 2rem; background: var(--surface); border-top: 1px solid var(--rule); }
   .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -151,6 +162,7 @@
     .app-card { border-right: none; border-bottom: 1px solid var(--rule); }
     .nav-links { display: none; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
   }
 </style>
 </head>
@@ -165,6 +177,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#partners">Partners</a></li>
       <li><a href="#news">News</a></li>
+      <li><a href="#publications">Research</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
   </div>
@@ -182,10 +195,13 @@
         <div class="spec-card-title">SpectraMini — Key Specifications</div>
         <div class="spec-row"><span class="spec-label">Footprint</span><span class="spec-value">~5 cm²</span></div>
         <div class="spec-row"><span class="spec-label">Spectral resolution</span><span class="spec-value">~0.1 nm (NIR)</span></div>
-        <div class="spec-row"><span class="spec-label">Operation wavelength</span><span class="spec-value">785 nm Raman</span></div>
+        <div class="spec-row"><span class="spec-label">Wavelength range</span><span class="spec-value">400 nm – 2.5 μm</span></div>
+        <div class="spec-row"><span class="spec-label">Primary target</span><span class="spec-value">785 nm Raman</span></div>
+        <div class="spec-row"><span class="spec-label">Diffraction efficiency</span><span class="spec-value">up to 95%</span></div>
         <div class="spec-row"><span class="spec-label">Size vs. competitors</span><span class="spec-value">10× smaller</span></div>
         <div class="spec-row"><span class="spec-label">Light throughput</span><span class="spec-value">60× higher</span></div>
         <div class="spec-row"><span class="spec-label">Parts count</span><span class="spec-value">20 fewer parts</span></div>
+        <div class="spec-row"><span class="spec-label">Connectivity</span><span class="spec-value">Bluetooth (real-time)</span></div>
       </div>
     </div>
   </div>
@@ -201,12 +217,15 @@
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The entire spectrometer fits within ~5 cm².</p>
+        <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
+        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
           <li><span class="adv-num">02</span><span><strong>60× more light throughput</strong> — no narrow input slit means orders of magnitude less signal loss.</span></li>
           <li><span class="adv-num">03</span><span><strong>20 fewer parts</strong> — monolithic design eliminates alignment-sensitive optical components.</span></li>
           <li><span class="adv-num">04</span><span><strong>10× lower cost</strong> — fabricated via holographic recording in photosensitive glass, scalable to volume production.</span></li>
+          <li><span class="adv-num">05</span><span><strong>Bluetooth-enabled</strong> — live spectra streamed to any smartphone in real-time; no dedicated hardware required.</span></li>
         </ul>
       </div>
       <div>
@@ -371,6 +390,14 @@
         </div>
       </div>
       <div class="news-item">
+        <div class="news-date">May 2025</div>
+        <div>
+          <div class="news-source">MIT · Invited Presentation</div>
+          <div class="news-headline">Tau Optics presents r-CBG miniature spectrometer technology at MIT</div>
+          <div class="news-snippet">Founder Murat Yessenov presented SpectraMini at MIT, covering the full r-CBG platform — from operating principles and fabrication in photo-thermo-refractive glass to dual-band X-CBG operation and Bluetooth-enabled field deployment. The presentation highlighted a wavelength coverage from 400 nm to 2.5 μm and diffraction efficiency up to 95%.</div>
+        </div>
+      </div>
+      <div class="news-item">
         <div class="news-date">2024</div>
         <div>
           <div class="news-source">UCF Business Incubation Program</div>
@@ -383,6 +410,43 @@
   </div>
 </section>
 
+
+<section id="publications">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Research &amp; Publications</h2>
+    </div>
+    <ul class="pub-list">
+      <li class="pub-item">
+        <div class="pub-year">2023</div>
+        <div>
+          <div class="pub-journal">Optics Letters · Vol. 48, No. 5</div>
+          <div class="pub-title">Resolving the spectrum of light with rotated chirped volume Bragg gratings</div>
+          <div class="pub-authors">O. Mhibik, M. Yessenov, L. Mach, L. Glebov, I. Divliansky, A. F. Abouraddy — CREOL, University of Central Florida</div>
+          <a class="pub-link" href="https://doi.org/10.1364/OL.479498" target="_blank">View Paper &#8599;</a>
+        </div>
+      </li>
+      <li class="pub-item">
+        <div class="pub-year">2023</div>
+        <div>
+          <div class="pub-journal">Optics Letters · Vol. 48, No. 19</div>
+          <div class="pub-title">Compact dual-band spectral analysis via multiplexed rotated chirped volume Bragg gratings</div>
+          <div class="pub-authors">O. Mhibik et al. — CREOL, University of Central Florida</div>
+          <a class="pub-link" href="https://doi.org/10.1364/OL.503241" target="_blank">View Paper &#8599;</a>
+        </div>
+      </li>
+      <li class="pub-item">
+        <div class="pub-year">2023</div>
+        <div>
+          <div class="pub-journal">Optics Letters · Vol. 48, No. 10</div>
+          <div class="pub-title">Ultra-compact synthesis of space-time wave packets</div>
+          <div class="pub-authors">M. Yessenov et al. — CREOL, University of Central Florida</div>
+          <a class="pub-link" href="https://doi.org/10.1364/OL.488518" target="_blank">View Paper &#8599;</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
 
 <section id="backed">
   <div class="section-inner">
