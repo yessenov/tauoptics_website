@@ -192,6 +192,37 @@
   .js-animations .reveal.visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
+  /* FLOATING CTA */
+  .float-cta {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s;
+    pointer-events: none;
+  }
+  .float-cta.fcta-on { opacity: 1; transform: none; pointer-events: auto; }
+  .float-cta:hover { background: #7aaaf0; }
+  @media (max-width: 768px) {
+    .float-cta { bottom: 1.25rem; right: 1.25rem; font-size: 0.62rem; padding: 0.75rem 1.1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -613,6 +644,8 @@
   </div>
 </section>
 
+<a href="#contact" class="float-cta" id="float-cta" aria-label="Request a demo of SpectraMini">Request a Demo &rarr;</a>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
@@ -658,6 +691,16 @@
       navMenu.classList.remove('mobile-open');
     }
   });
+
+  // Floating CTA — visible between masthead and contact section
+  const floatCta = document.getElementById('float-cta');
+  const mastheadEl = document.getElementById('top');
+  const contactEl = document.getElementById('contact');
+  let mastheadGone = false, contactVisible = false;
+  const updateFloat = () => floatCta.classList.toggle('fcta-on', mastheadGone && !contactVisible);
+  new IntersectionObserver(([e]) => { mastheadGone = !e.isIntersecting; updateFloat(); }, { rootMargin: '0px 0px -10% 0px' }).observe(mastheadEl);
+  new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateFloat(); }, { threshold: 0.15 }).observe(contactEl);
+  floatCta.addEventListener('click', () => { floatCta.classList.remove('fcta-on'); });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
