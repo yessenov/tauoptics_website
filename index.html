@@ -60,10 +60,13 @@
   .masthead-sub { margin-top: 1.5rem; font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 40ch; }
   .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; }
   .spec-card-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
-  .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; }
+  .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; padding-left: 0; transition: padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
   .spec-row:last-child { border-bottom: none; }
-  .spec-label { color: var(--muted); }
-  .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; }
+  .spec-row:hover { padding-left: 0.6rem; background: rgba(91,143,232,0.04); }
+  .spec-label { color: var(--muted); transition: color 0.2s; }
+  .spec-row:hover .spec-label { color: var(--text); }
+  .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; transition: color 0.2s; }
+  .spec-row:hover .spec-value { color: #9bb8f4; }
 
   /* SECTIONS */
   section { border-bottom: 1px solid var(--rule); padding: 5rem 2rem; }
@@ -90,6 +93,15 @@
   .app-card:last-child { border-right: none; }
   .app-card:nth-child(3) ~ .app-card { border-top: 1px solid var(--rule); }
   .app-card:hover { background: var(--surface); }
+  .js-animations .app-card { opacity: 0; transform: translateY(16px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .app-grid.staggered .app-card { opacity: 1; transform: none; }
+  .js-animations .app-grid.staggered .app-card:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(2) { transition-delay: 75ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(3) { transition-delay: 150ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(4) { transition-delay: 225ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(5) { transition-delay: 300ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(6) { transition-delay: 375ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .app-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
   .app-icon { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.75rem; }
   .app-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
   .app-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
@@ -691,6 +703,14 @@
       navMenu.classList.remove('mobile-open');
     }
   });
+
+  // Staggered app card entrance
+  const appGrid = document.querySelector('.app-grid');
+  if (appGrid) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { appGrid.classList.add('staggered'); }
+    }, { threshold: 0.07 }).observe(appGrid);
+  }
 
   // Floating CTA — visible between masthead and contact section
   const floatCta = document.getElementById('float-cta');

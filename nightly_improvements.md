@@ -1,5 +1,7 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-05-14 — Staggered use-case card entrance + spec-row hover micro-interactions — No new files in Additional info/ (all 7 already processed by prior runs). Added CSS/JS staggered cascade animation to the 6 Use Case cards using IntersectionObserver + nth-child transition-delay (0–375 ms), so cards roll in as a wave rather than all at once; respects prefers-reduced-motion. Added spec-row micro-interaction: on hover each row indents 0.6 rem, brightens the label to text color and lightens the accent value — creating a subtle data-table feel consistent with the editorial dark aesthetic.
+
 ## 2026-05-13 — Sticky floating "Request a Demo" CTA — No new files in Additional info/ since last run (all 7 already processed). Added a fixed-position "Request a Demo" button that fades in via IntersectionObserver once the masthead scrolls out of view, and auto-hides when the contact section becomes visible — keeping the conversion nudge persistent without obscuring the destination.
 
 ## 2026-05-12 — Competitor comparison table + scroll-reveal animations — The comparison table makes SpectraMini's key advantages (10× smaller, 60× throughput, fewer parts, lower cost) immediately scannable against Portable and Benchtop Raman, while IntersectionObserver-based scroll reveals give every section a polished, purposeful entrance without any external libraries.
