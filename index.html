@@ -30,13 +30,25 @@
 
   /* NAV */
   nav { position: sticky; top: 0; z-index: 100; background: rgba(12,12,12,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 0 2rem; }
-  .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; position: relative; }
   .nav-logo img { height: 46px; width: auto; display: block; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.10em; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
   .nav-cta { background: var(--accent); color: var(--bg) !important; padding: 0.45rem 1.1rem; text-decoration: none; transition: background 0.2s; font-weight: 500; }
   .nav-cta:hover { background: #7aaaf0 !important; }
+
+  /* HAMBURGER */
+  .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0.5rem; margin: -0.5rem; }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s; transform-origin: center; }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-links.mobile-open { display: flex; flex-direction: column; gap: 0; position: absolute; top: 64px; left: -2rem; right: -2rem; background: rgba(12,12,12,0.98); backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); padding: 0.5rem 0 1rem; }
+  .nav-links.mobile-open li { width: 100%; }
+  .nav-links.mobile-open a { display: block; padding: 0.8rem 2rem; font-size: 0.78rem; border-bottom: 1px solid var(--rule); }
+  .nav-links.mobile-open a:hover { background: var(--surface); }
+  .nav-links.mobile-open .nav-cta { background: var(--accent); color: var(--bg) !important; margin: 0.75rem 2rem 0; padding: 0.7rem 1rem; text-align: center; border-bottom: none; }
 
   /* MASTHEAD */
   .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; }
@@ -48,10 +60,13 @@
   .masthead-sub { margin-top: 1.5rem; font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 40ch; }
   .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; }
   .spec-card-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
-  .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; }
+  .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; padding-left: 0; transition: padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
   .spec-row:last-child { border-bottom: none; }
-  .spec-label { color: var(--muted); }
-  .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; }
+  .spec-row:hover { padding-left: 0.6rem; background: rgba(91,143,232,0.04); }
+  .spec-label { color: var(--muted); transition: color 0.2s; }
+  .spec-row:hover .spec-label { color: var(--text); }
+  .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; transition: color 0.2s; }
+  .spec-row:hover .spec-value { color: #9bb8f4; }
 
   /* SECTIONS */
   section { border-bottom: 1px solid var(--rule); padding: 5rem 2rem; }
@@ -78,6 +93,15 @@
   .app-card:last-child { border-right: none; }
   .app-card:nth-child(3) ~ .app-card { border-top: 1px solid var(--rule); }
   .app-card:hover { background: var(--surface); }
+  .js-animations .app-card { opacity: 0; transform: translateY(16px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .app-grid.staggered .app-card { opacity: 1; transform: none; }
+  .js-animations .app-grid.staggered .app-card:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(2) { transition-delay: 75ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(3) { transition-delay: 150ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(4) { transition-delay: 225ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(5) { transition-delay: 300ms; }
+  .js-animations .app-grid.staggered .app-card:nth-child(6) { transition-delay: 375ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .app-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
   .app-icon { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.75rem; }
   .app-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
   .app-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
@@ -180,6 +204,58 @@
   .js-animations .reveal.visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 1.75rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 8px; width: 1px; background: var(--rule); }
+  .tl-item { position: relative; padding: 0 0 2.75rem 1.75rem; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -1.75rem; top: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--rule); border: 1px solid var(--muted); transform: translateX(-3px); transition: background 0.3s, border-color 0.3s; }
+  .tl-item.tl-key .tl-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(91,143,232,0.15); }
+  .tl-item.tl-major .tl-dot { background: var(--accent2); border-color: var(--accent2); width: 9px; height: 9px; transform: translateX(-4px) translateY(-1px); box-shadow: 0 0 0 3px rgba(201,122,80,0.15); }
+  .tl-date { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .tl-item.tl-key .tl-date { color: var(--accent); }
+  .tl-item.tl-major .tl-date { color: var(--accent2); }
+  .tl-title { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 0.35rem; }
+  .tl-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; max-width: 62ch; }
+  @media (min-width: 769px) {
+    .timeline-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 4rem; }
+    .timeline-cols .timeline { border-right: 1px solid var(--rule); padding-right: 4rem; }
+    .timeline-cols .timeline + .timeline { border-right: none; padding-right: 0; padding-left: 0; }
+    .timeline-cols .timeline + .timeline::before { display: none; }
+    .timeline-cols .timeline + .timeline .tl-dot { display: none; }
+  }
+
+  /* FLOATING CTA */
+  .float-cta {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s;
+    pointer-events: none;
+  }
+  .float-cta.fcta-on { opacity: 1; transform: none; pointer-events: auto; }
+  .float-cta:hover { background: #7aaaf0; }
+  @media (max-width: 768px) {
+    .float-cta { bottom: 1.25rem; right: 1.25rem; font-size: 0.62rem; padding: 0.75rem 1.1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -190,6 +266,7 @@
     .partner-card:nth-child(5) { border-right: none; }
     .app-card { border-right: none; border-bottom: 1px solid var(--rule); }
     .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
   }
@@ -200,7 +277,10 @@
 <nav>
   <div class="nav-inner">
     <a class="nav-logo" href="#top"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></a>
-    <ul class="nav-links">
+    <button class="nav-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-menu">
       <li><a href="#technology">Technology</a></li>
       <li><a href="#applications">Use Cases</a></li>
       <li><a href="#about">About</a></li>
@@ -223,6 +303,7 @@
       <div class="spec-card">
         <div class="spec-card-title">SpectraMini — Key Specifications</div>
         <div class="spec-row"><span class="spec-label">Footprint</span><span class="spec-value">~5 cm²</span></div>
+        <div class="spec-row"><span class="spec-label">r-CBG element</span><span class="spec-value">3 × 6 × 25 mm</span></div>
         <div class="spec-row"><span class="spec-label">Spectral resolution</span><span class="spec-value">~0.1 nm (NIR)</span></div>
         <div class="spec-row"><span class="spec-label">Wavelength range</span><span class="spec-value">400 nm – 2.5 μm</span></div>
         <div class="spec-row"><span class="spec-label">Primary target</span><span class="spec-value">785 nm Raman</span></div>
@@ -245,7 +326,7 @@
       <div class="tech-body">
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
-        <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The entire spectrometer fits within ~5 cm².</p>
+        <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
         <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
         <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
@@ -430,11 +511,64 @@
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
         <p>Over 103 customer interviews conducted through the NSF I-Corps program validated safety &amp; security — specifically fentanyl detection — as the primary beachhead. Ongoing discovery deepens engagement with harm reduction organizations, universities, and public health agencies across the United States, with pilot programs planned at partner institutions.</p>
-        <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication.</p>
+        <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication — and in collaboration with the Department of Electrical and Computer Engineering at the University of Utah.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
           <span class="affiliation">&#9632; &nbsp; Backed by NSF Seed Fund</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="milestones">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Progress</div>
+      <h2>Company Milestones</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023</div>
+        <div class="tl-title">r-CBG technology demonstrated at CREOL, UCF</div>
+        <p class="tl-desc">The rotated chirped Bragg grating concept is experimentally realized and peer-reviewed, establishing the core operating principle behind SpectraMini.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2024</div>
+        <div class="tl-title">Tau Optics incorporated · UCF exclusive license</div>
+        <p class="tl-desc">Company founded as a UCF spinout. r-CBG patents exclusively licensed to Tau Optics. Joins the UCF Business Incubation Program in Orlando, FL.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2024 Q4</div>
+        <div class="tl-title">NSF I-Corps: 103 customer interviews</div>
+        <p class="tl-desc">Systematic customer discovery across seven market segments — safety &amp; security, health, pharma, food, environmental, industrial, research — validates fentanyl detection as the primary beachhead.</p>
+      </div>
+      <div class="tl-item tl-major">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2025</div>
+        <div class="tl-title">NSF STTR Phase I awarded</div>
+        <p class="tl-desc">National Science Foundation selects Tau Optics for Phase I STTR funding to build proof-of-principle SpectraMini prototypes for Raman spectroscopy and color measurement.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">May 2025</div>
+        <div class="tl-title">Invited presentation at MIT</div>
+        <p class="tl-desc">Founder Murat Yessenov presents the r-CBG platform — operating principles, fabrication, Bluetooth deployment, and X-CBG dual-band capability — at the Massachusetts Institute of Technology.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Feb 2026</div>
+        <div class="tl-title">AR-coated r-CBG elements validated at MIT</div>
+        <p class="tl-desc">Independent characterization confirms anti-reflection coated r-CBG gratings achieve spectral linewidths as narrow as 2.4 nm FWHM in the 900–920 nm band, clearing a key milestone toward final device integration.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 →</div>
+        <div class="tl-title">SpectraMini prototype completion &amp; pilot deployments</div>
+        <p class="tl-desc">Finalizing SpectraMini prototypes for targeted pilot programs in fentanyl detection. Engaging harm reduction organizations, universities, and public health agencies for real-world validation.</p>
       </div>
     </div>
   </div>
@@ -472,6 +606,14 @@
       <h2>News &amp; Recognition</h2>
     </div>
     <div>
+      <div class="news-item">
+        <div class="news-date">Feb 2026</div>
+        <div>
+          <div class="news-source">External Characterization</div>
+          <div class="news-headline">AR-coated r-CBG elements confirmed sub-3 nm linewidth across 900–920 nm range</div>
+          <div class="news-snippet">Independent characterization of AR-coated r-CBG samples validated spectral linewidths as narrow as 2.4 nm FWHM across multiple grating configurations in the 900–920 nm band — consistent with SpectraMini's performance targets for NIR Raman applications. Multiple beam geometries were tested, confirming design robustness.</div>
+        </div>
+      </div>
       <div class="news-item">
         <div class="news-date">Dec 2025</div>
         <div>
@@ -588,6 +730,8 @@
   </div>
 </section>
 
+<a href="#contact" class="float-cta" id="float-cta" aria-label="Request a demo of SpectraMini">Request a Demo &rarr;</a>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
@@ -614,6 +758,43 @@
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Hamburger mobile nav
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navMenu = document.getElementById('nav-menu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!open));
+    navMenu.classList.toggle('mobile-open', !open);
+  });
+  navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    hamburger.setAttribute('aria-expanded', 'false');
+    navMenu.classList.remove('mobile-open');
+  }));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('nav') && navMenu.classList.contains('mobile-open')) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      navMenu.classList.remove('mobile-open');
+    }
+  });
+
+  // Staggered app card entrance
+  const appGrid = document.querySelector('.app-grid');
+  if (appGrid) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { appGrid.classList.add('staggered'); }
+    }, { threshold: 0.07 }).observe(appGrid);
+  }
+
+  // Floating CTA — visible between masthead and contact section
+  const floatCta = document.getElementById('float-cta');
+  const mastheadEl = document.getElementById('top');
+  const contactEl = document.getElementById('contact');
+  let mastheadGone = false, contactVisible = false;
+  const updateFloat = () => floatCta.classList.toggle('fcta-on', mastheadGone && !contactVisible);
+  new IntersectionObserver(([e]) => { mastheadGone = !e.isIntersecting; updateFloat(); }, { rootMargin: '0px 0px -10% 0px' }).observe(mastheadEl);
+  new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateFloat(); }, { threshold: 0.15 }).observe(contactEl);
+  floatCta.addEventListener('click', () => { floatCta.classList.remove('fcta-on'); });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
