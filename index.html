@@ -204,6 +204,27 @@
   .js-animations .reveal.visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 1.75rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 8px; width: 1px; background: var(--rule); }
+  .tl-item { position: relative; padding: 0 0 2.75rem 1.75rem; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -1.75rem; top: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--rule); border: 1px solid var(--muted); transform: translateX(-3px); transition: background 0.3s, border-color 0.3s; }
+  .tl-item.tl-key .tl-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(91,143,232,0.15); }
+  .tl-item.tl-major .tl-dot { background: var(--accent2); border-color: var(--accent2); width: 9px; height: 9px; transform: translateX(-4px) translateY(-1px); box-shadow: 0 0 0 3px rgba(201,122,80,0.15); }
+  .tl-date { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .tl-item.tl-key .tl-date { color: var(--accent); }
+  .tl-item.tl-major .tl-date { color: var(--accent2); }
+  .tl-title { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 0.35rem; }
+  .tl-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; max-width: 62ch; }
+  @media (min-width: 769px) {
+    .timeline-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 4rem; }
+    .timeline-cols .timeline { border-right: 1px solid var(--rule); padding-right: 4rem; }
+    .timeline-cols .timeline + .timeline { border-right: none; padding-right: 0; padding-left: 0; }
+    .timeline-cols .timeline + .timeline::before { display: none; }
+    .timeline-cols .timeline + .timeline .tl-dot { display: none; }
+  }
+
   /* FLOATING CTA */
   .float-cta {
     position: fixed;
@@ -490,11 +511,64 @@
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
         <p>Over 103 customer interviews conducted through the NSF I-Corps program validated safety &amp; security — specifically fentanyl detection — as the primary beachhead. Ongoing discovery deepens engagement with harm reduction organizations, universities, and public health agencies across the United States, with pilot programs planned at partner institutions.</p>
-        <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication.</p>
+        <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication — and in collaboration with the Department of Electrical and Computer Engineering at the University of Utah.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
           <span class="affiliation">&#9632; &nbsp; Backed by NSF Seed Fund</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="milestones">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Progress</div>
+      <h2>Company Milestones</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023</div>
+        <div class="tl-title">r-CBG technology demonstrated at CREOL, UCF</div>
+        <p class="tl-desc">The rotated chirped Bragg grating concept is experimentally realized and peer-reviewed, establishing the core operating principle behind SpectraMini.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2024</div>
+        <div class="tl-title">Tau Optics incorporated · UCF exclusive license</div>
+        <p class="tl-desc">Company founded as a UCF spinout. r-CBG patents exclusively licensed to Tau Optics. Joins the UCF Business Incubation Program in Orlando, FL.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2024 Q4</div>
+        <div class="tl-title">NSF I-Corps: 103 customer interviews</div>
+        <p class="tl-desc">Systematic customer discovery across seven market segments — safety &amp; security, health, pharma, food, environmental, industrial, research — validates fentanyl detection as the primary beachhead.</p>
+      </div>
+      <div class="tl-item tl-major">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2025</div>
+        <div class="tl-title">NSF STTR Phase I awarded</div>
+        <p class="tl-desc">National Science Foundation selects Tau Optics for Phase I STTR funding to build proof-of-principle SpectraMini prototypes for Raman spectroscopy and color measurement.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">May 2025</div>
+        <div class="tl-title">Invited presentation at MIT</div>
+        <p class="tl-desc">Founder Murat Yessenov presents the r-CBG platform — operating principles, fabrication, Bluetooth deployment, and X-CBG dual-band capability — at the Massachusetts Institute of Technology.</p>
+      </div>
+      <div class="tl-item tl-key">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Feb 2026</div>
+        <div class="tl-title">AR-coated r-CBG elements validated at MIT</div>
+        <p class="tl-desc">Independent characterization confirms anti-reflection coated r-CBG gratings achieve spectral linewidths as narrow as 2.4 nm FWHM in the 900–920 nm band, clearing a key milestone toward final device integration.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 →</div>
+        <div class="tl-title">SpectraMini prototype completion &amp; pilot deployments</div>
+        <p class="tl-desc">Finalizing SpectraMini prototypes for targeted pilot programs in fentanyl detection. Engaging harm reduction organizations, universities, and public health agencies for real-world validation.</p>
       </div>
     </div>
   </div>
