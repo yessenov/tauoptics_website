@@ -176,6 +176,24 @@
   .footer-copy a { color: var(--muted); text-decoration: none; }
   .footer-copy a:hover { color: var(--text); }
 
+  /* METRICS STRIP */
+  .metrics-strip { background: var(--surface); border-bottom: 1px solid var(--rule); padding: 3rem 2rem; }
+  .metrics-row { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule); }
+  .metric-item { padding: 2rem 1.5rem; border-right: 1px solid var(--rule); text-align: center; }
+  .metric-item:last-child { border-right: none; }
+  .metric-divider { width: 20px; height: 1px; background: var(--accent); opacity: 0.5; margin: 0 auto 0.9rem; }
+  .metric-number { font-family: var(--serif); font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 500; color: var(--accent); line-height: 1; margin-bottom: 0.55rem; letter-spacing: -0.02em; display: flex; align-items: baseline; justify-content: center; gap: 0.1rem; }
+  .metric-suffix { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--accent); }
+  .metric-prefix { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--accent); }
+  .metric-label { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); line-height: 1.6; }
+  @media (max-width: 768px) {
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .metric-item:nth-child(2) { border-right: none; }
+    .metric-item:nth-child(3), .metric-item:nth-child(4) { border-top: 1px solid var(--rule); }
+    .metric-item:nth-child(4) { border-right: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .metric-number { transition: none !important; } }
+
   /* COMPARISON TABLE */
   .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .compare-table { min-width: 600px; border: 1px solid var(--rule); }
@@ -316,6 +334,31 @@
     </div>
   </div>
 </header>
+
+<div class="metrics-strip" id="metrics">
+  <div class="metrics-row">
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="10">10</span><span class="metric-suffix">×</span></div>
+      <div class="metric-label">Smaller than<br>portable Raman</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="60">60</span><span class="metric-suffix">×</span></div>
+      <div class="metric-label">More light throughput<br>(slitless design)</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-prefix">~</span><span class="metric-val metric-static">5</span><span class="metric-suffix">&thinsp;cm²</span></div>
+      <div class="metric-label">Total spectrometer<br>footprint</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="95">95</span><span class="metric-suffix">%</span></div>
+      <div class="metric-label">Diffraction<br>efficiency</div>
+    </div>
+  </div>
+</div>
 
 <section id="technology">
   <div class="section-inner reveal">
@@ -654,7 +697,7 @@
 
 
 <section id="publications">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <div class="section-header">
       <h2>Research &amp; Publications</h2>
     </div>
@@ -795,6 +838,32 @@
   new IntersectionObserver(([e]) => { mastheadGone = !e.isIntersecting; updateFloat(); }, { rootMargin: '0px 0px -10% 0px' }).observe(mastheadEl);
   new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateFloat(); }, { threshold: 0.15 }).observe(contactEl);
   floatCta.addEventListener('click', () => { floatCta.classList.remove('fcta-on'); });
+
+  // Metrics count-up
+  const metricsStrip = document.getElementById('metrics');
+  if (metricsStrip) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let fired = false;
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        if (reducedMotion) return;
+        metricsStrip.querySelectorAll('.metric-val[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target, 10);
+          const duration = 950;
+          const start = performance.now();
+          const ease = t => 1 - Math.pow(1 - t, 3);
+          const tick = now => {
+            const p = ease(Math.min((now - start) / duration, 1));
+            el.textContent = Math.round(p * target);
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          el.textContent = '0';
+          requestAnimationFrame(tick);
+        });
+      }
+    }, { threshold: 0.25 }).observe(metricsStrip);
+  }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
