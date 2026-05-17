@@ -222,6 +222,42 @@
   .js-animations .reveal.visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
+  /* DIAGRAM ANIMATION */
+  @keyframes svgBeamPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  @keyframes svgRayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes svgBarIn {
+    from { opacity: 0; transform: scaleY(0.08); }
+    to { opacity: 0.8; transform: scaleY(1); }
+  }
+  .tech-diagram .svg-beam { animation: svgBeamPulse 2.5s ease-in-out infinite; }
+  .tech-diagram .svg-ray { opacity: 0; }
+  .diagram-animated .svg-ray { animation: svgRayIn 0.35s ease-out forwards; }
+  .diagram-animated .svg-ray-1 { animation-delay: 0.10s; }
+  .diagram-animated .svg-ray-2 { animation-delay: 0.22s; }
+  .diagram-animated .svg-ray-3 { animation-delay: 0.34s; }
+  .diagram-animated .svg-ray-4 { animation-delay: 0.46s; }
+  .diagram-animated .svg-ray-5 { animation-delay: 0.58s; }
+  .diagram-animated .svg-ray-6 { animation-delay: 0.70s; }
+  .tech-diagram .svg-bar { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+  .diagram-animated .svg-bar { animation: svgBarIn 0.42s ease-out forwards; }
+  .diagram-animated .svg-bar-1 { animation-delay: 0.90s; }
+  .diagram-animated .svg-bar-2 { animation-delay: 1.02s; }
+  .diagram-animated .svg-bar-3 { animation-delay: 1.14s; }
+  .diagram-animated .svg-bar-4 { animation-delay: 1.26s; }
+  .diagram-animated .svg-bar-5 { animation-delay: 1.38s; }
+  .diagram-animated .svg-bar-6 { animation-delay: 1.50s; }
+  @media (prefers-reduced-motion: reduce) {
+    .tech-diagram .svg-beam { animation: none; opacity: 1; }
+    .tech-diagram .svg-ray { opacity: 1; }
+    .tech-diagram .svg-bar { opacity: 0.8; transform: none; animation: none; }
+  }
+
   /* TIMELINE */
   .timeline { position: relative; padding-left: 1.75rem; }
   .timeline::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 8px; width: 1px; background: var(--rule); }
@@ -385,8 +421,8 @@
         <div class="tech-diagram">
           <div class="diagram-label">r-CBG Spectrometer — Operating Principle</div>
           <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-            <line x1="10" y1="130" x2="55" y2="130" stroke="#5B8FE8" stroke-width="2.5"/>
-            <polygon points="50,124 62,130 50,136" fill="#5B8FE8"/>
+            <line x1="10" y1="130" x2="55" y2="130" stroke="#5B8FE8" stroke-width="2.5" class="svg-beam"/>
+            <polygon points="50,124 62,130 50,136" fill="#5B8FE8" class="svg-beam"/>
             <text x="6" y="122" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7672">INPUT</text>
             <rect x="60" y="122" width="200" height="16" rx="2" fill="#1E1E1E" stroke="#333" stroke-width="1"/>
             <g stroke="#5B8FE8" stroke-width="1.2" opacity="0.6">
@@ -397,30 +433,30 @@
               <line x1="210" y1="118" x2="210" y2="142"/><line x1="213" y1="118" x2="213" y2="142"/>
               <line x1="240" y1="118" x2="240" y2="142"/><line x1="243" y1="118" x2="243" y2="142"/>
             </g>
-            <line x1="91" y1="118" x2="75" y2="88" stroke="#E05C3A" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="121" y1="118" x2="121" y2="88" stroke="#E09A3A" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="151" y1="118" x2="165" y2="88" stroke="#80C842" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="181" y1="118" x2="195" y2="88" stroke="#42B8C8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="211" y1="118" x2="225" y2="88" stroke="#5B8FE8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="241" y1="118" x2="255" y2="88" stroke="#9B6AE8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <text x="58" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E05C3A">λ₁</text>
-            <text x="113" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E09A3A">λ₂</text>
-            <text x="158" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#80C842">λ₃</text>
-            <text x="188" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#42B8C8">λ₄</text>
-            <text x="218" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">λ₅</text>
-            <text x="248" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#9B6AE8">λ₆</text>
+            <line x1="91" y1="118" x2="75" y2="88" stroke="#E05C3A" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-1"/>
+            <line x1="121" y1="118" x2="121" y2="88" stroke="#E09A3A" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-2"/>
+            <line x1="151" y1="118" x2="165" y2="88" stroke="#80C842" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-3"/>
+            <line x1="181" y1="118" x2="195" y2="88" stroke="#42B8C8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-4"/>
+            <line x1="211" y1="118" x2="225" y2="88" stroke="#5B8FE8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-5"/>
+            <line x1="241" y1="118" x2="255" y2="88" stroke="#9B6AE8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-6"/>
+            <text x="58" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E05C3A" class="svg-ray svg-ray-1">λ₁</text>
+            <text x="113" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E09A3A" class="svg-ray svg-ray-2">λ₂</text>
+            <text x="158" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#80C842" class="svg-ray svg-ray-3">λ₃</text>
+            <text x="188" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#42B8C8" class="svg-ray svg-ray-4">λ₄</text>
+            <text x="218" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" class="svg-ray svg-ray-5">λ₅</text>
+            <text x="248" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#9B6AE8" class="svg-ray svg-ray-6">λ₆</text>
             <rect x="264" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.12" stroke="#5B8FE8" stroke-width="0.8"/>
             <rect x="284" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.18" stroke="#5B8FE8" stroke-width="0.8"/>
             <rect x="304" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.26" stroke="#5B8FE8" stroke-width="0.8"/>
             <text x="263" y="155" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">CCD</text>
             <text x="260" y="163" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">DETECTOR</text>
             <line x1="60" y1="240" x2="330" y2="240" stroke="#333" stroke-width="0.75"/>
-            <rect x="75" y="218" width="8" height="22" fill="#E05C3A" opacity="0.8" rx="1"/>
-            <rect x="102" y="208" width="8" height="32" fill="#E09A3A" opacity="0.8" rx="1"/>
-            <rect x="129" y="221" width="8" height="19" fill="#80C842" opacity="0.8" rx="1"/>
-            <rect x="156" y="211" width="8" height="29" fill="#42B8C8" opacity="0.8" rx="1"/>
-            <rect x="183" y="224" width="8" height="16" fill="#5B8FE8" opacity="0.8" rx="1"/>
-            <rect x="210" y="213" width="8" height="27" fill="#9B6AE8" opacity="0.8" rx="1"/>
+            <rect x="75" y="218" width="8" height="22" fill="#E05C3A" rx="1" class="svg-bar svg-bar-1"/>
+            <rect x="102" y="208" width="8" height="32" fill="#E09A3A" rx="1" class="svg-bar svg-bar-2"/>
+            <rect x="129" y="221" width="8" height="19" fill="#80C842" rx="1" class="svg-bar svg-bar-3"/>
+            <rect x="156" y="211" width="8" height="29" fill="#42B8C8" rx="1" class="svg-bar svg-bar-4"/>
+            <rect x="183" y="224" width="8" height="16" fill="#5B8FE8" rx="1" class="svg-bar svg-bar-5"/>
+            <rect x="210" y="213" width="8" height="27" fill="#9B6AE8" rx="1" class="svg-bar svg-bar-6"/>
             <text x="60" y="252" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">RECONSTRUCTED RAMAN SPECTRUM</text>
             <line x1="60" y1="175" x2="260" y2="175" stroke="#333" stroke-width="0.75" stroke-dasharray="2,2"/>
             <line x1="60" y1="171" x2="60" y2="179" stroke="#333" stroke-width="0.75"/>
@@ -838,6 +874,14 @@
   new IntersectionObserver(([e]) => { mastheadGone = !e.isIntersecting; updateFloat(); }, { rootMargin: '0px 0px -10% 0px' }).observe(mastheadEl);
   new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateFloat(); }, { threshold: 0.15 }).observe(contactEl);
   floatCta.addEventListener('click', () => { floatCta.classList.remove('fcta-on'); });
+
+  // Animate r-CBG diagram once when scrolled into view
+  const techDiagram = document.querySelector('.tech-diagram');
+  if (techDiagram) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { techDiagram.classList.add('diagram-animated'); }
+    }, { threshold: 0.35 }).observe(techDiagram);
+  }
 
   // Metrics count-up
   const metricsStrip = document.getElementById('metrics');
