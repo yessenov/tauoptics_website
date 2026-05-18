@@ -310,6 +310,15 @@
   }
   @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
 
+  /* HOW IT WORKS */
+  .hiw-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .hiw-step { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
+  .hiw-step:last-child { border-right: none; }
+  .hiw-step:hover { background: var(--raised); }
+  .hiw-num { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--accent2); text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--rule); }
+  .hiw-step h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
+  .hiw-step p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -323,6 +332,9 @@
     .nav-hamburger { display: flex; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .hiw-flow { grid-template-columns: 1fr; }
+    .hiw-step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .hiw-step:last-child { border-bottom: none; }
   }
 </style>
 </head>
@@ -395,6 +407,37 @@
     </div>
   </div>
 </div>
+
+<section id="how-it-works">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Operating Principle</div>
+      <h2>How It Works</h2>
+    </div>
+    <div class="hiw-flow">
+      <div class="hiw-step">
+        <div class="hiw-num">Step 01 &mdash; Input</div>
+        <h3>Light Enters the Element</h3>
+        <p>Broadband Raman signal enters directly through the r-CBG facet. No input slit, no lens — all available light is collected from the sample.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 02 &mdash; Dispersion</div>
+        <h3>Wavelengths Separate Internally</h3>
+        <p>The Bragg grating inscribed at 45° reflects each wavelength at a different position along the element, spatially encoding the full spectrum inside the glass with no free-space propagation.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 03 &mdash; Detection</div>
+        <h3>Direct CCD Capture</h3>
+        <p>Dispersed wavelengths exit orthogonally onto an abutted CCD array. No mirrors, no lenses — the complete Raman spectrum is captured in a single simultaneous snapshot.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 04 &mdash; Readout</div>
+        <h3>Wireless Spectrum Delivery</h3>
+        <p>The reconstructed spectrum streams live to any smartphone via Bluetooth. No dedicated hardware, no cabling — lab-grade Raman data anywhere in the field.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="technology">
   <div class="section-inner reveal">
