@@ -68,6 +68,11 @@
   .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; transition: color 0.2s; }
   .spec-row:hover .spec-value { color: #9bb8f4; }
 
+  /* SPEC ROW ENTRANCE */
+  .js-animations .spec-card .spec-row { opacity: 0; transform: translateX(-8px); transition: opacity 0.42s cubic-bezier(0.16,1,0.3,1), transform 0.42s cubic-bezier(0.16,1,0.3,1), padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
+  .js-animations .spec-card .spec-row.spec-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .spec-card .spec-row { opacity: 1 !important; transform: none !important; } }
+
   /* SECTIONS */
   section { border-bottom: 1px solid var(--rule); padding: 5rem 2rem; }
   .section-inner { max-width: var(--max); margin: 0 auto; }
@@ -450,7 +455,7 @@
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
         <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
-        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint.</p>
+        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
@@ -951,6 +956,11 @@
       }
     }, { threshold: 0.25 }).observe(metricsStrip);
   }
+
+  // Spec card row staggered entrance on page load
+  document.querySelectorAll('.spec-card .spec-row').forEach(function(row, i) {
+    setTimeout(function() { row.classList.add('spec-in'); }, 450 + i * 55);
+  });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
