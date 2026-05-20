@@ -262,6 +262,9 @@
     .tech-diagram .svg-ray { opacity: 1; }
     .tech-diagram .svg-bar { opacity: 0.8; transform: none; animation: none; }
   }
+  .diagram-replay { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.75rem; background: none; border: none; cursor: pointer; font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); padding: 0; transition: color 0.2s; }
+  .diagram-replay:hover { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .diagram-replay { display: none; } }
 
   /* TIMELINE */
   .timeline { position: relative; padding-left: 1.75rem; }
@@ -512,6 +515,7 @@
             <text x="120" y="171" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">~5 cm² total footprint</text>
           </svg>
           <p class="diagram-caption">Each Raman wavelength exits the r-CBG at a different spatial position, directly onto the CCD — no lenses, no slits, no moving parts.</p>
+          <button class="diagram-replay" id="diagram-replay" aria-label="Replay diagram animation">&#8635; Replay</button>
         </div>
       </div>
     </div>
@@ -929,6 +933,15 @@
     new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { techDiagram.classList.add('diagram-animated'); }
     }, { threshold: 0.35 }).observe(techDiagram);
+  }
+
+  // Diagram replay button
+  const replayBtn = document.getElementById('diagram-replay');
+  if (replayBtn && techDiagram) {
+    replayBtn.addEventListener('click', () => {
+      techDiagram.classList.remove('diagram-animated');
+      requestAnimationFrame(() => requestAnimationFrame(() => techDiagram.classList.add('diagram-animated')));
+    });
   }
 
   // Metrics count-up
