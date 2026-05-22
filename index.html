@@ -327,6 +327,11 @@
   .hiw-step h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
   .hiw-step p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
 
+  /* READING PROGRESS */
+  .read-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 200; pointer-events: none; }
+  #read-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -347,6 +352,7 @@
 </style>
 </head>
 <body>
+<div class="read-progress" aria-hidden="true"><div id="read-fill"></div></div>
 
 <nav>
   <div class="nav-inner">
@@ -974,6 +980,15 @@
   document.querySelectorAll('.spec-card .spec-row').forEach(function(row, i) {
     setTimeout(function() { row.classList.add('spec-in'); }, 450 + i * 55);
   });
+
+  // Reading progress bar
+  const readFill = document.getElementById('read-fill');
+  if (readFill) {
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      readFill.style.transform = max > 0 ? `scaleX(${window.scrollY / max})` : 'scaleX(0)';
+    }, { passive: true });
+  }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
