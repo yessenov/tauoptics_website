@@ -212,6 +212,16 @@
   .compare-row { display: grid; grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr; border-bottom: 1px solid var(--rule); transition: background 0.15s; }
   .compare-row:last-child { border-bottom: none; }
   .compare-row:hover { background: rgba(255,255,255,0.025); }
+  .js-animations .compare-row { opacity: 0; transform: translateX(-8px); transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.15s; }
+  .js-animations .compare-table.cmp-animated .compare-row { opacity: 1; transform: none; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(2) { transition-delay: 65ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(3) { transition-delay: 130ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(4) { transition-delay: 195ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(5) { transition-delay: 260ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(6) { transition-delay: 325ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(7) { transition-delay: 390ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .compare-row { opacity: 1 !important; transform: none !important; transition: background 0.15s !important; } }
   .compare-cell { padding: 0.8rem 1rem; display: flex; align-items: center; }
   .compare-cell + .compare-cell { border-left: 1px solid var(--rule); }
   .compare-cell-label { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.04em; }
@@ -1024,6 +1034,15 @@
       }
     }, { threshold: 0.15 });
     hiwObs.observe(hiwSection);
+  }
+
+  // Comparison table row staggered entrance
+  var cmpTable = document.querySelector('.compare-table');
+  if (cmpTable) {
+    var cmpObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { cmpTable.classList.add('cmp-animated'); cmpObs.disconnect(); }
+    }, { threshold: 0.12 });
+    cmpObs.observe(cmpTable);
   }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
