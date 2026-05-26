@@ -361,6 +361,23 @@
   .hiw-step h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
   .hiw-step p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
 
+  /* FAQ ACCORDION */
+  .faq-list { }
+  .faq-item { border-top: 1px solid var(--rule); }
+  .faq-item:last-child { border-bottom: 1px solid var(--rule); }
+  .faq-q { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; width: 100%; background: none; border: none; color: var(--text); font-family: var(--serif); font-size: 1.05rem; font-weight: 500; text-align: left; padding: 1.4rem 0; cursor: pointer; line-height: 1.35; transition: color 0.2s; }
+  .faq-q:hover { color: var(--accent); }
+  .faq-item.faq-open .faq-q { color: var(--accent); }
+  .faq-icon { display: block; width: 18px; height: 18px; flex-shrink: 0; margin-top: 0.15rem; position: relative; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; background: var(--muted); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s, background 0.2s; }
+  .faq-icon::before { top: 8px; left: 0; right: 0; height: 1px; }
+  .faq-icon::after  { top: 0; bottom: 0; left: 8px; width: 1px; }
+  .faq-item.faq-open .faq-icon::after { transform: scaleY(0); opacity: 0; }
+  .faq-item.faq-open .faq-icon::before { background: var(--accent); }
+  .faq-body { overflow: hidden; max-height: 0; transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1); }
+  .faq-a { padding-bottom: 1.5rem; font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 74ch; }
+  @media (prefers-reduced-motion: reduce) { .faq-body, .faq-icon::before, .faq-icon::after { transition: none; } }
+
   /* READING PROGRESS */
   .read-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 200; pointer-events: none; }
   #read-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
@@ -874,6 +891,48 @@
   </div>
 </section>
 
+<section id="faq">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Common Questions</div>
+      <h2>Technical FAQ</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a1">What makes r-CBG different from a conventional diffraction grating?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a1" role="region"><p class="faq-a">Conventional Raman spectrometers require a narrow input slit to spatially define the entrance aperture — this slit rejects the vast majority of collected light before it reaches the grating. The r-CBG eliminates the slit entirely. Its 45° grating inscription angle means each wavelength diffracts to a uniquely different spatial position along the element's length, mapping directly onto a CCD array with no intermediate optics. Every photon counts. This slitless architecture is the primary reason SpectraMini achieves 60× the light throughput of slit-based portable instruments at equivalent spectral resolution.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a2">What wavelengths does SpectraMini cover?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a2" role="region"><p class="faq-a">The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact element. The first SpectraMini product targets 785 nm excitation Raman — the most widely used wavelength for biological, pharmaceutical, and narcotics identification — with a spectral resolution of approximately 0.1 nm in the NIR. A dual-band variant called the X-CBG multiplexes two independent spectral channels into one element, enabling simultaneous visible and near-infrared coverage without increasing device footprint.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a3">How does SpectraMini connect to a smartphone or computer?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a3" role="region"><p class="faq-a">SpectraMini includes integrated Bluetooth connectivity, streaming processed Raman spectra directly to a companion smartphone application in real-time. No dedicated laptop, docking station, or proprietary interface hardware is required for data acquisition or visualization. This wireless architecture is a key enabler for field deployment scenarios — including handheld fentanyl screening, point-of-care diagnostics, and wearable continuous glucose monitoring.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a4">What material is the r-CBG element made from, and how durable is it?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a4" role="region"><p class="faq-a">The r-CBG grating is fabricated in photo-thermo-refractive (PTR) glass — a silver- and cerium-doped silicate substrate. The grating structure is holographically inscribed with UV laser beams and thermally fixed in a single bake, producing an element stable to approximately 400 °C and immune to UV, visible, and IR radiation damage. The monolithic design — all components abutted and fixed, with no free-space optical path — makes the assembly inherently shock-resistant and self-calibrating. This robustness is what enables SpectraMini's deployment in industrial process control and outdoor field environments.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a5">Is SpectraMini available to purchase or test?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a5" role="region"><p class="faq-a">Tau Optics is currently in the prototype development phase, funded by NSF STTR Phase I. We are actively engaging potential customers and pilot program partners — particularly in harm reduction and public health for fentanyl detection. If you represent an organization interested in early access, a pilot deployment, or technology evaluation, please reach out via the contact form below. We aim to respond within two business days.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a6">Where was the r-CBG technology developed, and who holds the IP?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a6" role="region"><p class="faq-a">The r-CBG concept was invented and first experimentally demonstrated at the University of Central Florida's CREOL — the College of Optics &amp; Photonics — and peer-reviewed in <em>Optics Letters</em> (2023). Tau Optics holds an exclusive license to the r-CBG patents from UCF, and was founded in 2024 as a UCF spinout. Active fabrication and R&amp;D continues in Prof. Ivan Divliansky's holographic optics laboratory at UCF, with characterization work conducted in collaboration with the Department of Electrical and Computer Engineering at the University of Utah and at MIT.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="section-inner reveal">
     <div class="section-header">
@@ -1058,6 +1117,25 @@
     }, { threshold: 0.12 });
     cmpObs.observe(cmpTable);
   }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    const body = item.querySelector('.faq-body');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('faq-open');
+      document.querySelectorAll('.faq-item.faq-open').forEach(el => {
+        el.classList.remove('faq-open');
+        el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+        el.querySelector('.faq-body').style.maxHeight = '';
+      });
+      if (!isOpen) {
+        item.classList.add('faq-open');
+        btn.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
