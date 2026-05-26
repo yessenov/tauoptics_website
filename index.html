@@ -68,6 +68,25 @@
   .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; transition: color 0.2s; }
   .spec-row:hover .spec-value { color: #9bb8f4; }
 
+  /* MASTHEAD ENTRANCE ANIMATION */
+  @keyframes mastheadFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .js-animations .masthead-eyebrow { opacity: 0; animation: mastheadFadeUp 0.70s cubic-bezier(0.16,1,0.3,1) 0.08s forwards; }
+  .js-animations .masthead h1      { opacity: 0; animation: mastheadFadeUp 0.75s cubic-bezier(0.16,1,0.3,1) 0.22s forwards; }
+  .js-animations .masthead-sub     { opacity: 0; animation: mastheadFadeUp 0.70s cubic-bezier(0.16,1,0.3,1) 0.38s forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .masthead-eyebrow,
+    .js-animations .masthead h1,
+    .js-animations .masthead-sub { animation: none; opacity: 1; }
+  }
+
+  /* SPEC ROW ENTRANCE */
+  .js-animations .spec-card .spec-row { opacity: 0; transform: translateX(-8px); transition: opacity 0.42s cubic-bezier(0.16,1,0.3,1), transform 0.42s cubic-bezier(0.16,1,0.3,1), padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
+  .js-animations .spec-card .spec-row.spec-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .spec-card .spec-row { opacity: 1 !important; transform: none !important; } }
+
   /* SECTIONS */
   section { border-bottom: 1px solid var(--rule); padding: 5rem 2rem; }
   .section-inner { max-width: var(--max); margin: 0 auto; }
@@ -176,6 +195,24 @@
   .footer-copy a { color: var(--muted); text-decoration: none; }
   .footer-copy a:hover { color: var(--text); }
 
+  /* METRICS STRIP */
+  .metrics-strip { background: var(--surface); border-bottom: 1px solid var(--rule); padding: 3rem 2rem; }
+  .metrics-row { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule); }
+  .metric-item { padding: 2rem 1.5rem; border-right: 1px solid var(--rule); text-align: center; }
+  .metric-item:last-child { border-right: none; }
+  .metric-divider { width: 20px; height: 1px; background: var(--accent); opacity: 0.5; margin: 0 auto 0.9rem; }
+  .metric-number { font-family: var(--serif); font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 500; color: var(--accent); line-height: 1; margin-bottom: 0.55rem; letter-spacing: -0.02em; display: flex; align-items: baseline; justify-content: center; gap: 0.1rem; }
+  .metric-suffix { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--accent); }
+  .metric-prefix { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--accent); }
+  .metric-label { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); line-height: 1.6; }
+  @media (max-width: 768px) {
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .metric-item:nth-child(2) { border-right: none; }
+    .metric-item:nth-child(3), .metric-item:nth-child(4) { border-top: 1px solid var(--rule); }
+    .metric-item:nth-child(4) { border-right: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .metric-number { transition: none !important; } }
+
   /* COMPARISON TABLE */
   .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .compare-table { min-width: 600px; border: 1px solid var(--rule); }
@@ -189,6 +226,16 @@
   .compare-row { display: grid; grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr; border-bottom: 1px solid var(--rule); transition: background 0.15s; }
   .compare-row:last-child { border-bottom: none; }
   .compare-row:hover { background: rgba(255,255,255,0.025); }
+  .js-animations .compare-row { opacity: 0; transform: translateX(-8px); transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.15s; }
+  .js-animations .compare-table.cmp-animated .compare-row { opacity: 1; transform: none; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(2) { transition-delay: 65ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(3) { transition-delay: 130ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(4) { transition-delay: 195ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(5) { transition-delay: 260ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(6) { transition-delay: 325ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(7) { transition-delay: 390ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .compare-row { opacity: 1 !important; transform: none !important; transition: background 0.15s !important; } }
   .compare-cell { padding: 0.8rem 1rem; display: flex; align-items: center; }
   .compare-cell + .compare-cell { border-left: 1px solid var(--rule); }
   .compare-cell-label { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.04em; }
@@ -203,6 +250,45 @@
   .js-animations .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .reveal.visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+  /* DIAGRAM ANIMATION */
+  @keyframes svgBeamPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  @keyframes svgRayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes svgBarIn {
+    from { opacity: 0; transform: scaleY(0.08); }
+    to { opacity: 0.8; transform: scaleY(1); }
+  }
+  .tech-diagram .svg-beam { animation: svgBeamPulse 2.5s ease-in-out infinite; }
+  .tech-diagram .svg-ray { opacity: 0; }
+  .diagram-animated .svg-ray { animation: svgRayIn 0.35s ease-out forwards; }
+  .diagram-animated .svg-ray-1 { animation-delay: 0.10s; }
+  .diagram-animated .svg-ray-2 { animation-delay: 0.22s; }
+  .diagram-animated .svg-ray-3 { animation-delay: 0.34s; }
+  .diagram-animated .svg-ray-4 { animation-delay: 0.46s; }
+  .diagram-animated .svg-ray-5 { animation-delay: 0.58s; }
+  .diagram-animated .svg-ray-6 { animation-delay: 0.70s; }
+  .tech-diagram .svg-bar { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+  .diagram-animated .svg-bar { animation: svgBarIn 0.42s ease-out forwards; }
+  .diagram-animated .svg-bar-1 { animation-delay: 0.90s; }
+  .diagram-animated .svg-bar-2 { animation-delay: 1.02s; }
+  .diagram-animated .svg-bar-3 { animation-delay: 1.14s; }
+  .diagram-animated .svg-bar-4 { animation-delay: 1.26s; }
+  .diagram-animated .svg-bar-5 { animation-delay: 1.38s; }
+  .diagram-animated .svg-bar-6 { animation-delay: 1.50s; }
+  @media (prefers-reduced-motion: reduce) {
+    .tech-diagram .svg-beam { animation: none; opacity: 1; }
+    .tech-diagram .svg-ray { opacity: 1; }
+    .tech-diagram .svg-bar { opacity: 0.8; transform: none; animation: none; }
+  }
+  .diagram-replay { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.75rem; background: none; border: none; cursor: pointer; font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); padding: 0; transition: color 0.2s; }
+  .diagram-replay:hover { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .diagram-replay { display: none; } }
 
   /* TIMELINE */
   .timeline { position: relative; padding-left: 1.75rem; }
@@ -224,6 +310,16 @@
     .timeline-cols .timeline + .timeline::before { display: none; }
     .timeline-cols .timeline + .timeline .tl-dot { display: none; }
   }
+
+  /* TIMELINE ITEM ENTRANCE */
+  .js-animations .tl-item { opacity: 0; transform: translateX(-10px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .tl-item.tl-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .tl-item { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+  /* HOW IT WORKS STEP ENTRANCE */
+  .js-animations .hiw-step { opacity: 0; transform: translateY(12px); transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .hiw-step.hiw-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .hiw-step { opacity: 1 !important; transform: none !important; } }
 
   /* FLOATING CTA */
   .float-cta {
@@ -256,6 +352,37 @@
   }
   @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
 
+  /* HOW IT WORKS */
+  .hiw-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .hiw-step { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
+  .hiw-step:last-child { border-right: none; }
+  .hiw-step:hover { background: var(--raised); }
+  .hiw-num { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--accent2); text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--rule); }
+  .hiw-step h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
+  .hiw-step p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* FAQ ACCORDION */
+  .faq-list { }
+  .faq-item { border-top: 1px solid var(--rule); }
+  .faq-item:last-child { border-bottom: 1px solid var(--rule); }
+  .faq-q { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; width: 100%; background: none; border: none; color: var(--text); font-family: var(--serif); font-size: 1.05rem; font-weight: 500; text-align: left; padding: 1.4rem 0; cursor: pointer; line-height: 1.35; transition: color 0.2s; }
+  .faq-q:hover { color: var(--accent); }
+  .faq-item.faq-open .faq-q { color: var(--accent); }
+  .faq-icon { display: block; width: 18px; height: 18px; flex-shrink: 0; margin-top: 0.15rem; position: relative; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; background: var(--muted); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s, background 0.2s; }
+  .faq-icon::before { top: 8px; left: 0; right: 0; height: 1px; }
+  .faq-icon::after  { top: 0; bottom: 0; left: 8px; width: 1px; }
+  .faq-item.faq-open .faq-icon::after { transform: scaleY(0); opacity: 0; }
+  .faq-item.faq-open .faq-icon::before { background: var(--accent); }
+  .faq-body { overflow: hidden; max-height: 0; transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1); }
+  .faq-a { padding-bottom: 1.5rem; font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 74ch; }
+  @media (prefers-reduced-motion: reduce) { .faq-body, .faq-icon::before, .faq-icon::after { transition: none; } }
+
+  /* READING PROGRESS */
+  .read-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 200; pointer-events: none; }
+  #read-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -269,10 +396,14 @@
     .nav-hamburger { display: flex; }
     .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .hiw-flow { grid-template-columns: 1fr; }
+    .hiw-step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .hiw-step:last-child { border-bottom: none; }
   }
 </style>
 </head>
 <body>
+<div class="read-progress" aria-hidden="true"><div id="read-fill"></div></div>
 
 <nav>
   <div class="nav-inner">
@@ -317,6 +448,62 @@
   </div>
 </header>
 
+<div class="metrics-strip" id="metrics">
+  <div class="metrics-row">
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="10">10</span><span class="metric-suffix">×</span></div>
+      <div class="metric-label">Smaller than<br>portable Raman</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="60">60</span><span class="metric-suffix">×</span></div>
+      <div class="metric-label">More light throughput<br>(slitless design)</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-prefix">~</span><span class="metric-val metric-static">5</span><span class="metric-suffix">&thinsp;cm²</span></div>
+      <div class="metric-label">Total spectrometer<br>footprint</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-divider"></div>
+      <div class="metric-number"><span class="metric-val" data-target="95">95</span><span class="metric-suffix">%</span></div>
+      <div class="metric-label">Diffraction<br>efficiency</div>
+    </div>
+  </div>
+</div>
+
+<section id="how-it-works">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Operating Principle</div>
+      <h2>How It Works</h2>
+    </div>
+    <div class="hiw-flow">
+      <div class="hiw-step">
+        <div class="hiw-num">Step 01 &mdash; Input</div>
+        <h3>Light Enters the Element</h3>
+        <p>Broadband Raman signal enters directly through the r-CBG facet. No input slit, no lens — all available light is collected from the sample.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 02 &mdash; Dispersion</div>
+        <h3>Wavelengths Separate Internally</h3>
+        <p>The Bragg grating inscribed at 45° reflects each wavelength at a different position along the element, spatially encoding the full spectrum inside the glass with no free-space propagation.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 03 &mdash; Detection</div>
+        <h3>Direct CCD Capture</h3>
+        <p>Dispersed wavelengths exit orthogonally onto an abutted CCD array. No mirrors, no lenses — the complete Raman spectrum is captured in a single simultaneous snapshot.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">Step 04 &mdash; Readout</div>
+        <h3>Wireless Spectrum Delivery</h3>
+        <p>The reconstructed spectrum streams live to any smartphone via Bluetooth. No dedicated hardware, no cabling — lab-grade Raman data anywhere in the field.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="technology">
   <div class="section-inner reveal">
     <div class="section-header">
@@ -328,7 +515,7 @@
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
         <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
-        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint.</p>
+        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
@@ -342,8 +529,8 @@
         <div class="tech-diagram">
           <div class="diagram-label">r-CBG Spectrometer — Operating Principle</div>
           <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-            <line x1="10" y1="130" x2="55" y2="130" stroke="#5B8FE8" stroke-width="2.5"/>
-            <polygon points="50,124 62,130 50,136" fill="#5B8FE8"/>
+            <line x1="10" y1="130" x2="55" y2="130" stroke="#5B8FE8" stroke-width="2.5" class="svg-beam"/>
+            <polygon points="50,124 62,130 50,136" fill="#5B8FE8" class="svg-beam"/>
             <text x="6" y="122" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7672">INPUT</text>
             <rect x="60" y="122" width="200" height="16" rx="2" fill="#1E1E1E" stroke="#333" stroke-width="1"/>
             <g stroke="#5B8FE8" stroke-width="1.2" opacity="0.6">
@@ -354,30 +541,30 @@
               <line x1="210" y1="118" x2="210" y2="142"/><line x1="213" y1="118" x2="213" y2="142"/>
               <line x1="240" y1="118" x2="240" y2="142"/><line x1="243" y1="118" x2="243" y2="142"/>
             </g>
-            <line x1="91" y1="118" x2="75" y2="88" stroke="#E05C3A" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="121" y1="118" x2="121" y2="88" stroke="#E09A3A" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="151" y1="118" x2="165" y2="88" stroke="#80C842" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="181" y1="118" x2="195" y2="88" stroke="#42B8C8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="211" y1="118" x2="225" y2="88" stroke="#5B8FE8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <line x1="241" y1="118" x2="255" y2="88" stroke="#9B6AE8" stroke-width="1.4" stroke-dasharray="3,2"/>
-            <text x="58" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E05C3A">λ₁</text>
-            <text x="113" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E09A3A">λ₂</text>
-            <text x="158" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#80C842">λ₃</text>
-            <text x="188" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#42B8C8">λ₄</text>
-            <text x="218" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">λ₅</text>
-            <text x="248" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#9B6AE8">λ₆</text>
+            <line x1="91" y1="118" x2="75" y2="88" stroke="#E05C3A" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-1"/>
+            <line x1="121" y1="118" x2="121" y2="88" stroke="#E09A3A" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-2"/>
+            <line x1="151" y1="118" x2="165" y2="88" stroke="#80C842" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-3"/>
+            <line x1="181" y1="118" x2="195" y2="88" stroke="#42B8C8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-4"/>
+            <line x1="211" y1="118" x2="225" y2="88" stroke="#5B8FE8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-5"/>
+            <line x1="241" y1="118" x2="255" y2="88" stroke="#9B6AE8" stroke-width="1.4" stroke-dasharray="3,2" class="svg-ray svg-ray-6"/>
+            <text x="58" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E05C3A" class="svg-ray svg-ray-1">λ₁</text>
+            <text x="113" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#E09A3A" class="svg-ray svg-ray-2">λ₂</text>
+            <text x="158" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#80C842" class="svg-ray svg-ray-3">λ₃</text>
+            <text x="188" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#42B8C8" class="svg-ray svg-ray-4">λ₄</text>
+            <text x="218" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" class="svg-ray svg-ray-5">λ₅</text>
+            <text x="248" y="82" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#9B6AE8" class="svg-ray svg-ray-6">λ₆</text>
             <rect x="264" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.12" stroke="#5B8FE8" stroke-width="0.8"/>
             <rect x="284" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.18" stroke="#5B8FE8" stroke-width="0.8"/>
             <rect x="304" y="118" width="18" height="24" rx="2" fill="#5B8FE8" opacity="0.26" stroke="#5B8FE8" stroke-width="0.8"/>
             <text x="263" y="155" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">CCD</text>
             <text x="260" y="163" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">DETECTOR</text>
             <line x1="60" y1="240" x2="330" y2="240" stroke="#333" stroke-width="0.75"/>
-            <rect x="75" y="218" width="8" height="22" fill="#E05C3A" opacity="0.8" rx="1"/>
-            <rect x="102" y="208" width="8" height="32" fill="#E09A3A" opacity="0.8" rx="1"/>
-            <rect x="129" y="221" width="8" height="19" fill="#80C842" opacity="0.8" rx="1"/>
-            <rect x="156" y="211" width="8" height="29" fill="#42B8C8" opacity="0.8" rx="1"/>
-            <rect x="183" y="224" width="8" height="16" fill="#5B8FE8" opacity="0.8" rx="1"/>
-            <rect x="210" y="213" width="8" height="27" fill="#9B6AE8" opacity="0.8" rx="1"/>
+            <rect x="75" y="218" width="8" height="22" fill="#E05C3A" rx="1" class="svg-bar svg-bar-1"/>
+            <rect x="102" y="208" width="8" height="32" fill="#E09A3A" rx="1" class="svg-bar svg-bar-2"/>
+            <rect x="129" y="221" width="8" height="19" fill="#80C842" rx="1" class="svg-bar svg-bar-3"/>
+            <rect x="156" y="211" width="8" height="29" fill="#42B8C8" rx="1" class="svg-bar svg-bar-4"/>
+            <rect x="183" y="224" width="8" height="16" fill="#5B8FE8" rx="1" class="svg-bar svg-bar-5"/>
+            <rect x="210" y="213" width="8" height="27" fill="#9B6AE8" rx="1" class="svg-bar svg-bar-6"/>
             <text x="60" y="252" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">RECONSTRUCTED RAMAN SPECTRUM</text>
             <line x1="60" y1="175" x2="260" y2="175" stroke="#333" stroke-width="0.75" stroke-dasharray="2,2"/>
             <line x1="60" y1="171" x2="60" y2="179" stroke="#333" stroke-width="0.75"/>
@@ -385,6 +572,7 @@
             <text x="120" y="171" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#7A7672">~5 cm² total footprint</text>
           </svg>
           <p class="diagram-caption">Each Raman wavelength exits the r-CBG at a different spatial position, directly onto the CCD — no lenses, no slits, no moving parts.</p>
+          <button class="diagram-replay" id="diagram-replay" aria-label="Replay diagram animation">&#8635; Replay</button>
         </div>
       </div>
     </div>
@@ -654,7 +842,7 @@
 
 
 <section id="publications">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <div class="section-header">
       <h2>Research &amp; Publications</h2>
     </div>
@@ -699,6 +887,48 @@
       <div class="backed-logo">
         <img src="Images/NSF Seed fund logo.jpg" alt="National Science Foundation">
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Common Questions</div>
+      <h2>Technical FAQ</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a1">What makes r-CBG different from a conventional diffraction grating?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a1" role="region"><p class="faq-a">Conventional Raman spectrometers require a narrow input slit to spatially define the entrance aperture — this slit rejects the vast majority of collected light before it reaches the grating. The r-CBG eliminates the slit entirely. Its 45° grating inscription angle means each wavelength diffracts to a uniquely different spatial position along the element's length, mapping directly onto a CCD array with no intermediate optics. Every photon counts. This slitless architecture is the primary reason SpectraMini achieves 60× the light throughput of slit-based portable instruments at equivalent spectral resolution.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a2">What wavelengths does SpectraMini cover?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a2" role="region"><p class="faq-a">The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact element. The first SpectraMini product targets 785 nm excitation Raman — the most widely used wavelength for biological, pharmaceutical, and narcotics identification — with a spectral resolution of approximately 0.1 nm in the NIR. A dual-band variant called the X-CBG multiplexes two independent spectral channels into one element, enabling simultaneous visible and near-infrared coverage without increasing device footprint.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a3">How does SpectraMini connect to a smartphone or computer?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a3" role="region"><p class="faq-a">SpectraMini includes integrated Bluetooth connectivity, streaming processed Raman spectra directly to a companion smartphone application in real-time. No dedicated laptop, docking station, or proprietary interface hardware is required for data acquisition or visualization. This wireless architecture is a key enabler for field deployment scenarios — including handheld fentanyl screening, point-of-care diagnostics, and wearable continuous glucose monitoring.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a4">What material is the r-CBG element made from, and how durable is it?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a4" role="region"><p class="faq-a">The r-CBG grating is fabricated in photo-thermo-refractive (PTR) glass — a silver- and cerium-doped silicate substrate. The grating structure is holographically inscribed with UV laser beams and thermally fixed in a single bake, producing an element stable to approximately 400 °C and immune to UV, visible, and IR radiation damage. The monolithic design — all components abutted and fixed, with no free-space optical path — makes the assembly inherently shock-resistant and self-calibrating. This robustness is what enables SpectraMini's deployment in industrial process control and outdoor field environments.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a5">Is SpectraMini available to purchase or test?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a5" role="region"><p class="faq-a">Tau Optics is currently in the prototype development phase, funded by NSF STTR Phase I. We are actively engaging potential customers and pilot program partners — particularly in harm reduction and public health for fentanyl detection. If you represent an organization interested in early access, a pilot deployment, or technology evaluation, please reach out via the contact form below. We aim to respond within two business days.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a6">Where was the r-CBG technology developed, and who holds the IP?<span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-body" id="faq-a6" role="region"><p class="faq-a">The r-CBG concept was invented and first experimentally demonstrated at the University of Central Florida's CREOL — the College of Optics &amp; Photonics — and peer-reviewed in <em>Optics Letters</em> (2023). Tau Optics holds an exclusive license to the r-CBG patents from UCF, and was founded in 2024 as a UCF spinout. Active fabrication and R&amp;D continues in Prof. Ivan Divliansky's holographic optics laboratory at UCF, with characterization work conducted in collaboration with the Department of Electrical and Computer Engineering at the University of Utah and at MIT.</p></div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -795,6 +1025,117 @@
   new IntersectionObserver(([e]) => { mastheadGone = !e.isIntersecting; updateFloat(); }, { rootMargin: '0px 0px -10% 0px' }).observe(mastheadEl);
   new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateFloat(); }, { threshold: 0.15 }).observe(contactEl);
   floatCta.addEventListener('click', () => { floatCta.classList.remove('fcta-on'); });
+
+  // Animate r-CBG diagram once when scrolled into view
+  const techDiagram = document.querySelector('.tech-diagram');
+  if (techDiagram) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { techDiagram.classList.add('diagram-animated'); }
+    }, { threshold: 0.35 }).observe(techDiagram);
+  }
+
+  // Diagram replay button
+  const replayBtn = document.getElementById('diagram-replay');
+  if (replayBtn && techDiagram) {
+    replayBtn.addEventListener('click', () => {
+      techDiagram.classList.remove('diagram-animated');
+      requestAnimationFrame(() => requestAnimationFrame(() => techDiagram.classList.add('diagram-animated')));
+    });
+  }
+
+  // Metrics count-up
+  const metricsStrip = document.getElementById('metrics');
+  if (metricsStrip) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let fired = false;
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        if (reducedMotion) return;
+        metricsStrip.querySelectorAll('.metric-val[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target, 10);
+          const duration = 950;
+          const start = performance.now();
+          const ease = t => 1 - Math.pow(1 - t, 3);
+          const tick = now => {
+            const p = ease(Math.min((now - start) / duration, 1));
+            el.textContent = Math.round(p * target);
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          el.textContent = '0';
+          requestAnimationFrame(tick);
+        });
+      }
+    }, { threshold: 0.25 }).observe(metricsStrip);
+  }
+
+  // Spec card row staggered entrance on page load
+  document.querySelectorAll('.spec-card .spec-row').forEach(function(row, i) {
+    setTimeout(function() { row.classList.add('spec-in'); }, 450 + i * 55);
+  });
+
+  // Reading progress bar
+  const readFill = document.getElementById('read-fill');
+  if (readFill) {
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      readFill.style.transform = max > 0 ? `scaleX(${window.scrollY / max})` : 'scaleX(0)';
+    }, { passive: true });
+  }
+
+  // Timeline item staggered entrance
+  var tlSection = document.getElementById('milestones');
+  if (tlSection) {
+    var tlItems = tlSection.querySelectorAll('.tl-item');
+    var tlObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        tlItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('tl-visible'); }, i * 130); });
+        tlObs.disconnect();
+      }
+    }, { threshold: 0.05 });
+    tlObs.observe(tlSection);
+  }
+
+  // How It Works step staggered entrance
+  var hiwSection = document.getElementById('how-it-works');
+  if (hiwSection) {
+    var hiwSteps = hiwSection.querySelectorAll('.hiw-step');
+    var hiwObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        hiwSteps.forEach(function(step, i) { setTimeout(function() { step.classList.add('hiw-visible'); }, i * 110); });
+        hiwObs.disconnect();
+      }
+    }, { threshold: 0.15 });
+    hiwObs.observe(hiwSection);
+  }
+
+  // Comparison table row staggered entrance
+  var cmpTable = document.querySelector('.compare-table');
+  if (cmpTable) {
+    var cmpObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { cmpTable.classList.add('cmp-animated'); cmpObs.disconnect(); }
+    }, { threshold: 0.12 });
+    cmpObs.observe(cmpTable);
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    const body = item.querySelector('.faq-body');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('faq-open');
+      document.querySelectorAll('.faq-item.faq-open').forEach(el => {
+        el.classList.remove('faq-open');
+        el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+        el.querySelector('.faq-body').style.maxHeight = '';
+      });
+      if (!isOpen) {
+        item.classList.add('faq-open');
+        btn.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
