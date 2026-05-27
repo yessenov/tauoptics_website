@@ -383,6 +383,25 @@
   #read-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
 
+  /* SPECTRUM VIEWER */
+  .specview-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .spec-pill { background: none; border: 1px solid var(--rule); color: var(--muted); font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; padding: 0.45rem 0.9rem; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+  .spec-pill:hover { border-color: var(--muted); color: var(--text); }
+  .spec-pill.active[data-mat="0"] { border-color: #5B8FE8; color: #5B8FE8; background: rgba(91,143,232,0.06); }
+  .spec-pill.active[data-mat="1"] { border-color: #C97A50; color: #C97A50; background: rgba(201,122,80,0.06); }
+  .spec-pill.active[data-mat="2"] { border-color: #80C842; color: #80C842; background: rgba(128,200,66,0.06); }
+  .spec-pill.active[data-mat="3"] { border-color: #9B6AE8; color: #9B6AE8; background: rgba(155,106,232,0.06); }
+  .specview-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; margin: 0; }
+  .specview-svg { width: 100%; height: auto; display: block; }
+  .specview-figcap { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.85rem; line-height: 1.5; }
+  .spec-trace { fill: none; stroke-width: 1.8; opacity: 0; }
+  .spec-trace.sp-active { opacity: 1; }
+  .spec-callout { opacity: 0; transition: opacity 0.3s ease; }
+  .spec-callout.sp-active { opacity: 1; }
+  .specview-intro { font-size: 1rem; color: var(--muted); max-width: 64ch; margin-bottom: 2rem; line-height: 1.7; }
+  @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
+  @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -576,6 +595,99 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="spectrum-viewer">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Spectral Fingerprints</div>
+      <h2>What SpectraMini Sees</h2>
+    </div>
+    <p class="specview-intro">Every molecule has a unique Raman fingerprint — a pattern of peaks at specific wavenumbers determined by its bond vibrations. Select a target material to see its characteristic spectrum as SpectraMini resolves it.</p>
+    <div class="specview-pills" role="tablist" aria-label="Material selector">
+      <button class="spec-pill active" data-mat="0" role="tab" aria-selected="true">Polystyrene</button>
+      <button class="spec-pill" data-mat="1" role="tab" aria-selected="false">Ethanol</button>
+      <button class="spec-pill" data-mat="2" role="tab" aria-selected="false">Paracetamol</button>
+      <button class="spec-pill" data-mat="3" role="tab" aria-selected="false">Skin (NIR)</button>
+    </div>
+    <figure class="specview-panel">
+      <svg viewBox="0 0 500 195" class="specview-svg" aria-label="Raman spectrum plot">
+        <!-- Axes -->
+        <line x1="55" y1="150" x2="470" y2="150" stroke="#272727" stroke-width="1"/>
+        <line x1="55" y1="10"  x2="55"  y2="150" stroke="#272727" stroke-width="1"/>
+        <!-- Subtle grid -->
+        <line x1="55" y1="117" x2="470" y2="117" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="55" y1="84"  x2="470" y2="84"  stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="55" y1="51"  x2="470" y2="51"  stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="124" y1="10" x2="124" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="193" y1="10" x2="193" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="263" y1="10" x2="263" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="332" y1="10" x2="332" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="401" y1="10" x2="401" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <!-- X-axis ticks + labels -->
+        <line x1="55"  y1="150" x2="55"  y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="55"   y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">600</text>
+        <line x1="124" y1="150" x2="124" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="124"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">800</text>
+        <line x1="193" y1="150" x2="193" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="193"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1000</text>
+        <line x1="263" y1="150" x2="263" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="263"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1200</text>
+        <line x1="332" y1="150" x2="332" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="332"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1400</text>
+        <line x1="401" y1="150" x2="401" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="401"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1600</text>
+        <line x1="470" y1="150" x2="470" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="470"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1800</text>
+        <text x="262"  y="178" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">Raman Shift (cm&#8315;&#185;)</text>
+        <!-- Y-axis label -->
+        <text x="14" y="85" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle" transform="rotate(-90 14 85)">Intensity (a.u.)</text>
+        <!-- Spectrum traces — one polyline per material, animated via JS -->
+        <!-- Polystyrene: peaks at 621(x62,h25), 795(x123,h40), 1001(x194,h118), 1156(x247,h38), 1583(x394,h28) -->
+        <polyline id="sp-0" class="spec-trace" stroke="#5B8FE8"
+          points="55,150 58,150 62,125 66,150 119,150 123,110 127,150 190,150 194,32 198,150 243,150 247,112 251,150 390,150 394,122 398,150 470,150"/>
+        <!-- Ethanol: peaks at 882(x153,h50), 1055(x212,h45), 1455(x350,h75) -->
+        <polyline id="sp-1" class="spec-trace" stroke="#C97A50"
+          points="55,150 149,150 153,100 157,150 208,150 212,105 216,150 344,150 350,75 356,150 470,150"/>
+        <!-- Paracetamol: peaks at 857(x144,h45), 1168(x252,h55), 1323(x305,h38), 1648(x418,h90) -->
+        <polyline id="sp-2" class="spec-trace" stroke="#80C842"
+          points="55,150 140,150 144,105 148,150 248,150 252,95 256,150 301,150 305,112 309,150 414,150 418,60 422,150 470,150"/>
+        <!-- Skin (NIR): broad bio peaks at 854(x143,h32), 1004(x195,h58), 1263(x283,h40), 1447(x348,h52), 1655(x420,h65) -->
+        <polyline id="sp-3" class="spec-trace" stroke="#9B6AE8"
+          points="55,150 135,150 143,118 151,150 187,150 195,92 203,150 275,150 283,110 291,150 340,150 348,98 356,150 412,150 420,85 428,150 470,150"/>
+        <!-- Callout annotations — one per material -->
+        <!-- Polystyrene: annotate 1001 cm⁻¹ peak at x=194, y=32 -->
+        <g id="ca-0" class="spec-callout">
+          <line x1="194" y1="32" x2="194" y2="22" stroke="#5B8FE8" stroke-width="0.8"/>
+          <line x1="194" y1="22" x2="148" y2="22" stroke="#5B8FE8" stroke-width="0.8"/>
+          <text x="146" y="20" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="end">1001 cm&#8315;&#185;</text>
+          <text x="146" y="11" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#5B8FE8" text-anchor="end" opacity="0.7">ring C&#8211;H stretch</text>
+        </g>
+        <!-- Ethanol: annotate 1455 cm⁻¹ peak at x=350, y=75 -->
+        <g id="ca-1" class="spec-callout">
+          <line x1="350" y1="75" x2="350" y2="65" stroke="#C97A50" stroke-width="0.8"/>
+          <line x1="350" y1="65" x2="296" y2="65" stroke="#C97A50" stroke-width="0.8"/>
+          <text x="294" y="63" font-family="IBM Plex Mono,monospace" font-size="7" fill="#C97A50" text-anchor="end">1455 cm&#8315;&#185;</text>
+          <text x="294" y="54" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#C97A50" text-anchor="end" opacity="0.7">C&#8211;H bending</text>
+        </g>
+        <!-- Paracetamol: annotate 1648 cm⁻¹ peak at x=418, y=60 -->
+        <g id="ca-2" class="spec-callout">
+          <line x1="418" y1="60" x2="418" y2="48" stroke="#80C842" stroke-width="0.8"/>
+          <line x1="418" y1="48" x2="362" y2="48" stroke="#80C842" stroke-width="0.8"/>
+          <text x="360" y="46" font-family="IBM Plex Mono,monospace" font-size="7" fill="#80C842" text-anchor="end">1648 cm&#8315;&#185;</text>
+          <text x="360" y="37" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#80C842" text-anchor="end" opacity="0.7">C=O stretch</text>
+        </g>
+        <!-- Skin: annotate 1655 cm⁻¹ peak at x=420, y=85 -->
+        <g id="ca-3" class="spec-callout">
+          <line x1="420" y1="85" x2="420" y2="73" stroke="#9B6AE8" stroke-width="0.8"/>
+          <line x1="420" y1="73" x2="364" y2="73" stroke="#9B6AE8" stroke-width="0.8"/>
+          <text x="362" y="71" font-family="IBM Plex Mono,monospace" font-size="7" fill="#9B6AE8" text-anchor="end">1655 cm&#8315;&#185;</text>
+          <text x="362" y="62" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#9B6AE8" text-anchor="end" opacity="0.7">amide I band</text>
+        </g>
+      </svg>
+      <p class="specview-figcap">Simulated Raman fingerprint spectra — representative peak positions for illustrative purposes. Actual spectra depend on sample and acquisition parameters.</p>
+    </figure>
   </div>
 </section>
 
@@ -1146,6 +1258,64 @@
     const body = `Name: ${name}\nOrganization: ${org}\nEmail: ${email}\n\n${message}`;
     window.location.href = `mailto:info@tauoptics.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
   });
+
+  // Spectrum viewer
+  (function() {
+    var pills   = document.querySelectorAll('.spec-pill');
+    var traces  = document.querySelectorAll('.spec-trace');
+    var cals    = document.querySelectorAll('.spec-callout');
+    if (!pills.length) return;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var initialized   = false;
+
+    function activate(idx, animate) {
+      pills.forEach(function(p, i) {
+        p.classList.toggle('active', i === idx);
+        p.setAttribute('aria-selected', String(i === idx));
+      });
+      cals.forEach(function(c, i) { c.classList.toggle('sp-active', i === idx); });
+      traces.forEach(function(t, i) {
+        if (i === idx) {
+          if (animate && !reducedMotion) {
+            var len = t.getTotalLength();
+            t.style.transition = 'none';
+            t.style.strokeDasharray = len;
+            t.style.strokeDashoffset = len;
+            t.style.opacity = '1';
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                t.style.transition = 'stroke-dashoffset 700ms cubic-bezier(0.16,1,0.3,1)';
+                t.style.strokeDashoffset = '0';
+              });
+            });
+          } else {
+            t.style.strokeDasharray = '';
+            t.style.strokeDashoffset = '0';
+            t.style.opacity = '1';
+          }
+          t.classList.add('sp-active');
+        } else {
+          t.classList.remove('sp-active');
+          t.style.opacity = '0';
+          t.style.transition = 'opacity 0.2s ease';
+        }
+      });
+    }
+
+    pills.forEach(function(pill, i) {
+      pill.addEventListener('click', function() { activate(i, true); });
+    });
+
+    var specSection = document.getElementById('spectrum-viewer');
+    if (specSection) {
+      new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !initialized) {
+          initialized = true;
+          activate(0, true);
+        }
+      }, { threshold: 0.18 }).observe(specSection);
+    }
+  }());
 </script>
 </body>
 </html>
