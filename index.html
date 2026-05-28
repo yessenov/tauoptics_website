@@ -402,6 +402,43 @@
   @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
   @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
 
+  /* SPECTRAL COVERAGE */
+  .spec-coverage { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .sc-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .sc-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .sc-range-tag { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.06em; }
+  .sc-vis { position: relative; padding-top: 26px; }
+  .sc-ml { position: absolute; left: 18.3%; top: 0; transform: translateX(-50%); font-family: var(--mono); font-size: 0.57rem; color: var(--accent); text-align: center; white-space: nowrap; line-height: 1.35; opacity: 0; transition: opacity 0.4s ease 1.4s; pointer-events: none; }
+  .sc-ml.sc-on { opacity: 1; }
+  .sc-bar { position: relative; height: 34px; border: 1px solid var(--rule); background: rgba(255,255,255,0.02); }
+  .sc-bg { position: absolute; inset: 0; opacity: 0.14; background: linear-gradient(to right, #7400E0 0%, #3844FF 6.5%, #0074F0 12%, #00BAAA 19%, #00C244 25%, #A8C200 30.5%, #F0C000 35.5%, #F07600 41%, #CC1400 47.5%, #5E0010 53%, #1E0006 64%, #070001 79%, #020000 100%); pointer-events: none; }
+  .sc-comp { position: absolute; top: 0; bottom: 0; left: 19%; width: 16.7%; background: rgba(122,118,114,0.13); border-left: 1px solid rgba(122,118,114,0.22); border-right: 1px solid rgba(122,118,114,0.22); }
+  .sc-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: linear-gradient(to right, rgba(91,143,232,0.28) 0%, rgba(91,143,232,0.10) 18%, rgba(91,143,232,0.05) 45%, rgba(91,143,232,0.03) 100%); transition: width 1.5s cubic-bezier(0.16,1,0.3,1); }
+  .sc-fill.sc-on { width: 100%; }
+  .sc-vline { position: absolute; top: 0; bottom: 0; left: calc(18.3% - 1px); width: 1.5px; background: var(--accent); opacity: 0; transition: opacity 0.25s ease 1.35s; }
+  .sc-vline.sc-on { opacity: 0.75; }
+  .sc-dot { position: absolute; top: 50%; left: 18.3%; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(91,143,232,0.7); opacity: 0; transition: opacity 0.2s ease 1.5s; z-index: 2; }
+  .sc-dot.sc-on { opacity: 1; animation: scPulse 2.4s ease-in-out 1.6s infinite; }
+  @keyframes scPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(91,143,232,0.65); } 55% { box-shadow: 0 0 0 8px rgba(91,143,232,0); } }
+  .sc-axis { position: relative; height: 20px; margin-top: 6px; }
+  .sc-axis span { position: absolute; font-family: var(--mono); font-size: 0.57rem; color: var(--muted); top: 0; white-space: nowrap; }
+  .sc-axis span:first-child { left: 0; }
+  .sc-axis span:last-child { right: 0; }
+  .sc-tick-mid { left: 28.6%; transform: translateX(-50%); }
+  .sc-regions { display: flex; }
+  .sc-rgn { font-family: var(--mono); font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.07em; overflow: hidden; white-space: nowrap; padding: 4px 0 0; border-top: 1px solid var(--rule); }
+  .sc-rgn-vis  { width: 14.3%; color: rgba(200,197,192,0.3); border-top-color: rgba(200,197,192,0.15); }
+  .sc-rgn-nir  { width: 33.3%; color: rgba(122,118,114,0.38); border-top-color: rgba(122,118,114,0.22); }
+  .sc-rgn-swir { width: 52.4%; color: rgba(80,78,75,0.38); border-top-color: rgba(80,78,75,0.18); }
+  .sc-legend { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .sc-legend-item { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.60rem; color: var(--muted); }
+  .sc-sw-main { display: inline-block; width: 18px; height: 2px; background: var(--accent); opacity: 0.55; flex-shrink: 0; }
+  .sc-sw-comp { display: inline-block; width: 18px; height: 2px; background: rgba(122,118,114,0.7); flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-ml, .sc-vline, .sc-dot { transition: none !important; animation: none !important; opacity: 1 !important; }
+    .sc-fill { transition: none !important; width: 100% !important; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -593,6 +630,36 @@
           <p class="diagram-caption">Each Raman wavelength exits the r-CBG at a different spatial position, directly onto the CCD — no lenses, no slits, no moving parts.</p>
           <button class="diagram-replay" id="diagram-replay" aria-label="Replay diagram animation">&#8635; Replay</button>
         </div>
+      </div>
+    </div>
+    <div class="spec-coverage" id="spec-coverage">
+      <div class="sc-head">
+        <span class="sc-title">Spectral Coverage</span>
+        <span class="sc-range-tag">400 nm &mdash; 2,500 nm</span>
+      </div>
+      <div class="sc-vis">
+        <div class="sc-ml" id="sc-ml">785 nm &mdash; Raman target</div>
+        <div class="sc-bar">
+          <div class="sc-bg"></div>
+          <div class="sc-comp"></div>
+          <div class="sc-fill" id="sc-fill"></div>
+          <div class="sc-vline" id="sc-vline"></div>
+          <div class="sc-dot" id="sc-dot"></div>
+        </div>
+        <div class="sc-axis">
+          <span>400 nm</span>
+          <span class="sc-tick-mid">1,000 nm</span>
+          <span>2,500 nm</span>
+        </div>
+        <div class="sc-regions">
+          <div class="sc-rgn sc-rgn-vis">Visible</div>
+          <div class="sc-rgn sc-rgn-nir">Near-Infrared</div>
+          <div class="sc-rgn sc-rgn-swir">Short-Wave IR</div>
+        </div>
+      </div>
+      <div class="sc-legend">
+        <div class="sc-legend-item"><span class="sc-sw-main"></span>SpectraMini coverage (400–2,500 nm)</div>
+        <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
       </div>
     </div>
   </div>
@@ -1228,6 +1295,19 @@
       if (entries[0].isIntersecting) { cmpTable.classList.add('cmp-animated'); cmpObs.disconnect(); }
     }, { threshold: 0.12 });
     cmpObs.observe(cmpTable);
+  }
+
+  // Spectral coverage animation
+  var specCovEl = document.getElementById('spec-coverage');
+  if (specCovEl) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        ['sc-fill', 'sc-vline', 'sc-dot', 'sc-ml'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.classList.add('sc-on');
+        });
+      }
+    }, { threshold: 0.2 }).observe(specCovEl);
   }
 
   // FAQ accordion
