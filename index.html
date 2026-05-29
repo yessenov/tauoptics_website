@@ -383,6 +383,15 @@
   #read-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
 
+  /* NEWS & PUBLICATION ITEM ENTRANCE */
+  .js-animations .news-item { opacity: 0; transform: translateY(14px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .news-item.news-in { opacity: 1; transform: none; }
+  .js-animations .pub-item { opacity: 0; transform: translateY(14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .pub-item.pub-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .news-item, .js-animations .pub-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
   /* SPECTRUM VIEWER */
   .specview-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .spec-pill { background: none; border: 1px solid var(--rule); color: var(--muted); font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; padding: 0.45rem 0.9rem; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
@@ -1308,6 +1317,32 @@
         });
       }
     }, { threshold: 0.2 }).observe(specCovEl);
+  }
+
+  // News item staggered entrance
+  var newsSection = document.getElementById('news');
+  if (newsSection) {
+    var newsItems = newsSection.querySelectorAll('.news-item');
+    var newsObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        newsItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('news-in'); }, i * 110); });
+        newsObs.disconnect();
+      }
+    }, { threshold: 0.05 });
+    newsObs.observe(newsSection);
+  }
+
+  // Publication item staggered entrance
+  var pubSection = document.getElementById('publications');
+  if (pubSection) {
+    var pubItems = pubSection.querySelectorAll('.pub-item');
+    var pubObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        pubItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('pub-in'); }, i * 120); });
+        pubObs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    pubObs.observe(pubSection);
   }
 
   // FAQ accordion
