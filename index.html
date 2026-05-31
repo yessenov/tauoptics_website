@@ -917,6 +917,41 @@
   </div>
 </section>
 
+<section id="spectrum-demo">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Molecular Fingerprinting</div>
+      <h2>Every Molecule Has a Signature</h2>
+      <p style="margin-top:0.75rem;font-size:1rem;color:var(--muted);max-width:58ch;line-height:1.65;">SpectraMini captures the unique Raman spectrum of any substance — a molecular fingerprint that identifies composition, detects adulterants, and quantifies concentration. Select a material below.</p>
+    </div>
+    <div class="spectrum-wrap">
+      <div class="spectrum-mats">
+        <button class="spectrum-mat s-active" data-mat="fentanyl">
+          <div class="s-tag"><span class="s-dot" style="background:#E05C3A"></span>Safety</div>
+          <div class="s-name">Fentanyl</div>
+        </button>
+        <button class="spectrum-mat" data-mat="glucose">
+          <div class="s-tag"><span class="s-dot" style="background:#42B8C8"></span>Health</div>
+          <div class="s-name">Glucose</div>
+        </button>
+        <button class="spectrum-mat" data-mat="aspirin">
+          <div class="s-tag"><span class="s-dot" style="background:#80C842"></span>Pharma</div>
+          <div class="s-name">Aspirin tablet</div>
+        </button>
+        <button class="spectrum-mat" data-mat="polystyrene">
+          <div class="s-tag"><span class="s-dot" style="background:#9B6AE8"></span>Industrial</div>
+          <div class="s-name">Polystyrene</div>
+        </button>
+      </div>
+      <div class="spectrum-canvas-wrap">
+        <canvas id="raman-canvas" style="height:190px;display:block;width:100%;"></canvas>
+      </div>
+      <div class="spectrum-peaks" id="spectrum-peaks"></div>
+    </div>
+    <p class="compare-note" style="margin-top:1rem;">Simulated spectra for illustration. Peak positions are representative of published 785 nm Raman literature. SpectraMini achieves ~0.1 nm spectral resolution — approximately 2 cm⁻¹ in the NIR.</p>
+  </div>
+</section>
+
 <section id="about">
   <div class="section-inner reveal">
     <div class="section-header">
@@ -1445,6 +1480,92 @@
       }
     });
   });
+
+  // Interactive Raman spectrum demo
+  (function() {
+    var cv = document.getElementById('raman-canvas');
+    if (!cv) return;
+    var cx = cv.getContext('2d');
+    var noAnim = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mats = {
+      fentanyl:   {col:[224,92,58],   lb:['610','780','1003','1250','1453','1603'], pk:[{s:610,i:.42,w:18},{s:780,i:.68,w:14},{s:1003,i:.95,w:11},{s:1250,i:.54,w:19},{s:1453,i:.62,w:15},{s:1603,i:.84,w:13}]},
+      glucose:    {col:[66,184,200],  lb:['900','1065','1125','1265','1460'],       pk:[{s:900,i:.50,w:22},{s:1065,i:.75,w:18},{s:1125,i:.85,w:14},{s:1265,i:.40,w:20},{s:1460,i:.58,w:16}]},
+      aspirin:    {col:[128,200,66],  lb:['558','752','1047','1190','1381','1608'], pk:[{s:558,i:.40,w:13},{s:752,i:.58,w:11},{s:1047,i:.82,w:14},{s:1190,i:.50,w:17},{s:1381,i:.67,w:13},{s:1608,i:.90,w:11}]},
+      polystyrene:{col:[155,106,232], lb:['621','1001','1155','1602','3054'],       pk:[{s:621,i:.68,w:9},{s:1001,i:1.0,w:7},{s:1155,i:.38,w:13},{s:1602,i:.74,w:11},{s:3054,i:.60,w:14}]}
+    };
+    var XMIN=400,XMAX=3200,N=600,H=190;
+    var xs=Array.from({length:N},function(_,i){return XMIN+i/(N-1)*(XMAX-XMIN);});
+    function gauss(x,s,i,w){return i*Math.exp(-.5*Math.pow((x-s)/w,2));}
+    function mkSp(pk){return xs.map(function(x){return pk.reduce(function(a,p){return a+gauss(x,p.s,p.i,p.w);},0);});}
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function lA(a,b,t){return a.map(function(v,i){return lerp(v,b[i],t);});}
+    function lC(a,b,t){return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];}
+    function ez(t){return 1-Math.pow(1-Math.min(t,1),3);}
+    var W=0,DPR=1;
+    var pSp,nSp,pCo,nCo,aStart=null,rId=null,curK='fentanyl';
+    pSp=nSp=mkSp(mats.fentanyl.pk); pCo=nCo=[224,92,58];
+    function pr(){return aStart===null?1:Math.min((performance.now()-aStart)/480,1);}
+    function paint() {
+      var t=ez(pr()),sp=lA(pSp,nSp,t),co=lC(pCo,nCo,t).map(Math.round);
+      var r=co[0],g=co[1],b=co[2];
+      var P={t:20,r:18,b:46,l:44},pw=W-P.l-P.r,ph=H-P.t-P.b,mxI=1.05;
+      cx.save();cx.scale(DPR,DPR);cx.clearRect(0,0,W,H);
+      cx.strokeStyle='#272727';cx.lineWidth=.5;
+      [.25,.5,.75,1].forEach(function(v){
+        var y=P.t+ph*(1-v/mxI);cx.beginPath();cx.moveTo(P.l,y);cx.lineTo(P.l+pw,y);cx.stroke();
+      });
+      [400,800,1200,1600,2000,2400,2800,3200].forEach(function(v){
+        var xp=P.l+(v-XMIN)/(XMAX-XMIN)*pw;
+        cx.strokeStyle='#383838';cx.lineWidth=.75;cx.beginPath();cx.moveTo(xp,P.t+ph);cx.lineTo(xp,P.t+ph+4);cx.stroke();
+        cx.fillStyle='#5A5650';cx.font='9px IBM Plex Mono,monospace';cx.textAlign='center';cx.fillText(v,xp,P.t+ph+15);
+      });
+      cx.fillStyle='#7A7672';cx.font='8px IBM Plex Mono,monospace';cx.textAlign='center';
+      cx.fillText('Raman shift (cm⁻¹)',P.l+pw/2,H-4);
+      cx.save();cx.translate(11,P.t+ph/2);cx.rotate(-Math.PI/2);cx.fillText('Intensity',0,0);cx.restore();
+      cx.strokeStyle='#383838';cx.lineWidth=.75;cx.beginPath();cx.moveTo(P.l,P.t);cx.lineTo(P.l,P.t+ph);cx.lineTo(P.l+pw,P.t+ph);cx.stroke();
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=P.l+i/(N-1)*pw,yp=P.t+ph*(1-Math.min(v,mxI)/mxI);i===0?cx.moveTo(xp,yp):cx.lineTo(xp,yp);});
+      cx.lineTo(P.l+pw,P.t+ph);cx.lineTo(P.l,P.t+ph);cx.closePath();
+      var grd=cx.createLinearGradient(0,P.t,0,P.t+ph);
+      grd.addColorStop(0,'rgba('+r+','+g+','+b+',.20)');grd.addColorStop(1,'rgba('+r+','+g+','+b+',.03)');
+      cx.fillStyle=grd;cx.fill();
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=P.l+i/(N-1)*pw,yp=P.t+ph*(1-Math.min(v,mxI)/mxI);i===0?cx.moveTo(xp,yp):cx.lineTo(xp,yp);});
+      cx.strokeStyle='rgb('+r+','+g+','+b+')';cx.lineWidth=1.8;cx.lineJoin='round';cx.stroke();
+      cx.restore();
+    }
+    function tick(){paint();if(pr()<1)rId=requestAnimationFrame(tick);else{rId=null;aStart=null;}}
+    function sw(key) {
+      if(key===curK)return;
+      var t=ez(pr());
+      pSp=lA(pSp,nSp,t);pCo=lC(pCo,nCo,t);
+      nSp=mkSp(mats[key].pk);nCo=mats[key].col;
+      curK=key;
+      if(noAnim){aStart=null;pSp=nSp;pCo=nCo;paint();}
+      else{aStart=performance.now();if(rId)cancelAnimationFrame(rId);rId=requestAnimationFrame(tick);}
+      upPk(key);
+    }
+    function upPk(key){
+      var el=document.getElementById('spectrum-peaks');if(!el)return;
+      var m=mats[key],c='rgb('+m.col[0]+','+m.col[1]+','+m.col[2]+')';
+      el.innerHTML=m.lb.map(function(l){return '<div class="s-peak"><span style="color:'+c+'">'+l+'</span>&thinsp;cm⁻¹</div>';}).join('');
+    }
+    function resize(){
+      DPR=window.devicePixelRatio||1;
+      W=cv.parentElement.clientWidth;
+      cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+'px';
+      paint();
+    }
+    document.querySelectorAll('.spectrum-mat').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('.spectrum-mat').forEach(function(b){b.classList.remove('s-active');});
+        btn.classList.add('s-active');sw(btn.dataset.mat);
+      });
+    });
+    if(window.ResizeObserver){new ResizeObserver(resize).observe(cv.parentElement);}
+    else window.addEventListener('resize',resize);
+    resize();upPk(curK);
+  })();
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
