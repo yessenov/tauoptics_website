@@ -5,6 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tau Optics — Compact High-Resolution Raman Spectrometer</title>
 <meta name="description" content="Tau Optics develops SpectraMini — the world's most compact high-resolution Raman spectrometer, powered by patented rotated chirped Bragg grating technology.">
+<meta name="author" content="Tau Optics Inc.">
+<meta name="keywords" content="Raman spectrometer, compact spectrometer, miniature spectrometer, r-CBG, rotated chirped Bragg grating, SpectraMini, fentanyl detection, non-invasive glucose, photonics, UCF, CREOL, NSF STTR">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tauoptics.com/">
+<meta property="og:site_name" content="Tau Optics">
+<meta property="og:title" content="Tau Optics — Compact High-Resolution Raman Spectrometer">
+<meta property="og:description" content="SpectraMini: the world's most compact high-resolution Raman spectrometer. 10× smaller, 60× more light throughput, patented r-CBG technology. NSF STTR-backed UCF spinout.">
+<meta property="og:image" content="https://tauoptics.com/TauOpticsLogoBlack2.png">
+<meta property="og:image:alt" content="Tau Optics — SpectraMini compact Raman spectrometer">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tau Optics — Compact High-Resolution Raman Spectrometer">
+<meta name="twitter:description" content="SpectraMini: 10× smaller, 60× more throughput. The world's most compact high-resolution Raman spectrometer — patented r-CBG technology, NSF-backed.">
+<meta name="twitter:image" content="https://tauoptics.com/TauOpticsLogoBlack2.png">
+<link rel="canonical" href="https://tauoptics.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://tauoptics.com/#organization",
+      "name": "Tau Optics",
+      "url": "https://tauoptics.com",
+      "logo": "https://tauoptics.com/TauOpticsLogoBlack2.png",
+      "description": "UCF spinout commercializing SpectraMini — the world's most compact high-resolution Raman spectrometer, powered by patented r-CBG technology.",
+      "foundingDate": "2024",
+      "email": "info@tauoptics.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Orlando",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      },
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "University of Central Florida",
+        "url": "https://www.ucf.edu"
+      },
+      "funder": {
+        "@type": "Organization",
+        "name": "National Science Foundation",
+        "url": "https://www.nsf.gov"
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": "https://tauoptics.com/#spectramini",
+      "name": "SpectraMini",
+      "description": "World's most compact high-resolution Raman spectrometer using patented rotated chirped Bragg grating (r-CBG) technology. 10× smaller than portable instruments, 60× more light throughput, ~0.1 nm spectral resolution in the NIR.",
+      "brand": { "@type": "Brand", "name": "Tau Optics" },
+      "category": "Scientific Instruments",
+      "manufacturer": { "@id": "https://tauoptics.com/#organization" }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -125,6 +182,15 @@
   .app-icon { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.75rem; }
   .app-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
   .app-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+  /* APPLICATION FILTER TABS */
+  .app-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; }
+  .app-filter { background: var(--surface); border: 1px solid var(--rule); cursor: pointer; font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); padding: 0.5rem 1rem; transition: color 0.2s, background 0.2s, border-color 0.2s; white-space: nowrap; }
+  .app-filter:hover { color: var(--text); background: var(--raised); border-color: var(--muted); }
+  .app-filter.active { color: var(--accent); border-color: var(--accent); background: rgba(91,143,232,0.08); }
+  .js-animations .app-grid.staggered .app-card.app-dim { opacity: 0.12; pointer-events: none; transition: opacity 0.3s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .app-card.app-dim { opacity: 0.12; pointer-events: none; }
+  @media (max-width: 768px) { .app-filters { gap: 0.4rem; } .app-filter { font-size: 0.58rem; padding: 0.45rem 0.75rem; } }
 
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
@@ -379,10 +445,107 @@
   .faq-a { padding-bottom: 1.5rem; font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 74ch; }
   @media (prefers-reduced-motion: reduce) { .faq-body, .faq-icon::before, .faq-icon::after { transition: none; } }
 
+  /* SPECTRUM PANEL */
+  .section-hint { font-family: var(--mono); font-size: 0.63rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.6rem; }
+  .app-card { cursor: pointer; }
+  .app-card.sp-active { background: var(--raised) !important; }
+  .app-card.sp-active .app-icon { color: var(--accent); }
+  .spectrum-panel { overflow: hidden; max-height: 0; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1); border: 1px solid var(--rule); border-top: none; }
+  .spectrum-panel.sp-open { max-height: 350px; }
+  .spectrum-panel-inner { padding: 1.35rem 1.75rem 1.1rem; background: var(--surface); }
+  .sp-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.85rem; }
+  .sp-label-row { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .sp-name { color: var(--accent); font-weight: 500; }
+  .sp-note { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; color: #3A3735; }
+  .spectrum-svg { width: 100%; height: auto; display: block; }
+
   /* READING PROGRESS */
   .read-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 200; pointer-events: none; }
   #read-fill { height: 100%; background: var(--dispersion-gradient); transform: scaleX(0); transform-origin: left; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
+
+  /* NEWS & PUBLICATION ITEM ENTRANCE */
+  .js-animations .news-item { opacity: 0; transform: translateY(14px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .news-item.news-in { opacity: 1; transform: none; }
+  .js-animations .pub-item { opacity: 0; transform: translateY(14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .pub-item.pub-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .news-item, .js-animations .pub-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
+  /* SPECTRUM VIEWER */
+  .specview-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .spec-pill { background: none; border: 1px solid var(--rule); color: var(--muted); font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; padding: 0.45rem 0.9rem; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+  .spec-pill:hover { border-color: var(--muted); color: var(--text); }
+  .spec-pill.active[data-mat="0"] { border-color: #5B8FE8; color: #5B8FE8; background: rgba(91,143,232,0.06); }
+  .spec-pill.active[data-mat="1"] { border-color: #C97A50; color: #C97A50; background: rgba(201,122,80,0.06); }
+  .spec-pill.active[data-mat="2"] { border-color: #80C842; color: #80C842; background: rgba(128,200,66,0.06); }
+  .spec-pill.active[data-mat="3"] { border-color: #9B6AE8; color: #9B6AE8; background: rgba(155,106,232,0.06); }
+  .specview-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; margin: 0; }
+  .specview-svg { width: 100%; height: auto; display: block; }
+  .specview-figcap { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.85rem; line-height: 1.5; }
+  .spec-trace { fill: none; stroke-width: 1.8; opacity: 0; }
+  .spec-trace.sp-active { opacity: 1; }
+  .spec-callout { opacity: 0; transition: opacity 0.3s ease; }
+  .spec-callout.sp-active { opacity: 1; }
+  .specview-intro { font-size: 1rem; color: var(--muted); max-width: 64ch; margin-bottom: 2rem; line-height: 1.7; }
+  @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
+  @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
+
+  /* SPECTRAL COVERAGE */
+  .spec-coverage { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .sc-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .sc-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .sc-range-tag { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.06em; }
+  .sc-vis { position: relative; padding-top: 26px; }
+  .sc-ml { position: absolute; left: 18.3%; top: 0; transform: translateX(-50%); font-family: var(--mono); font-size: 0.57rem; color: var(--accent); text-align: center; white-space: nowrap; line-height: 1.35; opacity: 0; transition: opacity 0.4s ease 1.4s; pointer-events: none; }
+  .sc-ml.sc-on { opacity: 1; }
+  .sc-bar { position: relative; height: 34px; border: 1px solid var(--rule); background: rgba(255,255,255,0.02); }
+  .sc-bg { position: absolute; inset: 0; opacity: 0.14; background: linear-gradient(to right, #7400E0 0%, #3844FF 6.5%, #0074F0 12%, #00BAAA 19%, #00C244 25%, #A8C200 30.5%, #F0C000 35.5%, #F07600 41%, #CC1400 47.5%, #5E0010 53%, #1E0006 64%, #070001 79%, #020000 100%); pointer-events: none; }
+  .sc-comp { position: absolute; top: 0; bottom: 0; left: 19%; width: 16.7%; background: rgba(122,118,114,0.13); border-left: 1px solid rgba(122,118,114,0.22); border-right: 1px solid rgba(122,118,114,0.22); }
+  .sc-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: linear-gradient(to right, rgba(91,143,232,0.28) 0%, rgba(91,143,232,0.10) 18%, rgba(91,143,232,0.05) 45%, rgba(91,143,232,0.03) 100%); transition: width 1.5s cubic-bezier(0.16,1,0.3,1); }
+  .sc-fill.sc-on { width: 100%; }
+  .sc-vline { position: absolute; top: 0; bottom: 0; left: calc(18.3% - 1px); width: 1.5px; background: var(--accent); opacity: 0; transition: opacity 0.25s ease 1.35s; }
+  .sc-vline.sc-on { opacity: 0.75; }
+  .sc-dot { position: absolute; top: 50%; left: 18.3%; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(91,143,232,0.7); opacity: 0; transition: opacity 0.2s ease 1.5s; z-index: 2; }
+  .sc-dot.sc-on { opacity: 1; animation: scPulse 2.4s ease-in-out 1.6s infinite; }
+  @keyframes scPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(91,143,232,0.65); } 55% { box-shadow: 0 0 0 8px rgba(91,143,232,0); } }
+  .sc-axis { position: relative; height: 20px; margin-top: 6px; }
+  .sc-axis span { position: absolute; font-family: var(--mono); font-size: 0.57rem; color: var(--muted); top: 0; white-space: nowrap; }
+  .sc-axis span:first-child { left: 0; }
+  .sc-axis span:last-child { right: 0; }
+  .sc-tick-mid { left: 28.6%; transform: translateX(-50%); }
+  .sc-regions { display: flex; }
+  .sc-rgn { font-family: var(--mono); font-size: 0.54rem; text-transform: uppercase; letter-spacing: 0.07em; overflow: hidden; white-space: nowrap; padding: 4px 0 0; border-top: 1px solid var(--rule); }
+  .sc-rgn-vis  { width: 14.3%; color: rgba(200,197,192,0.3); border-top-color: rgba(200,197,192,0.15); }
+  .sc-rgn-nir  { width: 33.3%; color: rgba(122,118,114,0.38); border-top-color: rgba(122,118,114,0.22); }
+  .sc-rgn-swir { width: 52.4%; color: rgba(80,78,75,0.38); border-top-color: rgba(80,78,75,0.18); }
+  .sc-legend { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .sc-legend-item { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.60rem; color: var(--muted); }
+  .sc-sw-main { display: inline-block; width: 18px; height: 2px; background: var(--accent); opacity: 0.55; flex-shrink: 0; }
+  .sc-sw-comp { display: inline-block; width: 18px; height: 2px; background: rgba(122,118,114,0.7); flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-ml, .sc-vline, .sc-dot { transition: none !important; animation: none !important; opacity: 1 !important; }
+    .sc-fill { transition: none !important; width: 100% !important; }
+  }
+
+  /* MARKET OPPORTUNITY */
+  .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .market-card { padding: 2.25rem 2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; }
+  .market-card:nth-child(2n) { border-right: none; }
+  .market-card:nth-child(3), .market-card:nth-child(4) { border-bottom: none; }
+  .market-card:hover { background: var(--surface); }
+  .market-tag { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent2); margin-bottom: 0.75rem; }
+  .market-stat { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 500; color: var(--accent); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+  .market-label { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
+  .market-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+  .js-animations .market-card { opacity: 0; transform: translateY(14px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .market-grid.mkt-in .market-card { opacity: 1; transform: none; }
+  .js-animations .market-grid.mkt-in .market-card:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .market-grid.mkt-in .market-card:nth-child(2) { transition-delay: 90ms; }
+  .js-animations .market-grid.mkt-in .market-card:nth-child(3) { transition-delay: 180ms; }
+  .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -400,6 +563,11 @@
     .hiw-flow { grid-template-columns: 1fr; }
     .hiw-step { border-right: none; border-bottom: 1px solid var(--rule); }
     .hiw-step:last-child { border-bottom: none; }
+    .sp-note { display: none; }
+    .market-grid { grid-template-columns: 1fr; }
+    .market-card { border-right: none !important; }
+    .market-card:nth-child(3), .market-card:nth-child(4) { border-bottom: 1px solid var(--rule); }
+    .market-card:last-child { border-bottom: none; }
   }
 </style>
 </head>
@@ -577,6 +745,129 @@
         </div>
       </div>
     </div>
+    <div class="spec-coverage" id="spec-coverage">
+      <div class="sc-head">
+        <span class="sc-title">Spectral Coverage</span>
+        <span class="sc-range-tag">400 nm &mdash; 2,500 nm</span>
+      </div>
+      <div class="sc-vis">
+        <div class="sc-ml" id="sc-ml">785 nm &mdash; Raman target</div>
+        <div class="sc-bar">
+          <div class="sc-bg"></div>
+          <div class="sc-comp"></div>
+          <div class="sc-fill" id="sc-fill"></div>
+          <div class="sc-vline" id="sc-vline"></div>
+          <div class="sc-dot" id="sc-dot"></div>
+        </div>
+        <div class="sc-axis">
+          <span>400 nm</span>
+          <span class="sc-tick-mid">1,000 nm</span>
+          <span>2,500 nm</span>
+        </div>
+        <div class="sc-regions">
+          <div class="sc-rgn sc-rgn-vis">Visible</div>
+          <div class="sc-rgn sc-rgn-nir">Near-Infrared</div>
+          <div class="sc-rgn sc-rgn-swir">Short-Wave IR</div>
+        </div>
+      </div>
+      <div class="sc-legend">
+        <div class="sc-legend-item"><span class="sc-sw-main"></span>SpectraMini coverage (400–2,500 nm)</div>
+        <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spectrum-viewer">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Spectral Fingerprints</div>
+      <h2>What SpectraMini Sees</h2>
+    </div>
+    <p class="specview-intro">Every molecule has a unique Raman fingerprint — a pattern of peaks at specific wavenumbers determined by its bond vibrations. Select a target material to see its characteristic spectrum as SpectraMini resolves it.</p>
+    <div class="specview-pills" role="tablist" aria-label="Material selector">
+      <button class="spec-pill active" data-mat="0" role="tab" aria-selected="true">Polystyrene</button>
+      <button class="spec-pill" data-mat="1" role="tab" aria-selected="false">Ethanol</button>
+      <button class="spec-pill" data-mat="2" role="tab" aria-selected="false">Paracetamol</button>
+      <button class="spec-pill" data-mat="3" role="tab" aria-selected="false">Skin (NIR)</button>
+    </div>
+    <figure class="specview-panel">
+      <svg viewBox="0 0 500 195" class="specview-svg" aria-label="Raman spectrum plot">
+        <!-- Axes -->
+        <line x1="55" y1="150" x2="470" y2="150" stroke="#272727" stroke-width="1"/>
+        <line x1="55" y1="10"  x2="55"  y2="150" stroke="#272727" stroke-width="1"/>
+        <!-- Subtle grid -->
+        <line x1="55" y1="117" x2="470" y2="117" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="55" y1="84"  x2="470" y2="84"  stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="55" y1="51"  x2="470" y2="51"  stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="124" y1="10" x2="124" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="193" y1="10" x2="193" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="263" y1="10" x2="263" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="332" y1="10" x2="332" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <line x1="401" y1="10" x2="401" y2="150" stroke="#181818" stroke-width="0.6" stroke-dasharray="2,4"/>
+        <!-- X-axis ticks + labels -->
+        <line x1="55"  y1="150" x2="55"  y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="55"   y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">600</text>
+        <line x1="124" y1="150" x2="124" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="124"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">800</text>
+        <line x1="193" y1="150" x2="193" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="193"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1000</text>
+        <line x1="263" y1="150" x2="263" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="263"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1200</text>
+        <line x1="332" y1="150" x2="332" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="332"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1400</text>
+        <line x1="401" y1="150" x2="401" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="401"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1600</text>
+        <line x1="470" y1="150" x2="470" y2="154" stroke="#444" stroke-width="0.75"/>
+        <text x="470"  y="163" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1800</text>
+        <text x="262"  y="178" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">Raman Shift (cm&#8315;&#185;)</text>
+        <!-- Y-axis label -->
+        <text x="14" y="85" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle" transform="rotate(-90 14 85)">Intensity (a.u.)</text>
+        <!-- Spectrum traces — one polyline per material, animated via JS -->
+        <!-- Polystyrene: peaks at 621(x62,h25), 795(x123,h40), 1001(x194,h118), 1156(x247,h38), 1583(x394,h28) -->
+        <polyline id="sp-0" class="spec-trace" stroke="#5B8FE8"
+          points="55,150 58,150 62,125 66,150 119,150 123,110 127,150 190,150 194,32 198,150 243,150 247,112 251,150 390,150 394,122 398,150 470,150"/>
+        <!-- Ethanol: peaks at 882(x153,h50), 1055(x212,h45), 1455(x350,h75) -->
+        <polyline id="sp-1" class="spec-trace" stroke="#C97A50"
+          points="55,150 149,150 153,100 157,150 208,150 212,105 216,150 344,150 350,75 356,150 470,150"/>
+        <!-- Paracetamol: peaks at 857(x144,h45), 1168(x252,h55), 1323(x305,h38), 1648(x418,h90) -->
+        <polyline id="sp-2" class="spec-trace" stroke="#80C842"
+          points="55,150 140,150 144,105 148,150 248,150 252,95 256,150 301,150 305,112 309,150 414,150 418,60 422,150 470,150"/>
+        <!-- Skin (NIR): broad bio peaks at 854(x143,h32), 1004(x195,h58), 1263(x283,h40), 1447(x348,h52), 1655(x420,h65) -->
+        <polyline id="sp-3" class="spec-trace" stroke="#9B6AE8"
+          points="55,150 135,150 143,118 151,150 187,150 195,92 203,150 275,150 283,110 291,150 340,150 348,98 356,150 412,150 420,85 428,150 470,150"/>
+        <!-- Callout annotations — one per material -->
+        <!-- Polystyrene: annotate 1001 cm⁻¹ peak at x=194, y=32 -->
+        <g id="ca-0" class="spec-callout">
+          <line x1="194" y1="32" x2="194" y2="22" stroke="#5B8FE8" stroke-width="0.8"/>
+          <line x1="194" y1="22" x2="148" y2="22" stroke="#5B8FE8" stroke-width="0.8"/>
+          <text x="146" y="20" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="end">1001 cm&#8315;&#185;</text>
+          <text x="146" y="11" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#5B8FE8" text-anchor="end" opacity="0.7">ring C&#8211;H stretch</text>
+        </g>
+        <!-- Ethanol: annotate 1455 cm⁻¹ peak at x=350, y=75 -->
+        <g id="ca-1" class="spec-callout">
+          <line x1="350" y1="75" x2="350" y2="65" stroke="#C97A50" stroke-width="0.8"/>
+          <line x1="350" y1="65" x2="296" y2="65" stroke="#C97A50" stroke-width="0.8"/>
+          <text x="294" y="63" font-family="IBM Plex Mono,monospace" font-size="7" fill="#C97A50" text-anchor="end">1455 cm&#8315;&#185;</text>
+          <text x="294" y="54" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#C97A50" text-anchor="end" opacity="0.7">C&#8211;H bending</text>
+        </g>
+        <!-- Paracetamol: annotate 1648 cm⁻¹ peak at x=418, y=60 -->
+        <g id="ca-2" class="spec-callout">
+          <line x1="418" y1="60" x2="418" y2="48" stroke="#80C842" stroke-width="0.8"/>
+          <line x1="418" y1="48" x2="362" y2="48" stroke="#80C842" stroke-width="0.8"/>
+          <text x="360" y="46" font-family="IBM Plex Mono,monospace" font-size="7" fill="#80C842" text-anchor="end">1648 cm&#8315;&#185;</text>
+          <text x="360" y="37" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#80C842" text-anchor="end" opacity="0.7">C=O stretch</text>
+        </g>
+        <!-- Skin: annotate 1655 cm⁻¹ peak at x=420, y=85 -->
+        <g id="ca-3" class="spec-callout">
+          <line x1="420" y1="85" x2="420" y2="73" stroke="#9B6AE8" stroke-width="0.8"/>
+          <line x1="420" y1="73" x2="364" y2="73" stroke="#9B6AE8" stroke-width="0.8"/>
+          <text x="362" y="71" font-family="IBM Plex Mono,monospace" font-size="7" fill="#9B6AE8" text-anchor="end">1655 cm&#8315;&#185;</text>
+          <text x="362" y="62" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#9B6AE8" text-anchor="end" opacity="0.7">amide I band</text>
+        </g>
+      </svg>
+      <p class="specview-figcap">Simulated Raman fingerprint spectra — representative peak positions for illustrative purposes. Actual spectra depend on sample and acquisition parameters.</p>
+    </figure>
   </div>
 </section>
 
@@ -654,40 +945,86 @@
 <section id="applications">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Deployment Scenarios</div>
       <h2>Use Cases</h2>
+      <p class="section-hint">Filter by industry or click any card to preview its Raman spectral fingerprint.</p>
+    </div>
+    <div class="app-filters" role="tablist" aria-label="Filter use cases by industry">
+      <button class="app-filter active" data-filter="all" role="tab" aria-selected="true">All Industries</button>
+      <button class="app-filter" data-filter="safety" role="tab" aria-selected="false">Safety &amp; Security</button>
+      <button class="app-filter" data-filter="health" role="tab" aria-selected="false">Health</button>
+      <button class="app-filter" data-filter="pharma" role="tab" aria-selected="false">Pharmaceuticals</button>
+      <button class="app-filter" data-filter="food" role="tab" aria-selected="false">Food &amp; Agriculture</button>
+      <button class="app-filter" data-filter="environmental" role="tab" aria-selected="false">Environmental</button>
+      <button class="app-filter" data-filter="industrial" role="tab" aria-selected="false">Industrial</button>
     </div>
     <div class="app-grid">
-      <div class="app-card">
+      <div class="app-card" data-cat="safety">
         <div class="app-icon">01 &mdash; Safety &amp; Security</div>
         <h3>Fentanyl Detection</h3>
         <p>A self-service, connected Raman station for non-destructive fentanyl screening — no consumables, no sample preparation. Detects a lethal dose through a whole tablet, deployable at schools, venues, and harm reduction programs.</p>
       </div>
-      <div class="app-card">
+      <div class="app-card" data-cat="health">
         <div class="app-icon">02 &mdash; Health</div>
         <h3>Needle-less Glucose Monitoring</h3>
         <p>Raman spectroscopy at smartwatch scale enables non-invasive continuous glucose monitoring — a long-term platform opportunity where no FDA-approved needle-less solution currently exists.</p>
       </div>
-      <div class="app-card">
+      <div class="app-card" data-cat="pharma">
         <div class="app-icon">03 &mdash; Pharmaceuticals</div>
         <h3>Drug Quality Assurance</h3>
         <p>Inline Raman verification of active ingredient concentrations across the pharmaceutical supply chain — confirming composition and detecting counterfeits at point of production.</p>
       </div>
-      <div class="app-card">
+      <div class="app-card" data-cat="food">
         <div class="app-icon">04 &mdash; Food &amp; Agriculture</div>
         <h3>Food Quality Detection</h3>
         <p>Rapid, in-situ spectral analysis of nutritional content, adulteration, and ripeness markers — without sample preparation or laboratory infrastructure.</p>
       </div>
-      <div class="app-card">
+      <div class="app-card" data-cat="environmental">
         <div class="app-icon">05 &mdash; Environmental</div>
         <h3>Emissions Monitoring</h3>
         <p>Handheld and embedded sensors for field quantification of atmospheric pollutants and contaminants in air and water — where lab-grade Raman precision was previously inaccessible.</p>
       </div>
-      <div class="app-card">
+      <div class="app-card" data-cat="industrial">
         <div class="app-icon">06 &mdash; Industrial</div>
         <h3>Process &amp; Color Analysis</h3>
         <p>Compact spectroscopic modules for real-time production quality control — from color consistency in textiles and paints to material identification in manufacturing environments.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="spectrum-demo">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Molecular Fingerprinting</div>
+      <h2>Every Molecule Has a Signature</h2>
+      <p style="margin-top:0.75rem;font-size:1rem;color:var(--muted);max-width:58ch;line-height:1.65;">SpectraMini captures the unique Raman spectrum of any substance — a molecular fingerprint that identifies composition, detects adulterants, and quantifies concentration. Select a material below.</p>
+    </div>
+    <div class="spectrum-wrap">
+      <div class="spectrum-mats">
+        <button class="spectrum-mat s-active" data-mat="fentanyl">
+          <div class="s-tag"><span class="s-dot" style="background:#E05C3A"></span>Safety</div>
+          <div class="s-name">Fentanyl</div>
+        </button>
+        <button class="spectrum-mat" data-mat="glucose">
+          <div class="s-tag"><span class="s-dot" style="background:#42B8C8"></span>Health</div>
+          <div class="s-name">Glucose</div>
+        </button>
+        <button class="spectrum-mat" data-mat="aspirin">
+          <div class="s-tag"><span class="s-dot" style="background:#80C842"></span>Pharma</div>
+          <div class="s-name">Aspirin tablet</div>
+        </button>
+        <button class="spectrum-mat" data-mat="polystyrene">
+          <div class="s-tag"><span class="s-dot" style="background:#9B6AE8"></span>Industrial</div>
+          <div class="s-name">Polystyrene</div>
+        </button>
+      </div>
+      <div class="spectrum-canvas-wrap">
+        <canvas id="raman-canvas" style="height:190px;display:block;width:100%;"></canvas>
+      </div>
+      <div class="spectrum-peaks" id="spectrum-peaks"></div>
+    </div>
+    <p class="compare-note" style="margin-top:1rem;">Simulated spectra for illustration. Peak positions are representative of published 785 nm Raman literature. SpectraMini achieves ~0.1 nm spectral resolution — approximately 2 cm⁻¹ in the NIR.</p>
   </div>
 </section>
 
@@ -705,6 +1042,41 @@
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
           <span class="affiliation">&#9632; &nbsp; Backed by NSF Seed Fund</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="market">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Market Opportunity</div>
+      <h2>Replacing Expensive Labs<br>in Four Verticals</h2>
+    </div>
+    <div class="market-grid">
+      <div class="market-card">
+        <div class="market-tag">Safety &amp; Security</div>
+        <div class="market-stat">100k+</div>
+        <div class="market-label">U.S. overdose deaths per year</div>
+        <p>Fentanyl contamination in street drugs drives urgent demand for low-cost, non-destructive handheld screening — a self-service Raman station deployable at schools, venues, and harm reduction programs with no existing FDA-approved needle-free solution.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-tag">Non-Invasive Glucose</div>
+        <div class="market-stat">$15B</div>
+        <div class="market-label">Global CGM market by 2028</div>
+        <p>Continuous glucose monitoring is the fastest-growing diabetes care segment. SpectraMini's miniaturization path to smartwatch scale opens the door to the first wearable, needle-free Raman glucose monitor — a category with no current approved product.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-tag">Pharma &amp; Drug QA</div>
+        <div class="market-stat">9%</div>
+        <div class="market-label">CAGR — pharmaceutical Raman market</div>
+        <p>Regulatory pressure under FDA PAT guidance drives inline spectroscopic verification across API manufacturing and drug supply chains. SpectraMini's cost and size advantage makes real-time Raman QA economically viable at every point of production.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-tag">Portable Spectroscopy</div>
+        <div class="market-stat">$800M</div>
+        <div class="market-label">Global portable Raman market, 10% CAGR</div>
+        <p>Industrial process control, field material ID, food authentication — all underserved by instruments that cost $10–50k and weigh several kilograms. SpectraMini's 10× size reduction and order-of-magnitude cost advantage unlocks entirely new deployment categories.</p>
       </div>
     </div>
   </div>
@@ -1102,6 +1474,53 @@
     cmpObs.observe(cmpTable);
   }
 
+  // Market opportunity card staggered entrance
+  var mktGrid = document.querySelector('.market-grid');
+  if (mktGrid) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { mktGrid.classList.add('mkt-in'); }
+    }, { threshold: 0.07 }).observe(mktGrid);
+  }
+
+  // Spectral coverage animation
+  var specCovEl = document.getElementById('spec-coverage');
+  if (specCovEl) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        ['sc-fill', 'sc-vline', 'sc-dot', 'sc-ml'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.classList.add('sc-on');
+        });
+      }
+    }, { threshold: 0.2 }).observe(specCovEl);
+  }
+
+  // News item staggered entrance
+  var newsSection = document.getElementById('news');
+  if (newsSection) {
+    var newsItems = newsSection.querySelectorAll('.news-item');
+    var newsObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        newsItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('news-in'); }, i * 110); });
+        newsObs.disconnect();
+      }
+    }, { threshold: 0.05 });
+    newsObs.observe(newsSection);
+  }
+
+  // Publication item staggered entrance
+  var pubSection = document.getElementById('publications');
+  if (pubSection) {
+    var pubItems = pubSection.querySelectorAll('.pub-item');
+    var pubObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        pubItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('pub-in'); }, i * 120); });
+        pubObs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    pubObs.observe(pubSection);
+  }
+
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const btn = item.querySelector('.faq-q');
@@ -1121,6 +1540,92 @@
     });
   });
 
+  // Interactive Raman spectrum demo
+  (function() {
+    var cv = document.getElementById('raman-canvas');
+    if (!cv) return;
+    var cx = cv.getContext('2d');
+    var noAnim = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mats = {
+      fentanyl:   {col:[224,92,58],   lb:['610','780','1003','1250','1453','1603'], pk:[{s:610,i:.42,w:18},{s:780,i:.68,w:14},{s:1003,i:.95,w:11},{s:1250,i:.54,w:19},{s:1453,i:.62,w:15},{s:1603,i:.84,w:13}]},
+      glucose:    {col:[66,184,200],  lb:['900','1065','1125','1265','1460'],       pk:[{s:900,i:.50,w:22},{s:1065,i:.75,w:18},{s:1125,i:.85,w:14},{s:1265,i:.40,w:20},{s:1460,i:.58,w:16}]},
+      aspirin:    {col:[128,200,66],  lb:['558','752','1047','1190','1381','1608'], pk:[{s:558,i:.40,w:13},{s:752,i:.58,w:11},{s:1047,i:.82,w:14},{s:1190,i:.50,w:17},{s:1381,i:.67,w:13},{s:1608,i:.90,w:11}]},
+      polystyrene:{col:[155,106,232], lb:['621','1001','1155','1602','3054'],       pk:[{s:621,i:.68,w:9},{s:1001,i:1.0,w:7},{s:1155,i:.38,w:13},{s:1602,i:.74,w:11},{s:3054,i:.60,w:14}]}
+    };
+    var XMIN=400,XMAX=3200,N=600,H=190;
+    var xs=Array.from({length:N},function(_,i){return XMIN+i/(N-1)*(XMAX-XMIN);});
+    function gauss(x,s,i,w){return i*Math.exp(-.5*Math.pow((x-s)/w,2));}
+    function mkSp(pk){return xs.map(function(x){return pk.reduce(function(a,p){return a+gauss(x,p.s,p.i,p.w);},0);});}
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function lA(a,b,t){return a.map(function(v,i){return lerp(v,b[i],t);});}
+    function lC(a,b,t){return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];}
+    function ez(t){return 1-Math.pow(1-Math.min(t,1),3);}
+    var W=0,DPR=1;
+    var pSp,nSp,pCo,nCo,aStart=null,rId=null,curK='fentanyl';
+    pSp=nSp=mkSp(mats.fentanyl.pk); pCo=nCo=[224,92,58];
+    function pr(){return aStart===null?1:Math.min((performance.now()-aStart)/480,1);}
+    function paint() {
+      var t=ez(pr()),sp=lA(pSp,nSp,t),co=lC(pCo,nCo,t).map(Math.round);
+      var r=co[0],g=co[1],b=co[2];
+      var P={t:20,r:18,b:46,l:44},pw=W-P.l-P.r,ph=H-P.t-P.b,mxI=1.05;
+      cx.save();cx.scale(DPR,DPR);cx.clearRect(0,0,W,H);
+      cx.strokeStyle='#272727';cx.lineWidth=.5;
+      [.25,.5,.75,1].forEach(function(v){
+        var y=P.t+ph*(1-v/mxI);cx.beginPath();cx.moveTo(P.l,y);cx.lineTo(P.l+pw,y);cx.stroke();
+      });
+      [400,800,1200,1600,2000,2400,2800,3200].forEach(function(v){
+        var xp=P.l+(v-XMIN)/(XMAX-XMIN)*pw;
+        cx.strokeStyle='#383838';cx.lineWidth=.75;cx.beginPath();cx.moveTo(xp,P.t+ph);cx.lineTo(xp,P.t+ph+4);cx.stroke();
+        cx.fillStyle='#5A5650';cx.font='9px IBM Plex Mono,monospace';cx.textAlign='center';cx.fillText(v,xp,P.t+ph+15);
+      });
+      cx.fillStyle='#7A7672';cx.font='8px IBM Plex Mono,monospace';cx.textAlign='center';
+      cx.fillText('Raman shift (cm⁻¹)',P.l+pw/2,H-4);
+      cx.save();cx.translate(11,P.t+ph/2);cx.rotate(-Math.PI/2);cx.fillText('Intensity',0,0);cx.restore();
+      cx.strokeStyle='#383838';cx.lineWidth=.75;cx.beginPath();cx.moveTo(P.l,P.t);cx.lineTo(P.l,P.t+ph);cx.lineTo(P.l+pw,P.t+ph);cx.stroke();
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=P.l+i/(N-1)*pw,yp=P.t+ph*(1-Math.min(v,mxI)/mxI);i===0?cx.moveTo(xp,yp):cx.lineTo(xp,yp);});
+      cx.lineTo(P.l+pw,P.t+ph);cx.lineTo(P.l,P.t+ph);cx.closePath();
+      var grd=cx.createLinearGradient(0,P.t,0,P.t+ph);
+      grd.addColorStop(0,'rgba('+r+','+g+','+b+',.20)');grd.addColorStop(1,'rgba('+r+','+g+','+b+',.03)');
+      cx.fillStyle=grd;cx.fill();
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=P.l+i/(N-1)*pw,yp=P.t+ph*(1-Math.min(v,mxI)/mxI);i===0?cx.moveTo(xp,yp):cx.lineTo(xp,yp);});
+      cx.strokeStyle='rgb('+r+','+g+','+b+')';cx.lineWidth=1.8;cx.lineJoin='round';cx.stroke();
+      cx.restore();
+    }
+    function tick(){paint();if(pr()<1)rId=requestAnimationFrame(tick);else{rId=null;aStart=null;}}
+    function sw(key) {
+      if(key===curK)return;
+      var t=ez(pr());
+      pSp=lA(pSp,nSp,t);pCo=lC(pCo,nCo,t);
+      nSp=mkSp(mats[key].pk);nCo=mats[key].col;
+      curK=key;
+      if(noAnim){aStart=null;pSp=nSp;pCo=nCo;paint();}
+      else{aStart=performance.now();if(rId)cancelAnimationFrame(rId);rId=requestAnimationFrame(tick);}
+      upPk(key);
+    }
+    function upPk(key){
+      var el=document.getElementById('spectrum-peaks');if(!el)return;
+      var m=mats[key],c='rgb('+m.col[0]+','+m.col[1]+','+m.col[2]+')';
+      el.innerHTML=m.lb.map(function(l){return '<div class="s-peak"><span style="color:'+c+'">'+l+'</span>&thinsp;cm⁻¹</div>';}).join('');
+    }
+    function resize(){
+      DPR=window.devicePixelRatio||1;
+      W=cv.parentElement.clientWidth;
+      cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+'px';
+      paint();
+    }
+    document.querySelectorAll('.spectrum-mat').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('.spectrum-mat').forEach(function(b){b.classList.remove('s-active');});
+        btn.classList.add('s-active');sw(btn.dataset.mat);
+      });
+    });
+    if(window.ResizeObserver){new ResizeObserver(resize).observe(cv.parentElement);}
+    else window.addEventListener('resize',resize);
+    resize();upPk(curK);
+  })();
+
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
@@ -1130,6 +1635,186 @@
     const body = `Name: ${name}\nOrganization: ${org}\nEmail: ${email}\n\n${message}`;
     window.location.href = `mailto:info@tauoptics.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
   });
+
+  // Spectrum viewer
+  (function() {
+    var pills   = document.querySelectorAll('.spec-pill');
+    var traces  = document.querySelectorAll('.spec-trace');
+    var cals    = document.querySelectorAll('.spec-callout');
+    if (!pills.length) return;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var initialized   = false;
+
+    function activate(idx, animate) {
+      pills.forEach(function(p, i) {
+        p.classList.toggle('active', i === idx);
+        p.setAttribute('aria-selected', String(i === idx));
+      });
+      cals.forEach(function(c, i) { c.classList.toggle('sp-active', i === idx); });
+      traces.forEach(function(t, i) {
+        if (i === idx) {
+          if (animate && !reducedMotion) {
+            var len = t.getTotalLength();
+            t.style.transition = 'none';
+            t.style.strokeDasharray = len;
+            t.style.strokeDashoffset = len;
+            t.style.opacity = '1';
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                t.style.transition = 'stroke-dashoffset 700ms cubic-bezier(0.16,1,0.3,1)';
+                t.style.strokeDashoffset = '0';
+              });
+            });
+          } else {
+            t.style.strokeDasharray = '';
+            t.style.strokeDashoffset = '0';
+            t.style.opacity = '1';
+          }
+          t.classList.add('sp-active');
+        } else {
+          t.classList.remove('sp-active');
+          t.style.opacity = '0';
+          t.style.transition = 'opacity 0.2s ease';
+        }
+      });
+    }
+
+    pills.forEach(function(pill, i) {
+      pill.addEventListener('click', function() { activate(i, true); });
+    });
+
+    var specSection = document.getElementById('spectrum-viewer');
+    if (specSection) {
+      new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !initialized) {
+          initialized = true;
+          activate(0, true);
+        }
+      }, { threshold: 0.18 }).observe(specSection);
+    }
+  }());
+
+  // Raman spectrum fingerprint viewer — click any use-case card to animate its spectrum
+  (function() {
+    var KEYS = ['fentanyl','glucose','pharma','food','pollutant','polymer'];
+    var S = {
+      fentanyl:  { label: 'Fentanyl / Opioid Analogs',        color: '#5B8FE8', peaks: [{s:836,r:.62},{s:1003,r:.90},{s:1212,r:.48},{s:1452,r:.73},{s:1581,r:.57}] },
+      glucose:   { label: 'Blood Glucose (tissue)',            color: '#C97A50', peaks: [{s:525,r:.45},{s:900,r:.68},{s:1062,r:.82},{s:1126,r:.72},{s:1340,r:.55}] },
+      pharma:    { label: 'Active Pharmaceutical Ingredient',  color: '#80C842', peaks: [{s:752,r:.60},{s:1004,r:.95},{s:1380,r:.50},{s:1607,r:.65}] },
+      food:      { label: 'Olive Oil / Edible Lipid',          color: '#42B8C8', peaks: [{s:1065,r:.45},{s:1266,r:.73},{s:1441,r:.88},{s:1655,r:.60}] },
+      pollutant: { label: 'CO₂ / Atmospheric Pollutant', color: '#9B6AE8', peaks: [{s:1285,r:.80},{s:1388,r:.78}] },
+      polymer:   { label: 'Polyethylene / Industrial Polymer', color: '#E09A3A', peaks: [{s:1060,r:.72},{s:1130,r:.85},{s:1295,r:.56},{s:1441,r:.80}] }
+    };
+    var R0=500, R1=1700, VW=520, VH=130, ML=46, MR=10, MT=14, MB=24;
+    var PH=VH-MT-MB, BL=MT+PH, PW=VW-ML-MR;
+    var ns='http://www.w3.org/2000/svg';
+    function sx(s) { return ML+(s-R0)/(R1-R0)*PW; }
+
+    function el(tag,attrs) {
+      var e=document.createElementNS(ns,tag);
+      for(var k in attrs) e.setAttribute(k,attrs[k]);
+      return e;
+    }
+
+    function buildSVG(key) {
+      var spec=S[key], c=spec.color;
+      var svg=el('svg',{'viewBox':'0 0 '+VW+' '+VH,'class':'spectrum-svg'});
+      svg.appendChild(el('line',{x1:ML,y1:BL,x2:VW-MR,y2:BL,stroke:'#2A2A2A','stroke-width':1}));
+      [600,800,1000,1200,1400,1600].forEach(function(t) {
+        var tx=sx(t);
+        svg.appendChild(el('line',{x1:tx,y1:BL,x2:tx,y2:BL+4,stroke:'#383838','stroke-width':0.75}));
+        var lbl=el('text',{x:tx,y:BL+13,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':7,fill:'#4A4742'});
+        lbl.textContent=String(t); svg.appendChild(lbl);
+      });
+      var axl=el('text',{x:ML+PW/2,y:VH-1,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':6,fill:'#3A3836'});
+      axl.textContent='Raman Shift (cm⁻¹)'; svg.appendChild(axl);
+      var bars=[];
+      spec.peaks.forEach(function(pk) {
+        var bx=sx(pk.s), maxH=pk.r*PH;
+        var rect=el('rect',{x:bx-3,y:BL,width:6,height:0,fill:c,rx:1,opacity:0.88});
+        svg.appendChild(rect);
+        var lbl=el('text',{x:bx,y:BL-maxH-5,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':6.5,fill:c,opacity:0});
+        lbl.textContent=String(pk.s); svg.appendChild(lbl);
+        bars.push({rect:rect,lbl:lbl,maxH:maxH});
+      });
+      return {svg:svg,bars:bars};
+    }
+
+    function animateBars(bars) {
+      var t0=performance.now();
+      function ease(t){return 1-Math.pow(1-t,3);}
+      function tick(now) {
+        var p=ease(Math.min((now-t0)/480,1));
+        bars.forEach(function(b) {
+          var h=p*b.maxH;
+          b.rect.setAttribute('y',String(BL-h));
+          b.rect.setAttribute('height',String(h));
+          b.lbl.setAttribute('opacity',p>0.6?String(((p-0.6)/0.4).toFixed(3)):'0');
+        });
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    var appGrid=document.querySelector('.app-grid');
+    if(!appGrid) return;
+    var cards=appGrid.querySelectorAll('.app-card');
+
+    var panel=document.createElement('div');
+    panel.className='spectrum-panel';
+    panel.innerHTML='<div class="spectrum-panel-inner"><div class="sp-header"><div class="sp-label-row">Raman fingerprint &mdash; <span class="sp-name">select a use case above</span></div><div class="sp-note">Stylized &middot; 785 nm excitation</div></div><div class="sp-svg-wrap"></div></div>';
+    appGrid.parentNode.insertBefore(panel,appGrid.nextSibling);
+    var svgWrap=panel.querySelector('.sp-svg-wrap');
+    var spName=panel.querySelector('.sp-name');
+    var active=null;
+
+    cards.forEach(function(card,i) {
+      var key=KEYS[i]||'fentanyl';
+      card.setAttribute('tabindex','0');
+      card.setAttribute('role','button');
+      card.setAttribute('aria-expanded','false');
+      function activate() {
+        if(active===card) {
+          card.classList.remove('sp-active'); card.setAttribute('aria-expanded','false');
+          panel.classList.remove('sp-open'); active=null; return;
+        }
+        if(active){active.classList.remove('sp-active');active.setAttribute('aria-expanded','false');}
+        card.classList.add('sp-active'); card.setAttribute('aria-expanded','true'); active=card;
+        var built=buildSVG(key);
+        svgWrap.innerHTML=''; svgWrap.appendChild(built.svg);
+        spName.textContent=S[key].label;
+        panel.classList.add('sp-open');
+        var b=built.bars;
+        setTimeout(function(){animateBars(b);},80);
+      }
+      card.addEventListener('click',activate);
+      card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
+    });
+  })();
+
+  // Use-case filter tabs
+  (function() {
+    var filters = document.querySelectorAll('.app-filter');
+    var cards = document.querySelectorAll('.app-card[data-cat]');
+    filters.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = btn.dataset.filter;
+        filters.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        cards.forEach(function(card) {
+          var match = filter === 'all' || card.dataset.cat === filter;
+          card.classList.toggle('app-dim', !match);
+          if (!match && card.classList.contains('sp-active')) {
+            card.classList.remove('sp-active');
+            card.setAttribute('aria-expanded', 'false');
+            var sp = document.querySelector('.spectrum-panel');
+            if (sp) sp.classList.remove('sp-open');
+          }
+        });
+      });
+    });
+  })();
 </script>
 </body>
 </html>
