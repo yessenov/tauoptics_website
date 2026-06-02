@@ -82,6 +82,9 @@
     --body:    'Source Serif 4', Georgia, serif;
     --max:     960px;
     --dispersion-gradient: linear-gradient(90deg, #8B5CF6, #5B8FE8 20%, #42B8C8 35%, #80C842 50%, #E09A3A 65%, #E05C3A 78%, #7B1A1A);
+    /* Reticle tokens — precision dot-grid for the masthead, evoking optical bench surface */
+    --reticle-pitch: 28px;
+    --reticle-dot:   rgba(255,255,255,0.022);
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -109,7 +112,7 @@
   .nav-links.mobile-open .nav-cta { background: var(--accent); color: var(--bg) !important; margin: 0.75rem 2rem 0; padding: 0.7rem 1rem; text-align: center; border-bottom: none; }
 
   /* MASTHEAD */
-  .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; }
+  .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; position: relative; background-image: radial-gradient(var(--reticle-dot) 1px, transparent 1px); background-size: var(--reticle-pitch) var(--reticle-pitch); }
   .masthead-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; }
   .masthead-eyebrow { font-family: var(--mono); font-size: 0.70rem; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
   .masthead-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); }
@@ -1114,7 +1117,7 @@
     <div class="about-grid">
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
-        <p>Over 103 customer interviews conducted through the NSF I-Corps program validated safety &amp; security — specifically fentanyl detection — as the primary beachhead. Ongoing discovery deepens engagement with harm reduction organizations, universities, and public health agencies across the United States, with pilot programs planned at partner institutions.</p>
+        <p>Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments to validate the commercial potential of the SpectraMini platform.</p>
         <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication — and in collaboration with the Department of Electrical and Computer Engineering at the University of Utah.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
@@ -1155,59 +1158,6 @@
         <div class="market-stat">$800M</div>
         <div class="market-label">Global portable Raman market, 10% CAGR</div>
         <p>Industrial process control, field material ID, food authentication — all underserved by instruments that cost $10–50k and weigh several kilograms. SpectraMini's 10× size reduction and order-of-magnitude cost advantage unlocks entirely new deployment categories.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="milestones">
-  <div class="section-inner reveal">
-    <div class="section-header">
-      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Progress</div>
-      <h2>Company Milestones</h2>
-    </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2023</div>
-        <div class="tl-title">r-CBG technology demonstrated at CREOL, UCF</div>
-        <p class="tl-desc">The rotated chirped Bragg grating concept is experimentally realized and peer-reviewed, establishing the core operating principle behind SpectraMini.</p>
-      </div>
-      <div class="tl-item tl-key">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2024</div>
-        <div class="tl-title">Tau Optics incorporated · UCF exclusive license</div>
-        <p class="tl-desc">Company founded as a UCF spinout. r-CBG patents exclusively licensed to Tau Optics. Joins the UCF Business Incubation Program in Orlando, FL.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2024 Q4</div>
-        <div class="tl-title">NSF I-Corps: 103 customer interviews</div>
-        <p class="tl-desc">Systematic customer discovery across seven market segments — safety &amp; security, health, pharma, food, environmental, industrial, research — validates fentanyl detection as the primary beachhead.</p>
-      </div>
-      <div class="tl-item tl-major">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2025</div>
-        <div class="tl-title">NSF STTR Phase I awarded</div>
-        <p class="tl-desc">National Science Foundation selects Tau Optics for Phase I STTR funding to build proof-of-principle SpectraMini prototypes for Raman spectroscopy and color measurement.</p>
-      </div>
-      <div class="tl-item tl-key">
-        <div class="tl-dot"></div>
-        <div class="tl-date">May 2025</div>
-        <div class="tl-title">Invited presentation at MIT</div>
-        <p class="tl-desc">Founder Murat Yessenov presents the r-CBG platform — operating principles, fabrication, Bluetooth deployment, and X-CBG dual-band capability — at the Massachusetts Institute of Technology.</p>
-      </div>
-      <div class="tl-item tl-key">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Feb 2026</div>
-        <div class="tl-title">AR-coated r-CBG elements validated at MIT</div>
-        <p class="tl-desc">Independent characterization confirms anti-reflection coated r-CBG gratings achieve spectral linewidths as narrow as 2.4 nm FWHM in the 900–920 nm band, clearing a key milestone toward final device integration.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026 →</div>
-        <div class="tl-title">SpectraMini prototype completion &amp; pilot deployments</div>
-        <p class="tl-desc">Finalizing SpectraMini prototypes for targeted pilot programs in fentanyl detection. Engaging harm reduction organizations, universities, and public health agencies for real-world validation.</p>
       </div>
     </div>
   </div>
@@ -1516,19 +1466,6 @@
       const max = document.documentElement.scrollHeight - window.innerHeight;
       readFill.style.transform = max > 0 ? `scaleX(${window.scrollY / max})` : 'scaleX(0)';
     }, { passive: true });
-  }
-
-  // Timeline item staggered entrance
-  var tlSection = document.getElementById('milestones');
-  if (tlSection) {
-    var tlItems = tlSection.querySelectorAll('.tl-item');
-    var tlObs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        tlItems.forEach(function(item, i) { setTimeout(function() { item.classList.add('tl-visible'); }, i * 130); });
-        tlObs.disconnect();
-      }
-    }, { threshold: 0.05 });
-    tlObs.observe(tlSection);
   }
 
   // How It Works step staggered entrance
