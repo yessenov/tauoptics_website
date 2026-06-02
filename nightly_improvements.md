@@ -1,5 +1,7 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-06-02 — Removed MIT news item, restored UCF spinout news item, added animated spectral wavelength strip — No new files in Additional info/ (all 7 already processed). Removed the May 2025 MIT invited-presentation news item per owner request. Restored the 2024 UCF spinout news item (previously removed by a prior run, per owner mandate to keep it). The Feb 2026 External Characterization item and I-Corps beachhead content were already cleaned by the prior run on this date. Added a spectral wavelength coverage strip between the metrics panel and How It Works section: a 4px spectrum-gradient bar (UV violet #7B00D4 → visible rainbow → deep NIR fading to background) with IBM Plex Mono tick marks at 400 nm, 532 nm, 785 nm, 1064 nm, and 2.5 μm. On scroll-into-view an IntersectionObserver animates a 1px cursor with a circular head from 400 nm to lock at 785 nm (SpectraMini's primary Raman excitation target) in 1.4 s. CSS tokens --photon-violet and --photon-nir anchor the palette to optics vocabulary. Respects prefers-reduced-motion.
+
 ## 2026-06-02 — News cleanup (3 items removed/edited) + spectral dispersion gradient vocabulary — No new files in Additional info/ (all 7 already processed)
 
 ### Part 0.5 — Content cleanup
