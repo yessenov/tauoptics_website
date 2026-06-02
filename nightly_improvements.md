@@ -1,5 +1,18 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-06-02 — News cleanup (3 items removed/edited) + spectral dispersion gradient vocabulary — No new files in Additional info/ (all 7 already processed)
+
+### Part 0.5 — Content cleanup
+- Removed news item: "AR-coated r-CBG elements confirmed sub-3 nm linewidth" (Feb 2026, External Characterization) — owner-mandated removal
+- Edited news item: NSF I-Corps (Dec 2025) — removed fentanyl detection, beachhead, and specific application target references; now reads as completing the program with 100+ customer discovery interviews
+- Removed news item: "Tau Optics incorporated as UCF spinout, joins business incubation program" (2024) — owner-mandated removal
+
+### Part 1 — Files processed
+All 7 files in `Additional info/` were already in `processed_files.md`. No new files found.
+
+### Part 2 — Website improvement: spectral dispersion gradient vocabulary
+Added CSS custom property `--dispersion-gradient` (linear gradient from 400nm violet → 450nm blue → 490nm cyan → 540nm green → 600nm orange → 650nm red → 785nm NIR deep red) to `:root`. Applied it to two precision UI-chrome elements: (1) the reading progress bar — as you scroll through the page, the gradient reveals the full spectral range the r-CBG covers, ending at exactly 785nm NIR — the instrument's primary Raman target; (2) the section eyebrow `::before` accent markers — each of the 8 eyebrow labels across the site now shows a 28×1px spectral trace instead of a solid accent blue. The gradient passes through the site's existing `--accent` blue (~450nm) and `--accent2` amber (~610nm), proving those colors were always spectral wavelengths. Design authority: (Swap test) no competitor has a progress bar mapped to their instrument's operating range; (Squint test) 1–2px elements whisper; (Signature test) gradient ends at 785nm, eyebrow lines appear on every section, existing accent colors fall exactly on the gradient curve; (Token test) `--dispersion-gradient` is r-CBG vocabulary.
+
 ## 2026-05-14 — Staggered use-case card entrance + spec-row hover micro-interactions — No new files in Additional info/ (all 7 already processed by prior runs). Added CSS/JS staggered cascade animation to the 6 Use Case cards using IntersectionObserver + nth-child transition-delay (0–375 ms), so cards roll in as a wave rather than all at once; respects prefers-reduced-motion. Added spec-row micro-interaction: on hover each row indents 0.6 rem, brightens the label to text color and lightens the accent value — creating a subtle data-table feel consistent with the editorial dark aesthetic.
 
 ## 2026-05-13 — Sticky floating "Request a Demo" CTA — No new files in Additional info/ since last run (all 7 already processed). Added a fixed-position "Request a Demo" button that fades in via IntersectionObserver once the masthead scrolls out of view, and auto-hides when the contact section becomes visible — keeping the conversion nudge persistent without obscuring the destination.
