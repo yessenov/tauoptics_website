@@ -289,7 +289,8 @@
   .compare-thead { display: grid; grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr; border-bottom: 2px solid var(--rule); }
   .compare-th-label { padding: 1.25rem 1rem; }
   .compare-th { padding: 1.25rem 1rem; border-left: 1px solid var(--rule); }
-  .compare-th-hero { background: rgba(91,143,232,0.06); border-top: 2px solid var(--accent); }
+  .compare-th-hero { background: rgba(91,143,232,0.06); border-top: none; position: relative; }
+  .compare-th-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--dispersion-gradient); opacity: 0.85; }
   .compare-badge { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); display: block; margin-bottom: 0.5rem; }
   .compare-product-name { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--text); }
   .compare-sub { font-family: var(--mono); font-size: 0.60rem; color: var(--muted); margin-top: 0.3rem; }
@@ -510,6 +511,9 @@
   #read-fill { height: 100%; background: var(--dispersion-gradient); transform: scaleX(0); transform-origin: left; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { #read-fill { display: none; } }
 
+  /* SPECTRUM RULE — 2px dispersed-beam separator; reuses --dispersion-gradient vocabulary */
+  .spectrum-rule { height: 2px; background: var(--dispersion-gradient); opacity: 0.22; }
+
   /* NEWS & PUBLICATION ITEM ENTRANCE */
   .js-animations .news-item { opacity: 0; transform: translateY(14px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .news-item.news-in { opacity: 1; transform: none; }
@@ -662,6 +666,8 @@
     </div>
   </div>
 </header>
+
+<div class="spectrum-rule" aria-hidden="true"></div>
 
 <div class="metrics-strip" id="metrics">
   <div class="metrics-row">
