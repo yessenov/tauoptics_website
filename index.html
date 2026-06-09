@@ -317,6 +317,29 @@
   .cv-low  { font-family: var(--mono); font-size: 0.78rem; color: #4A4742; }
   .compare-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; }
 
+  /* PHOTON THROUGHPUT — aperture comparison; makes the slitless 60× claim visceral */
+  .photon-compare { margin-bottom: 2rem; padding: 1.5rem; background: var(--surface); border: 1px solid var(--rule); }
+  .pc-head { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .pc-head::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); flex-shrink: 0; }
+  .pc-rows { display: flex; flex-direction: column; gap: 0.85rem; }
+  .pc-row { display: grid; grid-template-columns: 180px 1fr 52px; gap: 0.75rem; align-items: center; }
+  .pc-row-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.03em; }
+  .pc-row-hero .pc-row-label { color: var(--accent); }
+  .pc-track { height: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; }
+  .pc-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; transition: width 1.3s cubic-bezier(0.16,1,0.3,1); }
+  .pc-bar-slit { background: rgba(122,118,114,0.50); transition-delay: 0s; }
+  .pc-bar-hero { background: linear-gradient(90deg, var(--accent) 0%, #8aacf2 100%); transition-delay: 0.3s; }
+  .photon-compare.pc-active .pc-bar-slit  { width: 1.67%; }
+  .photon-compare.pc-active .pc-bar-hero  { width: 100%; }
+  .pc-val { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); text-align: right; white-space: nowrap; }
+  .pc-row-hero .pc-val { color: var(--accent); }
+  .pc-footnote { font-size: 0.80rem; color: var(--muted); font-style: italic; margin-top: 1.35rem; line-height: 1.65; max-width: 72ch; border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 768px) { .pc-row { grid-template-columns: 110px 1fr 36px; gap: 0.5rem; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pc-bar-slit { transition: none !important; width: 1.67% !important; }
+    .pc-bar-hero { transition: none !important; width: 100% !important; }
+  }
+
   /* SCROLL REVEAL */
   .js-animations .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .reveal.visible { opacity: 1; transform: none; }
@@ -964,6 +987,23 @@
       <div class="masthead-eyebrow" style="margin-bottom:1rem;">Competitive Landscape</div>
       <h2>SpectraMini vs. the Field</h2>
     </div>
+    <div class="photon-compare" id="photon-compare">
+      <div class="pc-head">Photon Throughput &mdash; Slitless Advantage</div>
+      <div class="pc-rows">
+        <div class="pc-row">
+          <span class="pc-row-label">Conventional slit-grating</span>
+          <div class="pc-track"><div class="pc-bar pc-bar-slit"></div></div>
+          <span class="pc-val">1&times;</span>
+        </div>
+        <div class="pc-row pc-row-hero">
+          <span class="pc-row-label">r-CBG &middot; SpectraMini</span>
+          <div class="pc-track"><div class="pc-bar pc-bar-hero"></div></div>
+          <span class="pc-val">60&times;</span>
+        </div>
+      </div>
+      <p class="pc-footnote">At equivalent spectral resolution, the r-CBG architecture delivers 60&times; more light to the detector. In conventional Raman instruments, a narrow input slit defines resolution by spatial filtering — rejecting ~98% of the collected beam before it reaches the grating. The r-CBG encodes resolution via chirp rate and grating geometry inside the glass: no slit, no photon loss, no resolution trade-off.</p>
+    </div>
+
     <div class="compare-scroll">
       <div class="compare-table">
         <div class="compare-thead">
@@ -1654,6 +1694,15 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { spectralStrip.classList.add('strip-active'); }
     }, { threshold: 0.45 }).observe(spectralStrip);
+  }
+
+  // Photon throughput comparison — animate bars when scrolled into view
+  var pcWrap = document.getElementById('photon-compare');
+  if (pcWrap) {
+    var pcObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { pcWrap.classList.add('pc-active'); pcObs.disconnect(); }
+    }, { threshold: 0.35 });
+    pcObs.observe(pcWrap);
   }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
