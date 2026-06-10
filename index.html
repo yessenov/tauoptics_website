@@ -85,6 +85,10 @@
     /* Reticle tokens — precision dot-grid for the masthead, evoking optical bench surface */
     --reticle-pitch: 28px;
     --reticle-dot:   rgba(255,255,255,0.022);
+    /* Publication emission-line tokens — each paper keyed to a spectral channel from the dispersion palette */
+    --pub-line-1: #5B8FE8;   /* primary NIR channel — 785 nm Raman excitation */
+    --pub-line-2: #42B8C8;   /* cyan detection band */
+    --pub-line-3: #9B6AE8;   /* Bragg resonance violet */
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -248,8 +252,15 @@
 
   /* PUBLICATIONS */
   .pub-list { list-style: none; }
-  .pub-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .pub-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 1.5rem 0 1.5rem 1.25rem; border-bottom: 1px solid var(--rule); border-left: 2px solid var(--rule); align-items: start; transition: background 0.22s, border-left-color 0.25s; }
   .pub-item:first-child { border-top: 1px solid var(--rule); }
+  .pub-item:hover { background: rgba(255,255,255,0.013); }
+  .pub-item:nth-child(1) { border-left-color: var(--pub-line-1); }
+  .pub-item:nth-child(2) { border-left-color: var(--pub-line-2); }
+  .pub-item:nth-child(3) { border-left-color: var(--pub-line-3); }
+  .pub-item:nth-child(1):hover { border-left-color: #7aaaf0; box-shadow: -3px 0 14px rgba(91,143,232,0.10); }
+  .pub-item:nth-child(2):hover { border-left-color: #6ed8e8; box-shadow: -3px 0 14px rgba(66,184,200,0.10); }
+  .pub-item:nth-child(3):hover { border-left-color: #b89ef8; box-shadow: -3px 0 14px rgba(155,106,232,0.10); }
   .pub-year { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.06em; }
   .pub-journal { font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent2); margin-bottom: 0.35rem; }
   .pub-title { font-size: 0.95rem; font-weight: 400; color: var(--text); line-height: 1.45; margin-bottom: 0.3rem; }
@@ -540,7 +551,7 @@
   /* NEWS & PUBLICATION ITEM ENTRANCE */
   .js-animations .news-item { opacity: 0; transform: translateY(14px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .news-item.news-in { opacity: 1; transform: none; }
-  .js-animations .pub-item { opacity: 0; transform: translateY(14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .pub-item { opacity: 0; transform: translateX(-14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1), background 0.22s, border-left-color 0.25s; }
   .js-animations .pub-item.pub-in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .js-animations .news-item, .js-animations .pub-item { opacity: 1 !important; transform: none !important; transition: none !important; }
