@@ -669,6 +669,38 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* APERTURE DIAGRAM — true-scale physical footprint; naming follows instrument-optics vocabulary */
+  .aperture-diagram { margin: 2rem 0 2.25rem; padding: 1.5rem 1.5rem 1.25rem; background: var(--surface); border: 1px solid var(--rule); }
+  .aperture-head { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .aperture-head::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); flex-shrink: 0; }
+  .aperture-chart svg { display: block; width: 100%; height: auto; }
+  /* Instrument boxes grow upward from the baseline (y=150) when scrolled into view */
+  .ap-portable {
+    transform-box: fill-box; transform-origin: 50% 100%;
+    transform: scaleY(0);
+    transition: transform 0.80s cubic-bezier(0.16,1,0.3,1);
+  }
+  .ap-bench {
+    transform-box: fill-box; transform-origin: 50% 100%;
+    transform: scaleY(0);
+    transition: transform 1.00s cubic-bezier(0.16,1,0.3,1) 0.08s;
+  }
+  /* Grating element — the hero SpectraMini unit, appears last with accent glow */
+  .ap-grating     { opacity: 0; transition: opacity 0.35s ease 0.85s; }
+  .ap-label-bench    { opacity: 0; transition: opacity 0.30s ease 0.12s; }
+  .ap-label-portable { opacity: 0; transition: opacity 0.30s ease 0.18s; }
+  .ap-label-grating  { opacity: 0; transition: opacity 0.30s ease 0.92s; }
+  .aperture-diagram.ap-active .ap-portable    { transform: scaleY(1); }
+  .aperture-diagram.ap-active .ap-bench       { transform: scaleY(1); }
+  .aperture-diagram.ap-active .ap-grating     { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-bench    { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-portable { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-grating  { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .ap-portable, .ap-bench { transform: scaleY(1) !important; transition: none !important; }
+    .ap-grating, .ap-label-bench, .ap-label-portable, .ap-label-grating { opacity: 1 !important; transition: none !important; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1054,6 +1086,44 @@
       <p class="pc-footnote">At equivalent spectral resolution, the r-CBG architecture delivers 60&times; more light to the detector. In conventional Raman instruments, a narrow input slit defines resolution by spatial filtering — rejecting ~98% of the collected beam before it reaches the grating. The r-CBG encodes resolution via chirp rate and grating geometry inside the glass: no slit, no photon loss, no resolution trade-off.</p>
     </div>
 
+    <div class="aperture-diagram" id="aperture-diagram">
+      <div class="aperture-head">Physical Footprint — True Scale</div>
+      <div class="aperture-chart">
+        <svg viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg" aria-label="True-scale footprint comparison: SpectraMini versus portable and benchtop Raman spectrometers" role="img">
+          <defs>
+            <pattern id="ap-grid" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+              <circle cx="0" cy="0" r="0.6" fill="rgba(255,255,255,0.022)"/>
+            </pattern>
+          </defs>
+          <rect width="660" height="170" fill="url(#ap-grid)"/>
+          <!-- Benchtop: sqrt(2000)≈44.7 cm × 7 px/cm ≈ 313 px; baseline y=150, top at y=−163 (extends above viewport) -->
+          <rect class="ap-bench" x="210" y="-163" width="313" height="313" fill="rgba(255,255,255,0.007)" stroke="rgba(70,68,65,0.28)" stroke-width="0.75" stroke-dasharray="4,3"/>
+          <g class="ap-label-bench">
+            <text x="366" y="17" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="rgba(86,82,78,0.85)" text-anchor="middle">Benchtop Raman</text>
+            <text x="366" y="28" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="rgba(58,56,53,0.9)" text-anchor="middle">&gt;2,000 cm²</text>
+          </g>
+          <!-- Portable Raman: sqrt(300)≈17.3 cm × 7 px/cm ≈ 121 px; baseline y=150, top at y=29 -->
+          <rect class="ap-portable" x="55" y="29" width="121" height="121" fill="rgba(255,255,255,0.010)" stroke="rgba(122,118,114,0.30)" stroke-width="0.75"/>
+          <g class="ap-label-portable">
+            <text x="115" y="11" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="#5A5652" text-anchor="middle">Portable Raman</text>
+            <text x="115" y="22" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#3A3835" text-anchor="middle">~300 cm²</text>
+          </g>
+          <!-- SpectraMini: sqrt(5)≈2.24 cm × 7 px/cm ≈ 16 px; sits in the lower-left corner of the portable box -->
+          <rect class="ap-grating" x="55" y="134" width="16" height="16" fill="rgba(91,143,232,0.11)" stroke="rgba(91,143,232,0.62)" stroke-width="0.85"/>
+          <line class="ap-label-grating" x1="71" y1="142" x2="204" y2="100" stroke="rgba(91,143,232,0.22)" stroke-width="0.65" stroke-dasharray="2,2"/>
+          <g class="ap-label-grating">
+            <text x="208" y="97" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="#5B8FE8">SpectraMini</text>
+            <text x="208" y="108" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="rgba(91,143,232,0.75)">~5 cm²</text>
+          </g>
+          <!-- Scale bar: 7 px = 1 cm -->
+          <line x1="18" y1="160" x2="25" y2="160" stroke="#3A3835" stroke-width="1"/>
+          <line x1="18" y1="156" x2="18" y2="164" stroke="#3A3835" stroke-width="0.75"/>
+          <line x1="25" y1="156" x2="25" y2="164" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="21.5" y="169" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3A3835" text-anchor="middle">1 cm</text>
+        </svg>
+      </div>
+    </div>
+
     <div class="compare-scroll">
       <div class="compare-table">
         <div class="compare-thead">
@@ -1214,7 +1284,7 @@
     <div class="about-grid">
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
-        <p>Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments to validate the commercial potential of the SpectraMini platform.</p>
+        <p>Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews.</p>
         <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication — and in collaboration with the Department of Electrical and Computer Engineering at the University of Utah.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
@@ -1299,7 +1369,7 @@
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
           <div class="news-headline">Tau Optics completes NSF I-Corps program with 100+ customer discovery interviews</div>
-          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments over ten weeks of systematic customer engagement.</div>
+          <div class="news-snippet">Tau Optics completed the NSF I-Corps program with 100+ customer discovery interviews conducted.</div>
         </div>
       </div>
       <div class="news-item">
@@ -1761,6 +1831,14 @@
       if (entries[0].isIntersecting) { pcWrap.classList.add('pc-active'); pcObs.disconnect(); }
     }, { threshold: 0.35 });
     pcObs.observe(pcWrap);
+  }
+
+  // Aperture footprint diagram — grow instrument boxes from baseline on scroll
+  var apertureDiagram = document.getElementById('aperture-diagram');
+  if (apertureDiagram) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { apertureDiagram.classList.add('ap-active'); }
+    }, { threshold: 0.25 }).observe(apertureDiagram);
   }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
