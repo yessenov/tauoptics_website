@@ -119,7 +119,18 @@
   h1 { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.01em; color: var(--text); }
   h1 em { color: var(--accent); font-style: italic; }
   .masthead-sub { margin-top: 1.5rem; font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 40ch; }
-  .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; }
+  .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; position: relative; overflow: hidden; }
+
+  /* ACQUISITION SCAN — mimics the r-CBG CCD readout: dispersion-gradient beam sweeps top-to-bottom once on load */
+  .spec-scan { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--dispersion-gradient); opacity: 0; pointer-events: none; z-index: 2; }
+  @keyframes specAcquire {
+    0%   { top: 0;    opacity: 0; }
+    5%   { opacity: 0.55; }
+    92%  { opacity: 0.55; }
+    100% { top: 100%; opacity: 0; }
+  }
+  .spec-card.acquiring .spec-scan { animation: specAcquire 1.6s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards; }
+  @media (prefers-reduced-motion: reduce) { .spec-card.acquiring .spec-scan { animation: none; opacity: 0 !important; } }
   .spec-card-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
   .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; padding-left: 0; transition: padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
   .spec-row:last-child { border-bottom: none; }
@@ -1464,6 +1475,17 @@
   document.querySelectorAll('.spec-card .spec-row').forEach(function(row, i) {
     setTimeout(function() { row.classList.add('spec-in'); }, 450 + i * 55);
   });
+
+  // Spec card acquisition scan — CCD readout sweep fires once after spec rows settle
+  (function() {
+    var sc = document.querySelector('.spec-card');
+    if (!sc) return;
+    var beam = document.createElement('div');
+    beam.className = 'spec-scan';
+    beam.setAttribute('aria-hidden', 'true');
+    sc.appendChild(beam);
+    sc.classList.add('acquiring');
+  }());
 
   // Reading progress bar
   const readFill = document.getElementById('read-fill');
