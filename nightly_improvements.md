@@ -1,5 +1,23 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-06-16 — Styled #spectrum-demo interactive panel as a detector-channel control panel — why: the section existed but had zero CSS; all interactive elements rendered as unstyled default browser widgets
+
+### Part 0.5 — Content cleanup
+All items confirmed already handled by prior sessions: Company Milestones removed, External Characterization news absent, MIT presentation news absent, UCF spinout news present, I-Corps snippet already cleaned of fentanyl/beachhead language. No changes required.
+
+### Part 1 — Files processed
+All 7 files in `Additional info/` already in `processed_files.md`. No new files found.
+
+### Part 2 — Website improvement: detector-channel selector panel for #spectrum-demo
+
+The `#spectrum-demo` section contained a canvas-based animated Raman spectrum with four material-selector buttons and a peak-frequency readout, but all CSS classes used by that widget — `.spectrum-wrap`, `.spectrum-mats`, `.spectrum-mat`, `.s-tag`, `.s-dot`, `.s-name`, `.spectrum-canvas-wrap`, `.spectrum-peaks`, `.s-peak` — had zero CSS rules. The entire panel rendered as a stack of unstyled browser-default elements.
+
+**Implementation:** Added a detector-channel control-panel layout. `.spectrum-wrap` becomes a 2-column grid: a 160px material-channel column on the left (rows 1–3) and the canvas output + peak readout on the right. Each `.spectrum-mat` button carries a `--ch-color` CSS custom property (set via inline style to the material's spectral color) that drives a 2px left-border channel-indicator on `.s-active::before`. The indicator color matches the spectral dot exactly — no JS required, CSS variables inherit from the originating element to its pseudo-elements. `.s-peak` chips are styled as IBM Plex Mono readout capsules (border + minimal background) evoking CCD channel readout values. Mobile collapses buttons to a horizontal scroll row above the canvas.
+
+**CSS token:** `--ch-color` (per-button, inline, evokes spatial wavelength channel assignment on the CCD array). `.spectrum-mat.s-active::before` reads `var(--ch-color, var(--accent))` — the fallback means the active indicator is never invisible even without the inline variable.
+
+**4-check:** Swap — generic template would use `.tab-button` with a bottom-border underline and centered label; these use channel-strip left-borders with spectral color, monospace category tags, and serif material names. Squint — canvas (190px, right column) clearly dominates; buttons whisper on the left; peak chips are barely visible metadata. Signature — (1) spectral color dots per material, (2) `--ch-color` channel indicator matching the dot, (3) IBM Plex Mono category tags, (4) Playfair Display material names that shift to `--accent` when selected, (5) peak frequency chips as CCD readout values. Token — `--ch-color`, `.s-peak`, `.spectrum-mat` are all spectroscopy-instrument vocabulary.
+
 ## 2026-06-15 — CCD acquisition scan beam on spec card — why: transforms static spec table into live instrument readout
 
 ### Part 0.5 — Content cleanup
