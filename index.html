@@ -93,6 +93,8 @@
     --grating-angle: 45deg;
     --grating-pitch: 24px;
     --grating-plane: rgba(91,143,232,0.014);
+    /* Beam-scan nav token — opacity of the spectral underline sweeping left→right across the active nav link */
+    --nav-scan-opacity: 0.55;
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -104,10 +106,17 @@
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.10em; transition: color 0.2s; position: relative; }
   .nav-links a:hover { color: var(--text); }
-  /* Active section indicator — dispersion gradient underline extends the spectral vocabulary to navigation */
-  .nav-links a:not(.nav-cta)::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--dispersion-gradient); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+  /* Beam-scan underline — dispersion gradient slides in left→right (scaleX 0→1) on hover and active section,
+     evoking the spatial wavelength encoding the r-CBG performs: each photon exits at a different x-position */
+  .nav-links a:not(.nav-cta)::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px;
+    background: var(--dispersion-gradient); opacity: var(--nav-scan-opacity);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.22s cubic-bezier(0.4,0,0.2,1); pointer-events: none;
+  }
   .nav-links a.nav-active { color: var(--text); }
-  .nav-links a:not(.nav-cta).nav-active::after { opacity: 0.75; }
+  .nav-links a:not(.nav-cta):hover::after,
+  .nav-links a:not(.nav-cta).nav-active::after { transform: scaleX(1); }
   .nav-cta { background: var(--accent); color: var(--bg) !important; padding: 0.45rem 1.1rem; text-decoration: none; transition: background 0.2s; font-weight: 500; }
   .nav-cta:hover { background: #7aaaf0 !important; }
 
