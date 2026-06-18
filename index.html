@@ -812,6 +812,63 @@
   }
   .s-peak span { font-weight: 500; }
 
+  /* PHOTON BEAM RAIL — traversal animation for How It Works; literal r-CBG operating metaphor */
+  :root {
+    --beam-transit: 1.85s;
+    --photon-glow:  rgba(91,143,232,0.55);
+  }
+  .hiw-beam-rail {
+    position: relative;
+    height: 22px;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    margin-bottom: -1px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hiw-beam-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--rule);
+    transform: translateY(-50%);
+  }
+  .hiw-beam-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background: var(--dispersion-gradient);
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: width var(--beam-transit) cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+  }
+  .hiw-beam-fill.beam-on { width: 100%; opacity: 0.52; }
+  .hiw-photon {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(12,12,12,0.7), 0 0 10px var(--photon-glow);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: left var(--beam-transit) cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+  }
+  .hiw-photon.beam-on { left: 100%; opacity: 1; }
+  .hiw-num { transition: color 0.3s ease; }
+  .hiw-num.hiw-num-lit { color: var(--accent); }
+  @media (max-width: 768px) { .hiw-beam-rail { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hiw-beam-fill { transition: none !important; }
+    .hiw-photon   { transition: none !important; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -953,6 +1010,11 @@
     <div class="section-header">
       <div class="masthead-eyebrow" style="margin-bottom:1rem;">Operating Principle</div>
       <h2>How It Works</h2>
+    </div>
+    <div class="hiw-beam-rail" aria-hidden="true">
+      <div class="hiw-beam-track"></div>
+      <div class="hiw-beam-fill" id="hiw-beam-fill"></div>
+      <div class="hiw-photon" id="hiw-photon"></div>
     </div>
     <div class="hiw-flow">
       <div class="hiw-step">
@@ -1780,6 +1842,38 @@
     }, { threshold: 0.15 });
     hiwObs.observe(hiwSection);
   }
+
+  // Photon beam transit — animates a photon dot across the How It Works rail,
+  // mirroring the physical path of light through the r-CBG element
+  (function() {
+    var beamFill = document.getElementById('hiw-beam-fill');
+    var photon   = document.getElementById('hiw-photon');
+    var hiwSec   = document.getElementById('how-it-works');
+    if (!beamFill || !photon || !hiwSec) return;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fired = false;
+    new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting || fired) return;
+      fired = true;
+      var nums = hiwSec.querySelectorAll('.hiw-num');
+      if (reduced) {
+        beamFill.classList.add('beam-on');
+        photon.classList.add('beam-on');
+        nums.forEach(function(n) { n.classList.add('hiw-num-lit'); });
+        return;
+      }
+      requestAnimationFrame(function() {
+        beamFill.classList.add('beam-on');
+        photon.classList.add('beam-on');
+      });
+      // Step labels light up as photon passes each quarter; fractions account for ease-out curve
+      var transit = 1850;
+      [0, 0.27, 0.56, 0.80].forEach(function(frac, i) {
+        setTimeout(function() { if (nums[i]) nums[i].classList.add('hiw-num-lit'); },
+                   frac * transit + 60);
+      });
+    }, { threshold: 0.25 }).observe(hiwSec);
+  })();
 
   // Comparison table row staggered entrance
   var cmpTable = document.querySelector('.compare-table');
