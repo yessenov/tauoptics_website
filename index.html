@@ -671,6 +671,26 @@
     .sc-fill { transition: none !important; width: 100% !important; }
   }
 
+  /* RESOLUTION DEMO — spectral doublet comparison, proof of ~0.1 nm resolving power */
+  .rc-demo { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .rc-demo-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; }
+  .rc-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .rc-panel { border: 1px solid var(--rule); background: var(--surface); padding: 1.25rem 1.25rem 0.75rem; }
+  .rc-panel-hero { border-color: rgba(91,143,232,0.22); }
+  .rc-panel-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .rc-panel-name { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .rc-panel-hero .rc-panel-name { color: var(--accent); }
+  .rc-fwhm { font-family: var(--mono); font-size: 0.70rem; font-weight: 500; color: #4A4742; }
+  .rc-panel-hero .rc-fwhm { color: var(--accent); }
+  .rc-svg { width: 100%; height: auto; display: block; }
+  .rc-verdict { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; padding-top: 0.5rem; color: #4A4742; }
+  .rc-panel-hero .rc-verdict { color: var(--accent); }
+  .rc-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; }
+  .js-animations .rc-trace { stroke-dasharray: 420; stroke-dashoffset: 420; transition: stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1) 0.15s; }
+  .js-animations .rc-trace.rc-on { stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .rc-trace { stroke-dashoffset: 0 !important; transition: none !important; } }
+  @media (max-width: 600px) { .rc-panels { grid-template-columns: 1fr; } }
+
   /* MARKET OPPORTUNITY */
   .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--rule); }
   .market-card { padding: 2.25rem 2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; }
@@ -1143,6 +1163,64 @@
         <div class="sc-legend-item"><span class="sc-sw-main"></span>SpectraMini coverage (400–2,500 nm)</div>
         <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
       </div>
+    </div>
+    <div class="rc-demo" id="rc-demo">
+      <div class="rc-demo-title">Spectral Resolution &mdash; The Critical Advantage</div>
+      <div class="rc-panels">
+        <div class="rc-panel rc-panel-rival">
+          <div class="rc-panel-head">
+            <span class="rc-panel-name">Typical Portable Raman</span>
+            <span class="rc-fwhm">~2 nm FWHM</span>
+          </div>
+          <svg viewBox="0 0 240 88" class="rc-svg" aria-label="Unresolved spectral doublet — typical portable Raman">
+            <defs>
+              <linearGradient id="rc-grad-rival" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4A4742" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#4A4742" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <line x1="20" y1="72" x2="220" y2="72" stroke="#272727" stroke-width="0.75"/>
+            <line x1="85" y1="72" x2="85" y2="76" stroke="#383838" stroke-width="0.75"/>
+            <text x="85" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836">786.5</text>
+            <line x1="155" y1="72" x2="155" y2="76" stroke="#383838" stroke-width="0.75"/>
+            <text x="155" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836">787.5</text>
+            <text x="120" y="87" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#2A2A28">nm</text>
+            <path d="M 20,72 C 40,72 55,70 70,58 C 85,46 100,22 120,16 C 140,22 155,46 170,58 C 185,70 200,72 220,72 Z" fill="url(#rc-grad-rival)"/>
+            <path d="M 20,72 C 40,72 55,70 70,58 C 85,46 100,22 120,16 C 140,22 155,46 170,58 C 185,70 200,72 220,72" fill="none" stroke="#4A4742" stroke-width="1.5"/>
+          </svg>
+          <div class="rc-verdict">&#8212;&thinsp; Doublet unresolved</div>
+        </div>
+        <div class="rc-panel rc-panel-hero">
+          <div class="rc-panel-head">
+            <span class="rc-panel-name">SpectraMini (r-CBG)</span>
+            <span class="rc-fwhm">~0.1 nm FWHM</span>
+          </div>
+          <svg viewBox="0 0 240 88" class="rc-svg" aria-label="Resolved spectral doublet — SpectraMini r-CBG">
+            <defs>
+              <linearGradient id="rc-grad-hero" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#5B8FE8" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="#5B8FE8" stop-opacity="0.03"/>
+              </linearGradient>
+            </defs>
+            <line x1="20" y1="72" x2="220" y2="72" stroke="#272727" stroke-width="0.75"/>
+            <line x1="85" y1="72" x2="85" y2="76" stroke="#5B8FE8" stroke-width="0.75" opacity="0.5"/>
+            <text x="85" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">786.5</text>
+            <line x1="155" y1="72" x2="155" y2="76" stroke="#5B8FE8" stroke-width="0.75" opacity="0.5"/>
+            <text x="155" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">787.5</text>
+            <text x="120" y="87" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3836">nm</text>
+            <!-- FWHM bracket at half-max of peak 1 (apex y=10, baseline y=72, half-max y=41) -->
+            <line x1="82" y1="41" x2="88" y2="41" stroke="rgba(91,143,232,0.38)" stroke-width="0.75" stroke-dasharray="2,1.5"/>
+            <line x1="82" y1="39.5" x2="82" y2="43" stroke="rgba(91,143,232,0.38)" stroke-width="0.75"/>
+            <line x1="88" y1="39.5" x2="88" y2="43" stroke="rgba(91,143,232,0.38)" stroke-width="0.75"/>
+            <!-- Peak fill (static, low opacity) -->
+            <path d="M 20,72 L 78,72 C 80,72 83,45 85,10 C 87,45 90,72 92,72 L 148,72 C 150,72 153,50 155,20 C 157,50 160,72 162,72 L 220,72 Z" fill="url(#rc-grad-hero)"/>
+            <!-- Peak stroke (animated draw-in) -->
+            <path class="rc-trace" d="M 20,72 L 78,72 C 80,72 83,45 85,10 C 87,45 90,72 92,72 L 148,72 C 150,72 153,50 155,20 C 157,50 160,72 162,72 L 220,72" fill="none" stroke="#5B8FE8" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <div class="rc-verdict">&#10003;&thinsp; Doublet resolved</div>
+        </div>
+      </div>
+      <p class="rc-note">Simulated Raman doublet — two adjacent spectral lines 1&thinsp;nm apart at ~785&thinsp;nm. At ~0.1&thinsp;nm resolution, SpectraMini resolves the pair clearly. At ~2&thinsp;nm, portable instruments merge them into a single unresolved feature, masking chemical detail.</p>
     </div>
   </div>
 </section>
@@ -2060,6 +2138,21 @@
       if (entries[0].isIntersecting) { apertureDiagram.classList.add('ap-active'); }
     }, { threshold: 0.25 }).observe(apertureDiagram);
   }
+
+  // Resolution demo — draw SpectraMini peak trace on scroll into view
+  (function() {
+    var rcDemo = document.getElementById('rc-demo');
+    if (!rcDemo) return;
+    var rcTrace = rcDemo.querySelector('.rc-trace');
+    if (rcTrace && document.documentElement.classList.contains('js-animations')) {
+      var rcLen = rcTrace.getTotalLength();
+      rcTrace.style.strokeDasharray = rcLen;
+      rcTrace.style.strokeDashoffset = rcLen;
+    }
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && rcTrace) { rcTrace.classList.add('rc-on'); }
+    }, { threshold: 0.35 }).observe(rcDemo);
+  })();
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
