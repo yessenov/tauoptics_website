@@ -597,6 +597,31 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* RESOLUTION COMPARISON */
+  /* --diffraction-blur / --diffraction-peak: optics-vocabulary tokens for the resolution advantage panel */
+  :root {
+    --diffraction-blur: rgba(122,118,114,0.55);
+    --diffraction-peak: var(--accent);
+  }
+  .res-compare { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .res-compare-hdr { margin-bottom: 1.5rem; }
+  .res-compare-hdr p { font-size: 0.90rem; color: var(--muted); max-width: 62ch; line-height: 1.65; margin-top: 0.5rem; }
+  .res-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--rule); }
+  .res-panel { padding: 1.5rem 1.5rem 1.25rem; background: var(--surface); }
+  .res-panel:first-child { border-right: 1px solid var(--rule); }
+  .res-panel-label { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .res-badge { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; }
+  .res-badge--conv { color: var(--muted); }
+  .res-badge--rcbg { color: var(--accent); }
+  .res-res { font-family: var(--mono); font-size: 0.60rem; color: #3A3735; letter-spacing: 0.05em; }
+  .res-svg { width: 100%; height: auto; display: block; }
+  .res-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.75rem; line-height: 1.5; }
+  .js-animations .res-panel { opacity: 0; transform: translateY(10px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .res-panel:nth-child(2) { transition-delay: 0.18s; }
+  .js-animations .res-compare.res-anim .res-panel { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .res-panel { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  @media (max-width: 600px) { .res-panels { grid-template-columns: 1fr; } .res-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -832,6 +857,77 @@
         </div>
       </div>
     </div>
+    <!-- Resolution comparison: physics-accurate Gaussian peaks showing 0.1 nm vs 2 nm resolving power -->
+    <div class="res-compare" id="res-compare">
+      <div class="res-compare-hdr">
+        <div class="masthead-eyebrow" style="margin-bottom:0.6rem;">Resolution Advantage</div>
+        <p>Two Raman peaks separated by just 20 cm⁻¹ — indistinguishable to a conventional portable instrument, cleanly resolved by SpectraMini's r-CBG element.</p>
+      </div>
+      <div class="res-panels">
+        <div class="res-panel">
+          <div class="res-panel-label">
+            <span class="res-badge res-badge--conv">Conventional Portable</span>
+            <span class="res-res">0.5&ndash;2 nm resolution</span>
+          </div>
+          <svg class="res-svg" viewBox="0 0 340 155" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Conventional spectrometer: two Raman peaks merged into one unresolved mound">
+            <defs>
+              <linearGradient id="convGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(122,118,114,0.28)"/>
+                <stop offset="100%" stop-color="rgba(122,118,114,0.03)"/>
+              </linearGradient>
+            </defs>
+            <line x1="30" y1="125" x2="310" y2="125" stroke="#272727" stroke-width="0.75"/>
+            <polyline points="30,125 100,123 110,118 120,108 130,89 140,63 150,37 160,18 170,8 180,6 190,8 200,18 210,37 220,63 230,90 240,108 250,118 260,123 270,124 280,125 310,125" fill="url(#convGrad)" stroke="rgba(122,118,114,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+            <line x1="160" y1="125" x2="160" y2="130" stroke="#444" stroke-width="0.75"/>
+            <text x="160" y="140" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">P&#8321;</text>
+            <line x1="200" y1="125" x2="200" y2="130" stroke="#444" stroke-width="0.75"/>
+            <text x="200" y="140" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">P&#8322;</text>
+            <line x1="160" y1="125" x2="200" y2="125" stroke="#444" stroke-width="0.6" stroke-dasharray="2,2"/>
+            <text x="180" y="121" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#4A4742" text-anchor="middle">20 cm&#8315;&#185;</text>
+            <text x="180" y="16" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7672" text-anchor="middle">P&#8321; + P&#8322; merged</text>
+            <line x1="180" y1="18" x2="180" y2="26" stroke="#4A4742" stroke-width="0.6"/>
+            <text x="170" y="152" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3735" text-anchor="middle">Wavenumber (cm&#8315;&#185;)</text>
+          </svg>
+          <p class="res-note">Peaks P&#8321; and P&#8322; merge into a single unresolved feature &mdash; chemical identity cannot be confirmed.</p>
+        </div>
+        <div class="res-panel">
+          <div class="res-panel-label">
+            <span class="res-badge res-badge--rcbg">SpectraMini &middot; r-CBG</span>
+            <span class="res-res">~0.1 nm resolution</span>
+          </div>
+          <svg class="res-svg" viewBox="0 0 340 155" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SpectraMini: two Raman peaks clearly resolved as separate features">
+            <defs>
+              <linearGradient id="rcbgGrad1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(91,143,232,0.32)"/>
+                <stop offset="100%" stop-color="rgba(91,143,232,0.03)"/>
+              </linearGradient>
+              <linearGradient id="rcbgGrad2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(91,143,232,0.32)"/>
+                <stop offset="100%" stop-color="rgba(91,143,232,0.03)"/>
+              </linearGradient>
+            </defs>
+            <line x1="30" y1="125" x2="310" y2="125" stroke="#272727" stroke-width="0.75"/>
+            <polyline points="30,125 153,125 155,103 157,70 158,53 159,40 160,35 161,40 162,53 163,70 165,103 167,119 170,125 310,125" fill="url(#rcbgGrad1)" stroke="#5B8FE8" stroke-width="1.5" stroke-linejoin="round"/>
+            <polyline points="30,125 190,125 193,119 195,103 197,70 198,53 199,40 200,35 201,40 202,53 203,70 205,103 207,119 210,125 310,125" fill="url(#rcbgGrad2)" stroke="#5B8FE8" stroke-width="1.5" stroke-linejoin="round"/>
+            <line x1="160" y1="125" x2="160" y2="130" stroke="#444" stroke-width="0.75"/>
+            <text x="160" y="140" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="middle">P&#8321;</text>
+            <line x1="200" y1="125" x2="200" y2="130" stroke="#444" stroke-width="0.75"/>
+            <text x="200" y="140" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="middle">P&#8322;</text>
+            <line x1="160" y1="125" x2="200" y2="125" stroke="#5B8FE8" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.4"/>
+            <text x="180" y="121" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#5B8FE8" text-anchor="middle" opacity="0.7">20 cm&#8315;&#185;</text>
+            <line x1="160" y1="33" x2="160" y2="24" stroke="#5B8FE8" stroke-width="0.7"/>
+            <line x1="160" y1="24" x2="138" y2="24" stroke="#5B8FE8" stroke-width="0.7"/>
+            <text x="136" y="22" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="end">P&#8321; resolved</text>
+            <line x1="200" y1="33" x2="200" y2="24" stroke="#5B8FE8" stroke-width="0.7"/>
+            <line x1="200" y1="24" x2="222" y2="24" stroke="#5B8FE8" stroke-width="0.7"/>
+            <text x="224" y="22" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="start">P&#8322; resolved</text>
+            <text x="170" y="152" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3735" text-anchor="middle">Wavenumber (cm&#8315;&#185;)</text>
+          </svg>
+          <p class="res-note">Both peaks resolved distinctly &mdash; the 20&thinsp;cm&#8315;&#185; gap is measurable, the compound identifiable.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="spec-coverage" id="spec-coverage">
       <div class="sc-head">
         <span class="sc-title">Spectral Coverage</span>
@@ -1821,6 +1917,14 @@
       card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
     });
   })();
+
+  // Resolution comparison panel entrance
+  var resCompare = document.getElementById('res-compare');
+  if (resCompare) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { resCompare.classList.add('res-anim'); }
+    }, { threshold: 0.15 }).observe(resCompare);
+  }
 
   // Use-case filter tabs
   (function() {
