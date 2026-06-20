@@ -85,6 +85,16 @@
     /* Reticle tokens — precision dot-grid for the masthead, evoking optical bench surface */
     --reticle-pitch: 28px;
     --reticle-dot:   rgba(255,255,255,0.022);
+    /* Publication emission-line tokens — each paper keyed to a spectral channel from the dispersion palette */
+    --pub-line-1: #5B8FE8;   /* primary NIR channel — 785 nm Raman excitation */
+    --pub-line-2: #42B8C8;   /* cyan detection band */
+    --pub-line-3: #9B6AE8;   /* Bragg resonance violet */
+    /* Bragg-plane tokens — 45° inscription angle of the r-CBG grating, rendered as ambient texture */
+    --grating-angle: 45deg;
+    --grating-pitch: 24px;
+    --grating-plane: rgba(91,143,232,0.014);
+    /* Beam-scan nav token — opacity of the spectral underline sweeping left→right across the active nav link */
+    --nav-scan-opacity: 0.55;
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -94,8 +104,19 @@
   .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; position: relative; }
   .nav-logo img { height: 46px; width: auto; display: block; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.10em; transition: color 0.2s; }
+  .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.10em; transition: color 0.2s; position: relative; }
   .nav-links a:hover { color: var(--text); }
+  /* Beam-scan underline — dispersion gradient slides in left→right (scaleX 0→1) on hover and active section,
+     evoking the spatial wavelength encoding the r-CBG performs: each photon exits at a different x-position */
+  .nav-links a:not(.nav-cta)::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px;
+    background: var(--dispersion-gradient); opacity: var(--nav-scan-opacity);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.22s cubic-bezier(0.4,0,0.2,1); pointer-events: none;
+  }
+  .nav-links a.nav-active { color: var(--text); }
+  .nav-links a:not(.nav-cta):hover::after,
+  .nav-links a:not(.nav-cta).nav-active::after { transform: scaleX(1); }
   .nav-cta { background: var(--accent); color: var(--bg) !important; padding: 0.45rem 1.1rem; text-decoration: none; transition: background 0.2s; font-weight: 500; }
   .nav-cta:hover { background: #7aaaf0 !important; }
 
@@ -108,18 +129,30 @@
   .nav-links.mobile-open { display: flex; flex-direction: column; gap: 0; position: absolute; top: 64px; left: -2rem; right: -2rem; background: rgba(12,12,12,0.98); backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); padding: 0.5rem 0 1rem; }
   .nav-links.mobile-open li { width: 100%; }
   .nav-links.mobile-open a { display: block; padding: 0.8rem 2rem; font-size: 0.78rem; border-bottom: 1px solid var(--rule); }
+  .nav-links.mobile-open a::after { display: none; }
   .nav-links.mobile-open a:hover { background: var(--surface); }
   .nav-links.mobile-open .nav-cta { background: var(--accent); color: var(--bg) !important; margin: 0.75rem 2rem 0; padding: 0.7rem 1rem; text-align: center; border-bottom: none; }
 
   /* MASTHEAD */
-  .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; position: relative; background-image: radial-gradient(var(--reticle-dot) 1px, transparent 1px); background-size: var(--reticle-pitch) var(--reticle-pitch); }
+  .masthead { border-bottom: 1px solid var(--rule); padding: 5rem 2rem 4rem; position: relative; z-index: 0; overflow: hidden; background-image: radial-gradient(var(--reticle-dot) 1px, transparent 1px); background-size: var(--reticle-pitch) var(--reticle-pitch); }
   .masthead-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; }
   .masthead-eyebrow { font-family: var(--mono); font-size: 0.70rem; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
   .masthead-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); }
   h1 { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.01em; color: var(--text); }
   h1 em { color: var(--accent); font-style: italic; }
   .masthead-sub { margin-top: 1.5rem; font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 40ch; }
-  .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; }
+  .spec-card { border: 1px solid var(--rule); background: var(--surface); padding: 1.5rem; position: relative; overflow: hidden; }
+
+  /* ACQUISITION SCAN — mimics the r-CBG CCD readout: dispersion-gradient beam sweeps top-to-bottom once on load */
+  .spec-scan { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--dispersion-gradient); opacity: 0; pointer-events: none; z-index: 2; }
+  @keyframes specAcquire {
+    0%   { top: 0;    opacity: 0; }
+    5%   { opacity: 0.55; }
+    92%  { opacity: 0.55; }
+    100% { top: 100%; opacity: 0; }
+  }
+  .spec-card.acquiring .spec-scan { animation: specAcquire 1.6s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards; }
+  @media (prefers-reduced-motion: reduce) { .spec-card.acquiring .spec-scan { animation: none; opacity: 0 !important; } }
   .spec-card-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
   .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--rule); font-size: 0.88rem; padding-left: 0; transition: padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
   .spec-row:last-child { border-bottom: none; }
@@ -128,6 +161,26 @@
   .spec-row:hover .spec-label { color: var(--text); }
   .spec-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; transition: color 0.2s; }
   .spec-row:hover .spec-value { color: #9bb8f4; }
+
+  /* SPECTRAL SCAN BEAM — 4 px strip of dispersion-gradient sweeps masthead left-to-right,
+     mirroring the wavelength-scan gesture that is SpectraMini's core operating principle */
+  @keyframes spectralScan {
+    0%   { transform: translateX(0);     opacity: 0;    }
+    6%   {                               opacity: 0.09; }
+    93%  {                               opacity: 0.09; }
+    100% { transform: translateX(110vw); opacity: 0;    }
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: -4px;
+    width: 4px;
+    background: var(--dispersion-gradient);
+    pointer-events: none;
+    z-index: -1;
+    animation: spectralScan 12s cubic-bezier(0.25,0.1,0.75,0.9) 2.2s infinite;
+  }
+  @media (prefers-reduced-motion: reduce) { .masthead::before { animation: none; display: none; } }
 
   /* MASTHEAD ENTRANCE ANIMATION */
   @keyframes mastheadFadeUp {
@@ -156,6 +209,15 @@
   h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
 
   /* TECHNOLOGY */
+  #technology {
+    background-image: repeating-linear-gradient(
+      var(--grating-angle),
+      transparent,
+      transparent calc(var(--grating-pitch) - 0.75px),
+      var(--grating-plane) calc(var(--grating-pitch) - 0.75px),
+      var(--grating-plane) var(--grating-pitch)
+    );
+  }
   .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
   .tech-body p { margin-bottom: 1.1rem; font-size: 1rem; }
   .patent-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent2); border: 1px solid var(--accent2); padding: 0.35rem 0.8rem; margin-top: 0.8rem; }
@@ -248,8 +310,15 @@
 
   /* PUBLICATIONS */
   .pub-list { list-style: none; }
-  .pub-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .pub-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 1.5rem 0 1.5rem 1.25rem; border-bottom: 1px solid var(--rule); border-left: 2px solid var(--rule); align-items: start; transition: background 0.22s, border-left-color 0.25s; }
   .pub-item:first-child { border-top: 1px solid var(--rule); }
+  .pub-item:hover { background: rgba(255,255,255,0.013); }
+  .pub-item:nth-child(1) { border-left-color: var(--pub-line-1); }
+  .pub-item:nth-child(2) { border-left-color: var(--pub-line-2); }
+  .pub-item:nth-child(3) { border-left-color: var(--pub-line-3); }
+  .pub-item:nth-child(1):hover { border-left-color: #7aaaf0; box-shadow: -3px 0 14px rgba(91,143,232,0.10); }
+  .pub-item:nth-child(2):hover { border-left-color: #6ed8e8; box-shadow: -3px 0 14px rgba(66,184,200,0.10); }
+  .pub-item:nth-child(3):hover { border-left-color: #b89ef8; box-shadow: -3px 0 14px rgba(155,106,232,0.10); }
   .pub-year { font-family: var(--mono); font-size: 0.70rem; color: var(--muted); letter-spacing: 0.06em; }
   .pub-journal { font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent2); margin-bottom: 0.35rem; }
   .pub-title { font-size: 0.95rem; font-weight: 400; color: var(--text); line-height: 1.45; margin-bottom: 0.3rem; }
@@ -316,6 +385,29 @@
   .cv-mid  { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
   .cv-low  { font-family: var(--mono); font-size: 0.78rem; color: #4A4742; }
   .compare-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; }
+
+  /* PHOTON THROUGHPUT — aperture comparison; makes the slitless 60× claim visceral */
+  .photon-compare { margin-bottom: 2rem; padding: 1.5rem; background: var(--surface); border: 1px solid var(--rule); }
+  .pc-head { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .pc-head::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); flex-shrink: 0; }
+  .pc-rows { display: flex; flex-direction: column; gap: 0.85rem; }
+  .pc-row { display: grid; grid-template-columns: 180px 1fr 52px; gap: 0.75rem; align-items: center; }
+  .pc-row-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.03em; }
+  .pc-row-hero .pc-row-label { color: var(--accent); }
+  .pc-track { height: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; }
+  .pc-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; transition: width 1.3s cubic-bezier(0.16,1,0.3,1); }
+  .pc-bar-slit { background: rgba(122,118,114,0.50); transition-delay: 0s; }
+  .pc-bar-hero { background: linear-gradient(90deg, var(--accent) 0%, #8aacf2 100%); transition-delay: 0.3s; }
+  .photon-compare.pc-active .pc-bar-slit  { width: 1.67%; }
+  .photon-compare.pc-active .pc-bar-hero  { width: 100%; }
+  .pc-val { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); text-align: right; white-space: nowrap; }
+  .pc-row-hero .pc-val { color: var(--accent); }
+  .pc-footnote { font-size: 0.80rem; color: var(--muted); font-style: italic; margin-top: 1.35rem; line-height: 1.65; max-width: 72ch; border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 768px) { .pc-row { grid-template-columns: 110px 1fr 36px; gap: 0.5rem; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pc-bar-slit { transition: none !important; width: 1.67% !important; }
+    .pc-bar-hero { transition: none !important; width: 100% !important; }
+  }
 
   /* SCROLL REVEAL */
   .js-animations .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
@@ -517,7 +609,7 @@
   /* NEWS & PUBLICATION ITEM ENTRANCE */
   .js-animations .news-item { opacity: 0; transform: translateY(14px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .news-item.news-in { opacity: 1; transform: none; }
-  .js-animations .pub-item { opacity: 0; transform: translateY(14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .pub-item { opacity: 0; transform: translateX(-14px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1), background 0.22s, border-left-color 0.25s; }
   .js-animations .pub-item.pub-in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .js-animations .news-item, .js-animations .pub-item { opacity: 1 !important; transform: none !important; transition: none !important; }
@@ -579,6 +671,26 @@
     .sc-fill { transition: none !important; width: 100% !important; }
   }
 
+  /* RESOLUTION DEMO — spectral doublet comparison, proof of ~0.1 nm resolving power */
+  .rc-demo { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .rc-demo-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; }
+  .rc-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .rc-panel { border: 1px solid var(--rule); background: var(--surface); padding: 1.25rem 1.25rem 0.75rem; }
+  .rc-panel-hero { border-color: rgba(91,143,232,0.22); }
+  .rc-panel-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .rc-panel-name { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .rc-panel-hero .rc-panel-name { color: var(--accent); }
+  .rc-fwhm { font-family: var(--mono); font-size: 0.70rem; font-weight: 500; color: #4A4742; }
+  .rc-panel-hero .rc-fwhm { color: var(--accent); }
+  .rc-svg { width: 100%; height: auto; display: block; }
+  .rc-verdict { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; padding-top: 0.5rem; color: #4A4742; }
+  .rc-panel-hero .rc-verdict { color: var(--accent); }
+  .rc-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; }
+  .js-animations .rc-trace { stroke-dasharray: 420; stroke-dashoffset: 420; transition: stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1) 0.15s; }
+  .js-animations .rc-trace.rc-on { stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .rc-trace { stroke-dashoffset: 0 !important; transition: none !important; } }
+  @media (max-width: 600px) { .rc-panels { grid-template-columns: 1fr; } }
+
   /* MARKET OPPORTUNITY */
   .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--rule); }
   .market-card { padding: 2.25rem 2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; }
@@ -596,6 +708,182 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(3) { transition-delay: 180ms; }
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
+
+  /* APERTURE DIAGRAM — true-scale physical footprint; naming follows instrument-optics vocabulary */
+  .aperture-diagram { margin: 2rem 0 2.25rem; padding: 1.5rem 1.5rem 1.25rem; background: var(--surface); border: 1px solid var(--rule); }
+  .aperture-head { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .aperture-head::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); flex-shrink: 0; }
+  .aperture-chart svg { display: block; width: 100%; height: auto; }
+  .ap-portable {
+    transform-box: fill-box; transform-origin: 50% 100%;
+    transform: scaleY(0);
+    transition: transform 0.80s cubic-bezier(0.16,1,0.3,1);
+  }
+  .ap-bench {
+    transform-box: fill-box; transform-origin: 50% 100%;
+    transform: scaleY(0);
+    transition: transform 1.00s cubic-bezier(0.16,1,0.3,1) 0.08s;
+  }
+  .ap-grating     { opacity: 0; transition: opacity 0.35s ease 0.85s; }
+  .ap-label-bench    { opacity: 0; transition: opacity 0.30s ease 0.12s; }
+  .ap-label-portable { opacity: 0; transition: opacity 0.30s ease 0.18s; }
+  .ap-label-grating  { opacity: 0; transition: opacity 0.30s ease 0.92s; }
+  .aperture-diagram.ap-active .ap-portable    { transform: scaleY(1); }
+  .aperture-diagram.ap-active .ap-bench       { transform: scaleY(1); }
+  .aperture-diagram.ap-active .ap-grating     { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-bench    { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-portable { opacity: 1; }
+  .aperture-diagram.ap-active .ap-label-grating  { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .ap-portable, .ap-bench { transform: scaleY(1) !important; transition: none !important; }
+    .ap-grating, .ap-label-bench, .ap-label-portable, .ap-label-grating { opacity: 1 !important; transition: none !important; }
+  }
+
+  /* SPECTRUM DEMO — detector-channel selector panel */
+  .spectrum-wrap {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-template-rows: 1fr auto;
+    border: 1px solid var(--rule);
+  }
+  .spectrum-mats {
+    grid-row: 1 / 3;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+  }
+  .spectrum-canvas-wrap {
+    padding: 1rem 1.5rem 0.5rem;
+    background: var(--surface);
+  }
+  .spectrum-peaks {
+    border-top: 1px solid var(--rule);
+    padding: 0.55rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    background: var(--surface);
+    min-height: 38px;
+  }
+  .spectrum-mat {
+    position: relative;
+    display: block;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.18s;
+  }
+  .spectrum-mat:last-child { border-bottom: none; }
+  .spectrum-mat::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: transparent;
+    transition: background 0.22s;
+  }
+  .spectrum-mat:hover { background: rgba(255,255,255,0.018); }
+  .spectrum-mat.s-active { background: rgba(91,143,232,0.03); }
+  .spectrum-mat.s-active::before { background: var(--ch-color, var(--accent)); }
+  .s-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.28rem;
+  }
+  .s-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .s-name {
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.2;
+    transition: color 0.18s;
+  }
+  .spectrum-mat.s-active .s-name { color: var(--accent); }
+  .s-peak {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--rule);
+    padding: 0.18rem 0.52rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .s-peak span { font-weight: 500; }
+
+  /* PHOTON BEAM RAIL — traversal animation for How It Works; literal r-CBG operating metaphor */
+  :root {
+    --beam-transit: 1.85s;
+    --photon-glow:  rgba(91,143,232,0.55);
+  }
+  .hiw-beam-rail {
+    position: relative;
+    height: 22px;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    margin-bottom: -1px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hiw-beam-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--rule);
+    transform: translateY(-50%);
+  }
+  .hiw-beam-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background: var(--dispersion-gradient);
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: width var(--beam-transit) cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+  }
+  .hiw-beam-fill.beam-on { width: 100%; opacity: 0.52; }
+  .hiw-photon {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(12,12,12,0.7), 0 0 10px var(--photon-glow);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: left var(--beam-transit) cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+  }
+  .hiw-photon.beam-on { left: 100%; opacity: 1; }
+  .hiw-num { transition: color 0.3s ease; }
+  .hiw-num.hiw-num-lit { color: var(--accent); }
+  @media (max-width: 768px) { .hiw-beam-rail { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hiw-beam-fill { transition: none !important; }
+    .hiw-photon   { transition: none !important; }
+  }
 
   /* RESOLUTION COMPARISON */
   /* --diffraction-blur / --diffraction-peak: optics-vocabulary tokens for the resolution advantage panel */
@@ -643,6 +931,10 @@
     .market-card { border-right: none !important; }
     .market-card:nth-child(3), .market-card:nth-child(4) { border-bottom: 1px solid var(--rule); }
     .market-card:last-child { border-bottom: none; }
+    .spectrum-wrap { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+    .spectrum-mats { grid-row: auto; flex-direction: row; border-right: none; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+    .spectrum-mat { border-bottom: none; border-right: 1px solid var(--rule); flex: 1; min-width: 88px; }
+    .spectrum-mat:last-child { border-right: none; }
   }
 </style>
 </head>
@@ -760,6 +1052,11 @@
       <div class="masthead-eyebrow" style="margin-bottom:1rem;">Operating Principle</div>
       <h2>How It Works</h2>
     </div>
+    <div class="hiw-beam-rail" aria-hidden="true">
+      <div class="hiw-beam-track"></div>
+      <div class="hiw-beam-fill" id="hiw-beam-fill"></div>
+      <div class="hiw-photon" id="hiw-photon"></div>
+    </div>
     <div class="hiw-flow">
       <div class="hiw-step">
         <div class="hiw-num">Step 01 &mdash; Input</div>
@@ -788,6 +1085,7 @@
 <section id="technology">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">r-CBG Architecture</div>
       <h2>Technology</h2>
     </div>
     <div class="tech-grid">
@@ -958,6 +1256,64 @@
         <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
       </div>
     </div>
+    <div class="rc-demo" id="rc-demo">
+      <div class="rc-demo-title">Spectral Resolution &mdash; The Critical Advantage</div>
+      <div class="rc-panels">
+        <div class="rc-panel rc-panel-rival">
+          <div class="rc-panel-head">
+            <span class="rc-panel-name">Typical Portable Raman</span>
+            <span class="rc-fwhm">~2 nm FWHM</span>
+          </div>
+          <svg viewBox="0 0 240 88" class="rc-svg" aria-label="Unresolved spectral doublet — typical portable Raman">
+            <defs>
+              <linearGradient id="rc-grad-rival" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4A4742" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#4A4742" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <line x1="20" y1="72" x2="220" y2="72" stroke="#272727" stroke-width="0.75"/>
+            <line x1="85" y1="72" x2="85" y2="76" stroke="#383838" stroke-width="0.75"/>
+            <text x="85" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836">786.5</text>
+            <line x1="155" y1="72" x2="155" y2="76" stroke="#383838" stroke-width="0.75"/>
+            <text x="155" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836">787.5</text>
+            <text x="120" y="87" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#2A2A28">nm</text>
+            <path d="M 20,72 C 40,72 55,70 70,58 C 85,46 100,22 120,16 C 140,22 155,46 170,58 C 185,70 200,72 220,72 Z" fill="url(#rc-grad-rival)"/>
+            <path d="M 20,72 C 40,72 55,70 70,58 C 85,46 100,22 120,16 C 140,22 155,46 170,58 C 185,70 200,72 220,72" fill="none" stroke="#4A4742" stroke-width="1.5"/>
+          </svg>
+          <div class="rc-verdict">&#8212;&thinsp; Doublet unresolved</div>
+        </div>
+        <div class="rc-panel rc-panel-hero">
+          <div class="rc-panel-head">
+            <span class="rc-panel-name">SpectraMini (r-CBG)</span>
+            <span class="rc-fwhm">~0.1 nm FWHM</span>
+          </div>
+          <svg viewBox="0 0 240 88" class="rc-svg" aria-label="Resolved spectral doublet — SpectraMini r-CBG">
+            <defs>
+              <linearGradient id="rc-grad-hero" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#5B8FE8" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="#5B8FE8" stop-opacity="0.03"/>
+              </linearGradient>
+            </defs>
+            <line x1="20" y1="72" x2="220" y2="72" stroke="#272727" stroke-width="0.75"/>
+            <line x1="85" y1="72" x2="85" y2="76" stroke="#5B8FE8" stroke-width="0.75" opacity="0.5"/>
+            <text x="85" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">786.5</text>
+            <line x1="155" y1="72" x2="155" y2="76" stroke="#5B8FE8" stroke-width="0.75" opacity="0.5"/>
+            <text x="155" y="84" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">787.5</text>
+            <text x="120" y="87" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3836">nm</text>
+            <!-- FWHM bracket at half-max of peak 1 (apex y=10, baseline y=72, half-max y=41) -->
+            <line x1="82" y1="41" x2="88" y2="41" stroke="rgba(91,143,232,0.38)" stroke-width="0.75" stroke-dasharray="2,1.5"/>
+            <line x1="82" y1="39.5" x2="82" y2="43" stroke="rgba(91,143,232,0.38)" stroke-width="0.75"/>
+            <line x1="88" y1="39.5" x2="88" y2="43" stroke="rgba(91,143,232,0.38)" stroke-width="0.75"/>
+            <!-- Peak fill (static, low opacity) -->
+            <path d="M 20,72 L 78,72 C 80,72 83,45 85,10 C 87,45 90,72 92,72 L 148,72 C 150,72 153,50 155,20 C 157,50 160,72 162,72 L 220,72 Z" fill="url(#rc-grad-hero)"/>
+            <!-- Peak stroke (animated draw-in) -->
+            <path class="rc-trace" d="M 20,72 L 78,72 C 80,72 83,45 85,10 C 87,45 90,72 92,72 L 148,72 C 150,72 153,50 155,20 C 157,50 160,72 162,72 L 220,72" fill="none" stroke="#5B8FE8" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <div class="rc-verdict">&#10003;&thinsp; Doublet resolved</div>
+        </div>
+      </div>
+      <p class="rc-note">Simulated Raman doublet — two adjacent spectral lines 1&thinsp;nm apart at ~785&thinsp;nm. At ~0.1&thinsp;nm resolution, SpectraMini resolves the pair clearly. At ~2&thinsp;nm, portable instruments merge them into a single unresolved feature, masking chemical detail.</p>
+    </div>
   </div>
 </section>
 
@@ -1060,6 +1416,61 @@
       <div class="masthead-eyebrow" style="margin-bottom:1rem;">Competitive Landscape</div>
       <h2>SpectraMini vs. the Field</h2>
     </div>
+    <div class="photon-compare" id="photon-compare">
+      <div class="pc-head">Photon Throughput &mdash; Slitless Advantage</div>
+      <div class="pc-rows">
+        <div class="pc-row">
+          <span class="pc-row-label">Conventional slit-grating</span>
+          <div class="pc-track"><div class="pc-bar pc-bar-slit"></div></div>
+          <span class="pc-val">1&times;</span>
+        </div>
+        <div class="pc-row pc-row-hero">
+          <span class="pc-row-label">r-CBG &middot; SpectraMini</span>
+          <div class="pc-track"><div class="pc-bar pc-bar-hero"></div></div>
+          <span class="pc-val">60&times;</span>
+        </div>
+      </div>
+      <p class="pc-footnote">At equivalent spectral resolution, the r-CBG architecture delivers 60&times; more light to the detector. In conventional Raman instruments, a narrow input slit defines resolution by spatial filtering — rejecting ~98% of the collected beam before it reaches the grating. The r-CBG encodes resolution via chirp rate and grating geometry inside the glass: no slit, no photon loss, no resolution trade-off.</p>
+    </div>
+
+    <div class="aperture-diagram" id="aperture-diagram">
+      <div class="aperture-head">Physical Footprint — True Scale</div>
+      <div class="aperture-chart">
+        <svg viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg" aria-label="True-scale footprint comparison: SpectraMini versus portable and benchtop Raman spectrometers" role="img">
+          <defs>
+            <pattern id="ap-grid" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+              <circle cx="0" cy="0" r="0.6" fill="rgba(255,255,255,0.022)"/>
+            </pattern>
+          </defs>
+          <rect width="660" height="170" fill="url(#ap-grid)"/>
+          <!-- Benchtop: sqrt(2000)≈44.7 cm × 7 px/cm ≈ 313 px; baseline y=150, top at y=−163 (extends above viewport) -->
+          <rect class="ap-bench" x="210" y="-163" width="313" height="313" fill="rgba(255,255,255,0.007)" stroke="rgba(70,68,65,0.28)" stroke-width="0.75" stroke-dasharray="4,3"/>
+          <g class="ap-label-bench">
+            <text x="366" y="17" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="rgba(86,82,78,0.85)" text-anchor="middle">Benchtop Raman</text>
+            <text x="366" y="28" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="rgba(58,56,53,0.9)" text-anchor="middle">&gt;2,000 cm²</text>
+          </g>
+          <!-- Portable Raman: sqrt(300)≈17.3 cm × 7 px/cm ≈ 121 px; baseline y=150, top at y=29 -->
+          <rect class="ap-portable" x="55" y="29" width="121" height="121" fill="rgba(255,255,255,0.010)" stroke="rgba(122,118,114,0.30)" stroke-width="0.75"/>
+          <g class="ap-label-portable">
+            <text x="115" y="11" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="#5A5652" text-anchor="middle">Portable Raman</text>
+            <text x="115" y="22" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#3A3835" text-anchor="middle">~300 cm²</text>
+          </g>
+          <!-- SpectraMini: sqrt(5)≈2.24 cm × 7 px/cm ≈ 16 px; sits in the lower-left corner of the portable box -->
+          <rect class="ap-grating" x="55" y="134" width="16" height="16" fill="rgba(91,143,232,0.11)" stroke="rgba(91,143,232,0.62)" stroke-width="0.85"/>
+          <line class="ap-label-grating" x1="71" y1="142" x2="204" y2="100" stroke="rgba(91,143,232,0.22)" stroke-width="0.65" stroke-dasharray="2,2"/>
+          <g class="ap-label-grating">
+            <text x="208" y="97" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="#5B8FE8">SpectraMini</text>
+            <text x="208" y="108" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="rgba(91,143,232,0.75)">~5 cm²</text>
+          </g>
+          <!-- Scale bar: 7 px = 1 cm -->
+          <line x1="18" y1="160" x2="25" y2="160" stroke="#3A3835" stroke-width="1"/>
+          <line x1="18" y1="156" x2="18" y2="164" stroke="#3A3835" stroke-width="0.75"/>
+          <line x1="25" y1="156" x2="25" y2="164" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="21.5" y="169" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3A3835" text-anchor="middle">1 cm</text>
+        </svg>
+      </div>
+    </div>
+
     <div class="compare-scroll">
       <div class="compare-table">
         <div class="compare-thead">
@@ -1185,19 +1596,19 @@
     </div>
     <div class="spectrum-wrap">
       <div class="spectrum-mats">
-        <button class="spectrum-mat s-active" data-mat="fentanyl">
+        <button class="spectrum-mat s-active" data-mat="fentanyl" style="--ch-color:#E05C3A">
           <div class="s-tag"><span class="s-dot" style="background:#E05C3A"></span>Safety</div>
           <div class="s-name">Fentanyl</div>
         </button>
-        <button class="spectrum-mat" data-mat="glucose">
+        <button class="spectrum-mat" data-mat="glucose" style="--ch-color:#42B8C8">
           <div class="s-tag"><span class="s-dot" style="background:#42B8C8"></span>Health</div>
           <div class="s-name">Glucose</div>
         </button>
-        <button class="spectrum-mat" data-mat="aspirin">
+        <button class="spectrum-mat" data-mat="aspirin" style="--ch-color:#80C842">
           <div class="s-tag"><span class="s-dot" style="background:#80C842"></span>Pharma</div>
           <div class="s-name">Aspirin tablet</div>
         </button>
-        <button class="spectrum-mat" data-mat="polystyrene">
+        <button class="spectrum-mat" data-mat="polystyrene" style="--ch-color:#9B6AE8">
           <div class="s-tag"><span class="s-dot" style="background:#9B6AE8"></span>Industrial</div>
           <div class="s-name">Polystyrene</div>
         </button>
@@ -1214,12 +1625,13 @@
 <section id="about">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">About Tau Optics</div>
       <h2>Revolutionizing Spectroscopy</h2>
     </div>
     <div class="about-grid">
       <div class="about-body">
         <p>Tau Optics is a spinout from the University of Central Florida's College of Optics &amp; Photonics (CREOL) — one of the world's foremost institutions for photonics research. Founded in 2024, the company commercializes the rotated chirped Bragg grating (r-CBG), co-invented at UCF and exclusively licensed to Tau Optics.</p>
-        <p>Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments to validate the commercial potential of the SpectraMini platform.</p>
+        <p>Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews.</p>
         <p>Tau Optics is backed by NSF STTR Phase I and is an active member of the UCF Business Incubation Program. Core R&amp;D is conducted in partnership with Prof. Ivan Divliansky's holographic optics laboratory at UCF — a world-leading center for volume Bragg grating fabrication — and in collaboration with the Department of Electrical and Computer Engineering at the University of Utah.</p>
         <div class="affiliation-wrap">
           <span class="affiliation">&#9632; &nbsp; UCF Business Incubation Program</span>
@@ -1268,6 +1680,7 @@
 <section id="partners">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Collaboration Network</div>
       <h2>Partners &amp; Collaborators</h2>
     </div>
     <div class="partner-grid">
@@ -1294,6 +1707,7 @@
 <section id="news">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Latest Updates</div>
       <h2>News &amp; Recognition</h2>
     </div>
     <div>
@@ -1302,7 +1716,7 @@
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
           <div class="news-headline">Tau Optics completes NSF I-Corps program with 100+ customer discovery interviews</div>
-          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments over ten weeks of systematic customer engagement.</div>
+          <div class="news-snippet">Tau Optics completed the NSF I-Corps program with 100+ customer discovery interviews conducted.</div>
         </div>
       </div>
       <div class="news-item">
@@ -1331,6 +1745,7 @@
 <section id="publications">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Peer-Reviewed Science</div>
       <h2>Research &amp; Publications</h2>
     </div>
     <ul class="pub-list">
@@ -1368,6 +1783,7 @@
 <section id="backed">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Institutional Support</div>
       <h2>Backed By</h2>
     </div>
     <div class="backed-grid">
@@ -1423,6 +1839,7 @@
 <section id="contact">
   <div class="section-inner reveal">
     <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Connect</div>
       <h2>Get in Touch</h2>
     </div>
     <div class="contact-grid">
@@ -1462,7 +1879,9 @@
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + entry.target.id ? 'var(--text)' : ''; });
+        navLinks.forEach(a => {
+          a.classList.toggle('nav-active', a.getAttribute('href') === '#' + entry.target.id);
+        });
       }
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
@@ -1561,6 +1980,17 @@
     setTimeout(function() { row.classList.add('spec-in'); }, 450 + i * 55);
   });
 
+  // Spec card acquisition scan — CCD readout sweep fires once after spec rows settle
+  (function() {
+    var sc = document.querySelector('.spec-card');
+    if (!sc) return;
+    var beam = document.createElement('div');
+    beam.className = 'spec-scan';
+    beam.setAttribute('aria-hidden', 'true');
+    sc.appendChild(beam);
+    sc.classList.add('acquiring');
+  }());
+
   // Reading progress bar
   const readFill = document.getElementById('read-fill');
   if (readFill) {
@@ -1582,6 +2012,38 @@
     }, { threshold: 0.15 });
     hiwObs.observe(hiwSection);
   }
+
+  // Photon beam transit — animates a photon dot across the How It Works rail,
+  // mirroring the physical path of light through the r-CBG element
+  (function() {
+    var beamFill = document.getElementById('hiw-beam-fill');
+    var photon   = document.getElementById('hiw-photon');
+    var hiwSec   = document.getElementById('how-it-works');
+    if (!beamFill || !photon || !hiwSec) return;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fired = false;
+    new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting || fired) return;
+      fired = true;
+      var nums = hiwSec.querySelectorAll('.hiw-num');
+      if (reduced) {
+        beamFill.classList.add('beam-on');
+        photon.classList.add('beam-on');
+        nums.forEach(function(n) { n.classList.add('hiw-num-lit'); });
+        return;
+      }
+      requestAnimationFrame(function() {
+        beamFill.classList.add('beam-on');
+        photon.classList.add('beam-on');
+      });
+      // Step labels light up as photon passes each quarter; fractions account for ease-out curve
+      var transit = 1850;
+      [0, 0.27, 0.56, 0.80].forEach(function(frac, i) {
+        setTimeout(function() { if (nums[i]) nums[i].classList.add('hiw-num-lit'); },
+                   frac * transit + 60);
+      });
+    }, { threshold: 0.25 }).observe(hiwSec);
+  })();
 
   // Comparison table row staggered entrance
   var cmpTable = document.querySelector('.compare-table');
@@ -1751,6 +2213,38 @@
       if (entries[0].isIntersecting) { spectralStrip.classList.add('strip-active'); }
     }, { threshold: 0.45 }).observe(spectralStrip);
   }
+
+  // Photon throughput comparison — animate bars when scrolled into view
+  var pcWrap = document.getElementById('photon-compare');
+  if (pcWrap) {
+    var pcObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { pcWrap.classList.add('pc-active'); pcObs.disconnect(); }
+    }, { threshold: 0.35 });
+    pcObs.observe(pcWrap);
+  }
+
+  // Aperture footprint diagram — grow instrument boxes from baseline on scroll
+  var apertureDiagram = document.getElementById('aperture-diagram');
+  if (apertureDiagram) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { apertureDiagram.classList.add('ap-active'); }
+    }, { threshold: 0.25 }).observe(apertureDiagram);
+  }
+
+  // Resolution demo — draw SpectraMini peak trace on scroll into view
+  (function() {
+    var rcDemo = document.getElementById('rc-demo');
+    if (!rcDemo) return;
+    var rcTrace = rcDemo.querySelector('.rc-trace');
+    if (rcTrace && document.documentElement.classList.contains('js-animations')) {
+      var rcLen = rcTrace.getTotalLength();
+      rcTrace.style.strokeDasharray = rcLen;
+      rcTrace.style.strokeDashoffset = rcLen;
+    }
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && rcTrace) { rcTrace.classList.add('rc-on'); }
+    }, { threshold: 0.35 }).observe(rcDemo);
+  })();
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
