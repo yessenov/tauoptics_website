@@ -936,6 +936,16 @@
     .spectrum-mat { border-bottom: none; border-right: 1px solid var(--rule); flex: 1; min-width: 88px; }
     .spectrum-mat:last-child { border-right: none; }
   }
+
+  /* Spectrum mat stagger entrance */
+  .js-animations .spectrum-mat { opacity: 0; transform: translateY(10px); transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .spectrum-mats.smats-in .spectrum-mat { opacity: 1; transform: none; }
+  .js-animations .spectrum-mats.smats-in .spectrum-mat:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .spectrum-mats.smats-in .spectrum-mat:nth-child(2) { transition-delay: 80ms; }
+  .js-animations .spectrum-mats.smats-in .spectrum-mat:nth-child(3) { transition-delay: 160ms; }
+  .js-animations .spectrum-mats.smats-in .spectrum-mat:nth-child(4) { transition-delay: 240ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .spectrum-mat { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
+
 </style>
 </head>
 <body>
@@ -2246,6 +2256,13 @@
     }, { threshold: 0.35 }).observe(rcDemo);
   })();
 
+  // Spectrum demo material selector staggered entrance
+  var sMatGrid = document.querySelector('.spectrum-mats');
+  if (sMatGrid) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { sMatGrid.classList.add('smats-in'); }
+    }, { threshold: 0.2 }).observe(sMatGrid);
+  }
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
