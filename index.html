@@ -623,7 +623,7 @@
   .spec-pill.active[data-mat="1"] { border-color: #C97A50; color: #C97A50; background: rgba(201,122,80,0.06); }
   .spec-pill.active[data-mat="2"] { border-color: #80C842; color: #80C842; background: rgba(128,200,66,0.06); }
   .spec-pill.active[data-mat="3"] { border-color: #9B6AE8; color: #9B6AE8; background: rgba(155,106,232,0.06); }
-  .specview-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; margin: 0; }
+  .specview-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; margin: 0; position: relative; }
   .specview-svg { width: 100%; height: auto; display: block; }
   .specview-figcap { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.85rem; line-height: 1.5; }
   .spec-trace { fill: none; stroke-width: 1.8; opacity: 0; }
@@ -633,6 +633,53 @@
   .specview-intro { font-size: 1rem; color: var(--muted); max-width: 64ch; margin-bottom: 2rem; line-height: 1.7; }
   @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
   @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
+
+  /* ACQUISITION STATUS — detector-state indicator, evoking the CCD readout cycle:
+     ACQ (pulsing blue dot) while the trace draws left→right; RDY when complete.
+     The dispersion-gradient bar below the SVG fills in sync with the 700ms draw,
+     making the acquisition interval legible as a physical measurement event. */
+  :root { --acq-draw: 700ms; }
+  .acq-status {
+    position: absolute;
+    top: 1.15rem;
+    right: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.60rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #3A3735;
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.25s;
+  }
+  .acq-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #3A3735;
+    flex-shrink: 0;
+    transition: background 0.25s;
+  }
+  .acq-status.acq-live { color: var(--accent); }
+  .acq-status.acq-live .acq-dot {
+    background: var(--accent);
+    animation: acqBlink 0.65s ease-in-out infinite;
+  }
+  @keyframes acqBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .acq-bar-wrap {
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+    overflow: hidden;
+    margin-top: 0.7rem;
+  }
+  .acq-bar { height: 100%; width: 0%; background: var(--dispersion-gradient); opacity: 0.55; }
+  @media (prefers-reduced-motion: reduce) {
+    .acq-status.acq-live .acq-dot { animation: none; }
+    .acq-bar { opacity: 0 !important; }
+  }
 
   /* SPECTRAL COVERAGE */
   .spec-coverage { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
@@ -1341,6 +1388,7 @@
       <button class="spec-pill" data-mat="3" role="tab" aria-selected="false">Skin (NIR)</button>
     </div>
     <figure class="specview-panel">
+      <div class="acq-status" id="acq-status" aria-hidden="true"><span class="acq-dot"></span><span class="acq-text">RDY</span></div>
       <svg viewBox="0 0 500 195" class="specview-svg" aria-label="Raman spectrum plot">
         <!-- Axes -->
         <line x1="55" y1="150" x2="470" y2="150" stroke="#272727" stroke-width="1"/>
@@ -1415,6 +1463,7 @@
           <text x="362" y="62" font-family="IBM Plex Mono,monospace" font-size="6.2" fill="#9B6AE8" text-anchor="end" opacity="0.7">amide I band</text>
         </g>
       </svg>
+      <div class="acq-bar-wrap" aria-hidden="true"><div class="acq-bar" id="acq-bar"></div></div>
       <p class="specview-figcap">Simulated Raman fingerprint spectra — representative peak positions for illustrative purposes. Actual spectra depend on sample and acquisition parameters.</p>
     </figure>
   </div>
@@ -2281,13 +2330,19 @@
     if (!pills.length) return;
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var initialized   = false;
+    var acqStatus = document.getElementById('acq-status');
+    var acqBar    = document.getElementById('acq-bar');
+    // Callout delay (ms) per material: timed to when the 700ms draw reaches the annotated peak x-position
+    // Peak x positions in SVG coords (range 55–470): Polystyrene x=194, Ethanol x=350, Paracetamol x=418, Skin x=420
+    var calDelays = [245, 490, 600, 605];
 
     function activate(idx, animate) {
       pills.forEach(function(p, i) {
         p.classList.toggle('active', i === idx);
         p.setAttribute('aria-selected', String(i === idx));
       });
-      cals.forEach(function(c, i) { c.classList.toggle('sp-active', i === idx); });
+      // Clear all callouts immediately; active callout reappears with peak-position delay
+      cals.forEach(function(c) { c.classList.remove('sp-active'); c.style.transition = 'none'; });
       traces.forEach(function(t, i) {
         if (i === idx) {
           if (animate && !reducedMotion) {
@@ -2314,6 +2369,35 @@
           t.style.transition = 'opacity 0.2s ease';
         }
       });
+      // Callout label appears when the trace reaches the annotated peak x-position
+      var cal = cals[idx];
+      if (cal) {
+        var delay = (animate && !reducedMotion) ? (calDelays[idx] || 0) : 0;
+        if (delay > 0) {
+          setTimeout(function() { cal.style.transition = 'opacity 0.28s ease'; cal.classList.add('sp-active'); }, delay);
+        } else {
+          cal.style.transition = '';
+          cal.classList.add('sp-active');
+        }
+      }
+      // ACQ badge pulses + dispersion bar fills for the duration of the trace draw
+      if (animate && !reducedMotion && acqStatus && acqBar) {
+        var acqText = acqStatus.querySelector('.acq-text');
+        acqStatus.classList.add('acq-live');
+        if (acqText) acqText.textContent = 'ACQ';
+        acqBar.style.transition = 'none';
+        acqBar.style.width = '0%';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            acqBar.style.transition = 'width 700ms cubic-bezier(0.16,1,0.3,1)';
+            acqBar.style.width = '100%';
+          });
+        });
+        setTimeout(function() {
+          acqStatus.classList.remove('acq-live');
+          if (acqText) acqText.textContent = 'RDY';
+        }, 760);
+      }
     }
 
     pills.forEach(function(pill, i) {
