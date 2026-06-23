@@ -484,6 +484,20 @@
   .js-animations .hiw-step.hiw-visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js-animations .hiw-step { opacity: 1 !important; transform: none !important; } }
 
+  /* ADVANTAGE LIST ENTRANCE — sequential scan-confirm readout on each item's number */
+  @keyframes advScanIn {
+    0%   { color: var(--muted); }
+    45%  { color: var(--text); }
+    100% { color: var(--accent); }
+  }
+  .js-animations .advantage-list li { opacity: 0; transform: translateX(-10px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .advantage-list li.adv-visible { opacity: 1; transform: none; }
+  .js-animations .advantage-list li.adv-scan .adv-num { animation: advScanIn 0.65s cubic-bezier(0.4,0,0.2,1) forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .advantage-list li { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .js-animations .advantage-list li.adv-scan .adv-num { animation: none !important; }
+  }
+
   /* FLOATING CTA */
   .float-cta {
     position: fixed;
@@ -2158,6 +2172,22 @@
       }
     }, { threshold: 0.1 });
     pubObs.observe(pubSection);
+  }
+
+  // Advantage list staggered entrance — scan-confirm readout on each numbered item
+  var advList = document.querySelector('.advantage-list');
+  if (advList) {
+    var advItems = advList.querySelectorAll('li');
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        advItems.forEach(function(item, i) {
+          setTimeout(function() {
+            item.classList.add('adv-visible');
+            setTimeout(function() { item.classList.add('adv-scan'); }, 180);
+          }, i * 105);
+        });
+      }
+    }, { threshold: 0.15 }).observe(advList);
   }
 
   // FAQ accordion
