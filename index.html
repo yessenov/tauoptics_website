@@ -752,6 +752,17 @@
   @media (prefers-reduced-motion: reduce) { .js-animations .rc-trace { stroke-dashoffset: 0 !important; transition: none !important; } }
   @media (max-width: 600px) { .rc-panels { grid-template-columns: 1fr; } }
 
+  /* WAVELENGTH INSPECTOR — hover crosshair on spectral strip */
+  .spectral-track-wrap { cursor: crosshair; }
+  .wl-inspector { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.12s; z-index: 5; }
+  .wl-cursor-line { position: absolute; top: -8px; bottom: -2px; width: 1px; background: rgba(228,225,218,0.40); }
+  .wl-cursor-dot { position: absolute; top: -1px; left: -3.5px; width: 7px; height: 7px; border-radius: 50%; background: var(--bg); border: 1.5px solid rgba(228,225,218,0.65); }
+  .wl-tooltip { position: absolute; bottom: calc(100% + 10px); padding: 0.4rem 0.75rem; background: var(--surface); border: 1px solid var(--rule); pointer-events: none; }
+  .wl-nm-display { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; display: block; white-space: nowrap; }
+  .wl-region-label { font-family: var(--mono); font-size: 0.59rem; color: var(--muted); letter-spacing: 0.06em; display: block; margin-top: 0.25rem; white-space: nowrap; }
+  @media (hover: none) { .spectral-track-wrap { cursor: default; } .wl-inspector { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .wl-inspector { transition: none; } }
+
   /* MARKET OPPORTUNITY */
   .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--rule); }
   .market-card { padding: 2.25rem 2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; }
@@ -2550,6 +2561,47 @@
       if (entries[0].isIntersecting) { resCompare.classList.add('res-anim'); }
     }, { threshold: 0.15 }).observe(resCompare);
   }
+
+  // Wavelength inspector — hover over spectral strip to read wavelength and region
+  (function() {
+    var track = document.querySelector('.spectral-track-wrap');
+    if (!track) return;
+    var inspector = document.createElement('div');
+    inspector.className = 'wl-inspector';
+    inspector.innerHTML =
+      '<div class="wl-cursor-line"><div class="wl-cursor-dot"></div></div>' +
+      '<div class="wl-tooltip"><span class="wl-nm-display"></span><span class="wl-region-label"></span></div>';
+    track.appendChild(inspector);
+    var curLine = inspector.querySelector('.wl-cursor-line');
+    var tipEl   = inspector.querySelector('.wl-tooltip');
+    var nmDisp  = inspector.querySelector('.wl-nm-display');
+    var regLbl  = inspector.querySelector('.wl-region-label');
+    var BANDS = [
+      { max:  700, label: 'Visible — fluorescence-limited region' },
+      { max:  850, label: 'NIR — 785 nm Raman excitation window' },
+      { max: 1000, label: 'NIR — low-fluorescence Raman band' },
+      { max: 1400, label: 'NIR — molecular overtone region' },
+      { max: 2500, label: 'SWIR — C–H and O–H overtones' }
+    ];
+    function bandFor(nm) {
+      for (var i = 0; i < BANDS.length; i++) { if (nm <= BANDS[i].max) return BANDS[i].label; }
+      return 'SWIR';
+    }
+    track.addEventListener('mousemove', function(e) {
+      var rect = track.getBoundingClientRect();
+      var pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      var nm   = Math.round(400 + pct * 2100);
+      inspector.style.opacity = '1';
+      curLine.style.left = (pct * 100) + '%';
+      var over80 = pct > 0.8;
+      tipEl.style.left      = over80 ? 'auto' : (pct * 100) + '%';
+      tipEl.style.right     = over80 ? ((1 - pct) * 100) + '%' : 'auto';
+      tipEl.style.transform = over80 ? 'none' : pct < 0.15 ? 'translateX(0)' : 'translateX(-50%)';
+      nmDisp.textContent = nm >= 1000 ? (nm / 1000).toFixed(2) + ' μm' : nm + ' nm';
+      regLbl.textContent = bandFor(nm);
+    });
+    track.addEventListener('mouseleave', function() { inspector.style.opacity = '0'; });
+  })();
 
   // Use-case filter tabs
   (function() {
