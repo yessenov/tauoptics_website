@@ -566,6 +566,17 @@
   .faq-a { padding-bottom: 1.5rem; font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 74ch; }
   @media (prefers-reduced-motion: reduce) { .faq-body, .faq-icon::before, .faq-icon::after { transition: none; } }
 
+  /* FAQ ITEM ENTRANCE */
+  .js-animations .faq-item { opacity: 0; transform: translateY(12px); transition: opacity 0.52s cubic-bezier(0.16,1,0.3,1), transform 0.52s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations #faq.faq-in .faq-item { opacity: 1; transform: none; }
+  .js-animations #faq.faq-in .faq-item:nth-child(1) { transition-delay: 0ms; }
+  .js-animations #faq.faq-in .faq-item:nth-child(2) { transition-delay: 80ms; }
+  .js-animations #faq.faq-in .faq-item:nth-child(3) { transition-delay: 160ms; }
+  .js-animations #faq.faq-in .faq-item:nth-child(4) { transition-delay: 240ms; }
+  .js-animations #faq.faq-in .faq-item:nth-child(5) { transition-delay: 320ms; }
+  .js-animations #faq.faq-in .faq-item:nth-child(6) { transition-delay: 400ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .faq-item { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
   /* SPECTRUM PANEL */
   .section-hint { font-family: var(--mono); font-size: 0.63rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.6rem; }
   .app-card { cursor: pointer; }
@@ -2213,6 +2224,14 @@
         });
       }
     }, { threshold: 0.15 }).observe(advList);
+  }
+
+  // FAQ item staggered entrance
+  var faqSection = document.getElementById('faq');
+  if (faqSection) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { faqSection.classList.add('faq-in'); }
+    }, { threshold: 0.05 }).observe(faqSection);
   }
 
   // FAQ accordion
