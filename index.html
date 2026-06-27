@@ -85,6 +85,8 @@
     /* Reticle tokens — precision dot-grid for the masthead, evoking optical bench surface */
     --reticle-pitch: 28px;
     --reticle-dot:   rgba(255,255,255,0.022);
+    /* Bench-scale token — 4 px per real mm; used in scale-proof SVG construction */
+    --bench-scale:   4;
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -597,6 +599,11 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* SCALE PROOF — physical reference diagram for r-CBG element, evoking optical bench measurement */
+  .scale-proof { margin-top: 1rem; border: 1px solid var(--rule); background: var(--surface); padding: 1.25rem 1.5rem; }
+  .scale-proof-label { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1rem; }
+  .scale-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.75rem; line-height: 1.5; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -829,6 +836,44 @@
           </svg>
           <p class="diagram-caption">Each Raman wavelength exits the r-CBG at a different spatial position, directly onto the CCD — no lenses, no slits, no moving parts.</p>
           <button class="diagram-replay" id="diagram-replay" aria-label="Replay diagram animation">&#8635; Replay</button>
+        </div>
+        <div class="scale-proof">
+          <div class="scale-proof-label">Scale Reference &mdash; r-CBG Element (4:1 Magnification)</div>
+          <svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;" aria-label="r-CBG grating element shown to scale next to a US quarter coin">
+            <!-- US Quarter: 24.26 mm diameter → 97 px at 4 px/mm; centered at (62, 72) -->
+            <circle cx="62" cy="72" r="48.5" fill="rgba(255,255,255,0.013)" stroke="#2A2825" stroke-width="0.8" stroke-dasharray="4,3"/>
+            <circle cx="62" cy="72" r="40" fill="none" stroke="#1E1C1A" stroke-width="0.5"/>
+            <text x="62" y="72" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono,monospace" font-size="8.5" fill="#383432">25&#162;</text>
+            <text x="62" y="132" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.8" fill="#3E3B38">US QUARTER &middot; &#8960; 24.26 MM</text>
+            <!-- r-CBG grating element — plan view: 25 mm × 6 mm → 100 px × 24 px at 4 px/mm -->
+            <rect x="138" y="60" width="100" height="24" rx="1" fill="rgba(91,143,232,0.09)" stroke="#5B8FE8" stroke-width="0.75"/>
+            <!-- 45° Bragg grating planes — low-opacity texture evoking the chirped grating structure -->
+            <line x1="145" y1="84" x2="169" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <line x1="158" y1="84" x2="182" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <line x1="171" y1="84" x2="195" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <line x1="184" y1="84" x2="208" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <line x1="197" y1="84" x2="221" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <line x1="210" y1="84" x2="234" y2="60" stroke="rgba(91,143,232,0.17)" stroke-width="0.6"/>
+            <!-- Material label -->
+            <text x="188" y="75" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3E3B38">PTR GLASS</text>
+            <!-- Length dimension: 25 mm -->
+            <line x1="138" y1="94" x2="238" y2="94" stroke="#333" stroke-width="0.75"/>
+            <line x1="138" y1="90" x2="138" y2="98" stroke="#333" stroke-width="0.75"/>
+            <line x1="238" y1="90" x2="238" y2="98" stroke="#333" stroke-width="0.75"/>
+            <text x="188" y="108" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">25 mm</text>
+            <!-- Width dimension: 6 mm -->
+            <line x1="249" y1="60" x2="249" y2="84" stroke="#333" stroke-width="0.75"/>
+            <line x1="245" y1="60" x2="253" y2="60" stroke="#333" stroke-width="0.75"/>
+            <line x1="245" y1="84" x2="253" y2="84" stroke="#333" stroke-width="0.75"/>
+            <text x="261" y="75" text-anchor="start" dominant-baseline="middle" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">6 mm</text>
+            <!-- Scale indicator: 5 mm = 20 px -->
+            <text x="138" y="141" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3835">SCALE</text>
+            <line x1="164" y1="138" x2="184" y2="138" stroke="#5B8FE8" stroke-width="1.2" opacity="0.4"/>
+            <line x1="164" y1="135" x2="164" y2="141" stroke="#5B8FE8" stroke-width="0.75" opacity="0.4"/>
+            <line x1="184" y1="135" x2="184" y2="141" stroke="#5B8FE8" stroke-width="0.75" opacity="0.4"/>
+            <text x="189" y="141" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3835">= 5 mm</text>
+          </svg>
+          <p class="scale-caption">r-CBG grating element: 3 &times; 6 &times; 25 mm (PTR glass). Shown at 4:1 magnification alongside a US quarter (&#8960;&nbsp;24.26&nbsp;mm) for physical scale reference. Diagonal lines suggest the 45&deg; chirped Bragg grating structure inscribed within the glass volume.</p>
         </div>
       </div>
     </div>
@@ -1206,7 +1251,7 @@
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
           <div class="news-headline">Tau Optics completes NSF I-Corps program with 100+ customer discovery interviews</div>
-          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments over ten weeks of systematic customer engagement.</div>
+          <div class="news-snippet">Tau Optics completed the NSF I-Corps program with over 100 customer discovery interviews conducted.</div>
         </div>
       </div>
       <div class="news-item">
