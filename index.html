@@ -6,7 +6,7 @@
 <title>Tau Optics — Compact High-Resolution Raman Spectrometer</title>
 <meta name="description" content="Tau Optics develops SpectraMini — the world's most compact high-resolution Raman spectrometer, powered by patented rotated chirped Bragg grating technology.">
 <meta name="author" content="Tau Optics Inc.">
-<meta name="keywords" content="Raman spectrometer, compact spectrometer, miniature spectrometer, r-CBG, rotated chirped Bragg grating, SpectraMini, fentanyl detection, non-invasive glucose, photonics, UCF, CREOL, NSF STTR">
+<meta name="keywords" content="Raman spectrometer, compact spectrometer, miniature spectrometer, r-CBG, rotated chirped Bragg grating, SpectraMini, photonics, UCF, CREOL, NSF STTR">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tauoptics.com/">
 <meta property="og:site_name" content="Tau Optics">
@@ -597,6 +597,31 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* FORM FACTOR COMPARISON — aperture-glow & field-surface tokens evoke instrument optics vocabulary */
+  :root {
+    --aperture-glow:   rgba(91,143,232,0.16);  /* SpectraMini active aperture highlight */
+    --field-surface:   rgba(255,255,255,0.02);  /* Competitor instrument background plane */
+  }
+  .ffc { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .ffc-eyebrow { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .ffc-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .ffc-range { font-family: var(--mono); font-size: 0.62rem; color: var(--accent); letter-spacing: 0.06em; }
+  .ffc-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; }
+  .ffc-svg { width: 100%; height: auto; display: block; }
+  .ffc-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.5; }
+  @keyframes ffcBarGrow {
+    from { opacity: 0; transform: scaleY(0.04); }
+    to   { opacity: 1; transform: scaleY(1); }
+  }
+  .ffc-svg .ffc-bar-svg { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+  .ffc-svg.ffc-anim .ffc-bar-svg { animation: ffcBarGrow 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .ffc-svg.ffc-anim .ffc-bar-mini     { animation-delay: 0ms; }
+  .ffc-svg.ffc-anim .ffc-bar-portable { animation-delay: 340ms; }
+  .ffc-svg.ffc-anim .ffc-bar-bench    { animation-delay: 680ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .ffc-svg .ffc-bar-svg { opacity: 0.85 !important; transform: none !important; animation: none !important; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -832,6 +857,37 @@
         </div>
       </div>
     </div>
+    <div class="ffc" id="ffc">
+      <div class="ffc-eyebrow">
+        <span class="ffc-title">Instrument Footprint &mdash; To Scale</span>
+        <span class="ffc-range">SpectraMini &mdash; ~5 cm²</span>
+      </div>
+      <div class="ffc-panel">
+        <svg viewBox="0 0 460 198" class="ffc-svg" id="ffc-svg" aria-label="Instrument footprint comparison showing SpectraMini at 5 cm² versus portable Raman at 50 cm² versus benchtop Raman at 500 cm², all to scale">
+          <!-- Baseline rule -->
+          <line x1="18" y1="163" x2="442" y2="163" stroke="#272727" stroke-width="0.75"/>
+          <!-- SpectraMini: sqrt(5/500)*160 ≈ 16 px, bottomed at y=163 -->
+          <rect x="30" y="147" width="16" height="16" fill="var(--aperture-glow)" stroke="rgba(91,143,232,0.55)" stroke-width="1.5" class="ffc-bar-svg ffc-bar-mini"/>
+          <!-- "to scale" annotation over SpectraMini -->
+          <text x="42" y="140" font-family="IBM Plex Mono,monospace" font-size="6" fill="rgba(91,143,232,0.6)" text-anchor="middle">5 cm²</text>
+          <text x="42" y="176" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#5B8FE8" text-anchor="middle">SpectraMini</text>
+          <text x="42" y="188" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3A6AAD" text-anchor="middle">3 &times; 6 &times; 25 mm element</text>
+          <!-- Portable Raman: sqrt(50/500)*160 ≈ 50.6 px, bottomed at y=163 -->
+          <rect x="106" y="113" width="50" height="50" fill="rgba(122,118,114,0.08)" stroke="#333" stroke-width="1" class="ffc-bar-svg ffc-bar-portable"/>
+          <text x="131" y="176" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#4A4742" text-anchor="middle">Portable Raman</text>
+          <text x="131" y="188" font-family="IBM Plex Mono,monospace" font-size="7" fill="#38352F" text-anchor="middle">~50 cm² &middot; 10&times; larger</text>
+          <!-- Benchtop Raman: 160 px, bottomed at y=163 -->
+          <rect x="200" y="3" width="160" height="160" fill="var(--field-surface)" stroke="#272727" stroke-width="1" class="ffc-bar-svg ffc-bar-bench"/>
+          <text x="280" y="176" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#3A3836" text-anchor="middle">Benchtop Raman</text>
+          <text x="280" y="188" font-family="IBM Plex Mono,monospace" font-size="7" fill="#2A2826" text-anchor="middle">~500 cm² &middot; 100&times; larger</text>
+          <!-- Scale callout between portable and benchtop -->
+          <text x="380" y="163" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#2A2826" text-anchor="start" dy="-6">to scale</text>
+          <line x1="380" y1="163" x2="442" y2="163" stroke="#272727" stroke-width="0.5"/>
+        </svg>
+        <p class="ffc-caption">All three instruments shown at true relative scale. SpectraMini's ~5 cm² footprint is 100&times; smaller by area than a typical benchtop Raman system — enabling wearable, handheld, and embedded deployments that conventional instruments cannot reach.</p>
+      </div>
+    </div>
+
     <div class="spec-coverage" id="spec-coverage">
       <div class="sc-head">
         <span class="sc-title">Spectral Coverage</span>
@@ -1206,7 +1262,7 @@
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
           <div class="news-headline">Tau Optics completes NSF I-Corps program with 100+ customer discovery interviews</div>
-          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments over ten weeks of systematic customer engagement.</div>
+          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews.</div>
         </div>
       </div>
       <div class="news-item">
@@ -1647,6 +1703,17 @@
     else window.addEventListener('resize',resize);
     resize();upPk(curK);
   })();
+
+  // Form factor comparison — grow bars when scrolled into view
+  var ffcEl = document.getElementById('ffc');
+  if (ffcEl) {
+    var ffcSvg = document.getElementById('ffc-svg');
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && ffcSvg) {
+        ffcSvg.classList.add('ffc-anim');
+      }
+    }, { threshold: 0.25 }).observe(ffcEl);
+  }
 
   // Spectral wavelength strip — animate cursor to 785 nm on scroll
   var spectralStrip = document.getElementById('spectral-strip');
