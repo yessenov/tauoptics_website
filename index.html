@@ -1071,6 +1071,34 @@
   .js-animations .spectrum-mats.smats-in .spectrum-mat:nth-child(4) { transition-delay: 240ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .spectrum-mat { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* RESOLUTION PROOF */
+  .rp-section { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .rp-intro { font-size: 0.88rem; color: var(--muted); max-width: 62ch; margin-bottom: 2rem; line-height: 1.65; }
+  .rp-panels { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); }
+  .rp-panel { padding: 1.25rem 1rem 1.25rem; border-right: 1px solid var(--rule); }
+  .rp-panel:last-child { border-right: none; }
+  .rp-hero-col { background: rgba(91,143,232,0.04); position: relative; }
+  .rp-hero-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--dispersion-gradient); opacity: 0.85; }
+  .rp-plabel { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 0.3rem; }
+  .rp-pname { font-family: var(--serif); font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+  .rp-pres { font-family: var(--mono); font-size: 0.65rem; }
+  .rp-hero-col .rp-pres { color: var(--accent); }
+  .rp-bad-col .rp-pres, .rp-good-col .rp-pres { color: var(--muted); }
+  .rp-tag { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.10em; padding: 0.2rem 0.55rem; margin-top: 0.75rem; }
+  .rp-tag-ok { background: rgba(91,143,232,0.10); color: var(--accent); border: 1px solid rgba(91,143,232,0.22); }
+  .rp-tag-no { background: rgba(122,118,114,0.08); color: var(--muted); border: 1px solid var(--rule); }
+  .rp-tag-dim { background: rgba(122,118,114,0.08); color: var(--muted); border: 1px solid rgba(122,118,114,0.22); }
+  .rp-caveat { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.5; }
+  .rp-svg { width: 100%; height: auto; display: block; margin-top: 0.75rem; }
+  .rp-note { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 1.25rem; line-height: 1.6; }
+  @media (max-width: 768px) { .rp-panels { grid-template-columns: 1fr; } .rp-panel { border-right: none; border-bottom: 1px solid var(--rule); } .rp-panel:last-child { border-bottom: none; } }
+  .js-animations .rp-trace { stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 0.9s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .rp-fill { opacity: 0; transition: opacity 0.7s ease 0.3s; }
+  .js-animations .rp-annot { opacity: 0; transition: opacity 0.5s ease 0.75s; }
+  .rp-panels.rp-fired .rp-trace { stroke-dashoffset: 0; }
+  .rp-panels.rp-fired .rp-fill { opacity: 1; }
+  .rp-panels.rp-fired .rp-annot { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .rp-trace { stroke-dashoffset: 0 !important; transition: none !important; } .js-animations .rp-fill { opacity: 1 !important; transition: none !important; } .js-animations .rp-annot { opacity: 1 !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -1738,6 +1766,81 @@
       </div>
     </div>
     <p class="compare-note">Representative comparison vs. portable instruments (Ocean Insight, B&amp;WTek) and benchtop systems (Renishaw, Horiba). SpectraMini target cost reflects projected volume-production pricing.</p>
+
+    <div class="rp-section">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Resolution Proof</div>
+      <p class="rp-intro">Two Raman peaks at 1,001 and 1,030&thinsp;cm&#8315;&#185; &mdash; a 29&thinsp;cm&#8315;&#185; separation common in molecular fingerprint spectra. At 0.1&thinsp;nm resolution, both peaks are resolved as distinct molecular species. At 2&thinsp;nm (typical portable Raman), they merge into a single unresolvable hump.</p>
+      <div class="rp-panels" id="rp-panels">
+
+        <div class="rp-panel rp-hero-col">
+          <div class="rp-plabel">Tau Optics &middot; r-CBG</div>
+          <div class="rp-pname">SpectraMini</div>
+          <div class="rp-pres">~0.1&thinsp;nm spectral resolution</div>
+          <svg class="rp-svg" viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg">
+            <line x1="28" y1="10" x2="28" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="100" x2="270" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="55" x2="270" y2="55" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <polyline class="rp-trace" fill="none" stroke="#5B8FE8" stroke-width="1.5" stroke-linejoin="round"
+              points="28,100 113,100 115,99 117,95 119,83 121,59 122,44 123,31 124,21 125,18 126,21 127,31 128,44 129,59 131,83 133,95 135,99 137,100 167,100 169,96 171,87 173,69 174,58 175,48 176,41 177,38 178,41 179,48 180,58 181,69 183,87 185,96 187,99 189,100 270,100"/>
+            <polygon class="rp-fill" fill="rgba(91,143,232,0.07)"
+              points="28,100 113,100 115,99 117,95 119,83 121,59 122,44 123,31 124,21 125,18 126,21 127,31 128,44 129,59 131,83 133,95 135,99 137,100 167,100 169,96 171,87 173,69 174,58 175,48 176,41 177,38 178,41 179,48 180,58 181,69 183,87 185,96 187,99 189,100 270,100"/>
+            <text x="125" y="12" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle" class="rp-annot">1001</text>
+            <text x="177" y="32" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle" class="rp-annot">1030</text>
+            <text x="28" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">950</text>
+            <text x="270" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">1080</text>
+            <text x="149" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#333" text-anchor="middle">cm&#8315;&#185;</text>
+          </svg>
+          <div class="rp-tag rp-tag-ok">&#10003;&ensp;Peaks resolved</div>
+        </div>
+
+        <div class="rp-panel rp-bad-col">
+          <div class="rp-plabel">Portable Raman</div>
+          <div class="rp-pname">Slit-grating / MEMS</div>
+          <div class="rp-pres">~2&thinsp;nm spectral resolution</div>
+          <svg class="rp-svg" viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg">
+            <line x1="28" y1="10" x2="28" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="100" x2="270" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="55" x2="270" y2="55" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <polyline class="rp-trace" fill="none" stroke="#7A7672" stroke-width="1.5" stroke-linejoin="round"
+              points="28,100 50,91 70,79 90,61 105,47 115,38 123,33 135,29 147,28 150,28 155,30 160,31 177,41 190,51 210,69 230,84 250,93 270,98"/>
+            <polygon class="rp-fill" fill="rgba(122,118,114,0.09)"
+              points="28,100 50,91 70,79 90,61 105,47 115,38 123,33 135,29 147,28 150,28 155,30 160,31 177,41 190,51 210,69 230,84 250,93 270,98 270,100 28,100"/>
+            <line x1="123" y1="33" x2="123" y2="80" stroke="#555" stroke-width="0.75" stroke-dasharray="2,2" class="rp-annot"/>
+            <line x1="177" y1="41" x2="177" y2="80" stroke="#555" stroke-width="0.75" stroke-dasharray="2,2" class="rp-annot"/>
+            <text x="123" y="90" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#555" text-anchor="middle" class="rp-annot">1001?</text>
+            <text x="177" y="90" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#555" text-anchor="middle" class="rp-annot">1030?</text>
+            <text x="28" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">950</text>
+            <text x="270" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">1080</text>
+            <text x="149" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#333" text-anchor="middle">cm&#8315;&#185;</text>
+          </svg>
+          <div class="rp-tag rp-tag-no">&#10005;&ensp;Peaks unresolvable</div>
+        </div>
+
+        <div class="rp-panel rp-good-col">
+          <div class="rp-plabel">Benchtop Raman</div>
+          <div class="rp-pname">Free-space / Echelle</div>
+          <div class="rp-pres">~0.05&ndash;0.1&thinsp;nm resolution</div>
+          <svg class="rp-svg" viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg">
+            <line x1="28" y1="10" x2="28" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="100" x2="270" y2="100" stroke="#1E1E1E" stroke-width="0.75"/>
+            <line x1="28" y1="55" x2="270" y2="55" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <polyline class="rp-trace" fill="none" stroke="#4A4742" stroke-width="1.5" stroke-linejoin="round"
+              points="28,100 113,100 115,99 117,95 119,83 121,59 122,44 123,31 124,21 125,18 126,21 127,31 128,44 129,59 131,83 133,95 135,99 137,100 167,100 169,96 171,87 173,69 174,58 175,48 176,41 177,38 178,41 179,48 180,58 181,69 183,87 185,96 187,99 189,100 270,100"/>
+            <polygon class="rp-fill" fill="rgba(74,71,66,0.07)"
+              points="28,100 113,100 115,99 117,95 119,83 121,59 122,44 123,31 124,21 125,18 126,21 127,31 128,44 129,59 131,83 133,95 135,99 137,100 167,100 169,96 171,87 173,69 174,58 175,48 176,41 177,38 178,41 179,48 180,58 181,69 183,87 185,96 187,99 189,100 270,100"/>
+            <text x="125" y="12" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle" class="rp-annot">1001</text>
+            <text x="177" y="32" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle" class="rp-annot">1030</text>
+            <text x="28" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">950</text>
+            <text x="270" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#444" text-anchor="middle">1080</text>
+            <text x="149" y="109" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#333" text-anchor="middle">cm&#8315;&#185;</text>
+          </svg>
+          <div class="rp-tag rp-tag-dim">&#10003;&ensp;Peaks resolved</div>
+          <p class="rp-caveat">But: $30&ndash;100k &middot; &gt;2,000&thinsp;cm&sup2; footprint</p>
+        </div>
+
+      </div>
+      <p class="rp-note">Simulated spectra illustrating the effect of spectral resolution on a 29&thinsp;cm&#8315;&#185;-spaced Raman doublet. SpectraMini achieves benchtop-class resolution at 10&times; smaller footprint and a fraction of the cost.</p>
+    </div>
   </div>
 </section>
 
@@ -2768,6 +2871,15 @@
         });
       });
     });
+  })();
+
+  // Resolution proof — animate SVG peak traces when scrolled into view
+  (function() {
+    var rpPanels = document.getElementById('rp-panels');
+    if (!rpPanels) return;
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { rpPanels.classList.add('rp-fired'); }
+    }, { threshold: 0.15 }).observe(rpPanels);
   })();
 </script>
 </body>
