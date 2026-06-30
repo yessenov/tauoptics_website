@@ -100,6 +100,9 @@
     --datum-frame:     rgba(91,143,232,0.22);   /* spectral line edge around the measurement window */
     /* Bench-scale token — 4 px per real mm; used in scale-proof SVG construction */
     --bench-scale:   4;
+    /* Aperture scrollspy — beam-path section navigator */
+    --aperture-node-dim:  rgba(91,143,232,0.12);
+    --beam-focus-glow:    0 0 7px rgba(91,143,232,0.50), 0 0 2px var(--accent);
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -346,6 +349,17 @@
   .footer-copy { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-align: right; color: var(--muted); }
   .footer-copy a { color: var(--muted); text-decoration: none; }
   .footer-copy a:hover { color: var(--text); }
+
+  /* APERTURE SCROLLSPY — fixed right-edge beam-path section indicator */
+  #aperture-nav { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; align-items: center; gap: 0; pointer-events: none; }
+  #aperture-nav::before { content: ''; position: absolute; top: 10px; bottom: 10px; left: 50%; width: 1px; background: var(--rule); transform: translateX(-50%); z-index: 0; }
+  .ap-node { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; cursor: pointer; text-decoration: none; pointer-events: auto; }
+  .ap-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--aperture-node-dim); border: 1px solid rgba(91,143,232,0.20); transition: background 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s, transform 0.25s; }
+  .ap-node.ap-active .ap-dot { background: var(--accent); box-shadow: var(--beam-focus-glow); transform: scale(1.6); }
+  .ap-label { position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); white-space: nowrap; opacity: 0; transition: opacity 0.16s; pointer-events: none; background: rgba(12,12,12,0.92); padding: 0.18rem 0.48rem; border: 1px solid var(--rule); }
+  .ap-node:hover .ap-label { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ap-dot, .ap-node.ap-active .ap-dot { transition: none; transform: none; } }
+  @media (max-width: 1100px) { #aperture-nav { display: none; } }
 
   /* METRICS STRIP */
   .metrics-strip { background: var(--surface); border-bottom: 1px solid var(--rule); padding: 3rem 2rem; }
@@ -2184,6 +2198,18 @@
   </div>
 </footer>
 
+<nav id="aperture-nav" aria-label="Section navigation">
+  <a class="ap-node" href="#top" data-section="top"><span class="ap-dot"></span><span class="ap-label">SpectraMini</span></a>
+  <a class="ap-node" href="#how-it-works" data-section="how-it-works"><span class="ap-dot"></span><span class="ap-label">How It Works</span></a>
+  <a class="ap-node" href="#technology" data-section="technology"><span class="ap-dot"></span><span class="ap-label">Technology</span></a>
+  <a class="ap-node" href="#spectrum-viewer" data-section="spectrum-viewer"><span class="ap-dot"></span><span class="ap-label">Spectrum</span></a>
+  <a class="ap-node" href="#applications" data-section="applications"><span class="ap-dot"></span><span class="ap-label">Applications</span></a>
+  <a class="ap-node" href="#about" data-section="about"><span class="ap-dot"></span><span class="ap-label">About</span></a>
+  <a class="ap-node" href="#news" data-section="news"><span class="ap-dot"></span><span class="ap-label">News</span></a>
+  <a class="ap-node" href="#faq" data-section="faq"><span class="ap-dot"></span><span class="ap-label">FAQ</span></a>
+  <a class="ap-node" href="#contact" data-section="contact"><span class="ap-dot"></span><span class="ap-label">Contact</span></a>
+</nav>
+
 <script>
   const sections = document.querySelectorAll('section[id], header[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
@@ -2880,6 +2906,23 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { rpPanels.classList.add('rp-fired'); }
     }, { threshold: 0.15 }).observe(rpPanels);
+  })();
+
+  // Aperture scrollspy — beam-path section navigator, active node marks focal point
+  (function() {
+    var nodes = document.querySelectorAll('#aperture-nav .ap-node[data-section]');
+    if (!nodes.length) return;
+    var sectionEls = Array.from(nodes).map(function(n) { return document.getElementById(n.dataset.section); }).filter(Boolean);
+    var apObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          nodes.forEach(function(n) { n.classList.toggle('ap-active', n.dataset.section === id); });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sectionEls.forEach(function(el) { apObs.observe(el); });
+    if (nodes.length) nodes[0].classList.add('ap-active');
   })();
 </script>
 </body>
