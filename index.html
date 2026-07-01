@@ -1113,6 +1113,20 @@
   .rp-panels.rp-fired .rp-fill { opacity: 1; }
   .rp-panels.rp-fired .rp-annot { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .js-animations .rp-trace { stroke-dashoffset: 0 !important; transition: none !important; } .js-animations .rp-fill { opacity: 1 !important; transition: none !important; } .js-animations .rp-annot { opacity: 1 !important; transition: none !important; } }
+
+  /* RESOLUTION DEMONSTRATOR — resolving-power vocabulary */
+  .res-demo { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+  .res-demo-hd { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem; }
+  .res-demo-eyebrow { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .res-toggle { display: flex; border: 1px solid var(--rule); }
+  .res-toggle-btn { background: none; border: none; border-right: 1px solid var(--rule); font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); padding: 0.5rem 1rem; cursor: pointer; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+  .res-toggle-btn:last-child { border-right: none; }
+  .res-toggle-btn:hover { color: var(--text); background: var(--raised); }
+  .res-toggle-btn.res-active { color: var(--accent); background: rgba(91,143,232,0.07); }
+  .res-canvas-wrap { background: var(--surface); border: 1px solid var(--rule); padding: 1.25rem 0.75rem 0.5rem; }
+  .res-canvas { width: 100%; display: block; }
+  .res-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.6; }
+  @media (max-width: 480px) { .res-toggle-btn { font-size: 0.58rem; padding: 0.45rem 0.7rem; } }
 </style>
 </head>
 <body>
@@ -1780,6 +1794,20 @@
       </div>
     </div>
     <p class="compare-note">Representative comparison vs. portable instruments (Ocean Insight, B&amp;WTek) and benchtop systems (Renishaw, Horiba). SpectraMini target cost reflects projected volume-production pricing.</p>
+
+    <div class="res-demo">
+      <div class="res-demo-hd">
+        <span class="res-demo-eyebrow">Resolution &mdash; What It Means in Practice</span>
+        <div class="res-toggle" role="group" aria-label="Resolution mode selector">
+          <button class="res-toggle-btn res-active" data-sigma="0.6">SpectraMini &middot; ~0.1&thinsp;nm</button>
+          <button class="res-toggle-btn" data-sigma="7.0">Portable Raman &middot; ~1&thinsp;nm</button>
+        </div>
+      </div>
+      <div class="res-canvas-wrap">
+        <canvas id="res-canvas" class="res-canvas" height="140"></canvas>
+      </div>
+      <p class="res-caption">Two neighboring Raman peaks separated by 4&thinsp;cm&#8315;&#185; (&asymp;0.25&thinsp;nm at 785&thinsp;nm excitation). At SpectraMini&rsquo;s ~0.1&thinsp;nm resolution both peaks resolve clearly, enabling unambiguous compound identification. At typical portable Raman resolution (&sim;1&thinsp;nm) they merge into a single, unresolvable peak &mdash; see the static panel below for a side-by-side comparison.</p>
+    </div>
 
     <div class="rp-section">
       <div class="masthead-eyebrow" style="margin-bottom:1rem;">Resolution Proof</div>
@@ -2906,6 +2934,102 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { rpPanels.classList.add('rp-fired'); }
     }, { threshold: 0.15 }).observe(rpPanels);
+  })();
+
+  // Resolution demonstrator — animated Gaussian convolution, resolved vs merged peaks
+  (function() {
+    var cv = document.getElementById('res-canvas');
+    if (!cv) return;
+    var cx = cv.getContext('2d');
+    var DPR = window.devicePixelRatio || 1, W = 0, H = 140;
+    var noAnim = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var PEAKS = [{c:1000,h:.88},{c:1004,h:.72}];
+    var XMIN = 980, XMAX = 1020, N = 400;
+    var fromSig = 0.6, toSig = 0.6, t0 = null, rId = null;
+    function gauss(x,c,h,s){return h*Math.exp(-.5*Math.pow((x-c)/s,2));}
+    function mkSp(s){
+      return Array.from({length:N},function(_,i){
+        var x=XMIN+i/(N-1)*(XMAX-XMIN);
+        return PEAKS.reduce(function(a,p){return a+gauss(x,p.c,p.h,s);},0);
+      });
+    }
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function ez(t){return t<.5?2*t*t:-1+(4-2*t)*t;}
+    function draw(s) {
+      var sp=mkSp(s),mx=Math.max.apply(null,sp)*1.1;
+      var ML=42,MR=12,MT=18,MB=28,pw=W-ML-MR,ph=H-MT-MB;
+      cx.save(); cx.scale(DPR,DPR); cx.clearRect(0,0,W,H);
+      cx.strokeStyle='#272727'; cx.lineWidth=.75;
+      cx.beginPath(); cx.moveTo(ML,MT); cx.lineTo(ML,MT+ph); cx.lineTo(ML+pw,MT+ph); cx.stroke();
+      [985,990,995,1000,1005,1010,1015].forEach(function(v){
+        var xp=ML+(v-XMIN)/(XMAX-XMIN)*pw;
+        cx.strokeStyle='#252525'; cx.lineWidth=.6;
+        cx.beginPath(); cx.moveTo(xp,MT+ph); cx.lineTo(xp,MT+ph+4); cx.stroke();
+        cx.fillStyle='#3E3C39'; cx.font='7px IBM Plex Mono,monospace'; cx.textAlign='center';
+        cx.fillText(String(v),xp,MT+ph+13);
+      });
+      cx.fillStyle='#333'; cx.font='6.5px IBM Plex Mono,monospace'; cx.textAlign='center';
+      cx.fillText('Raman Shift (cm⁻¹)',ML+pw/2,H-1);
+      PEAKS.forEach(function(p){
+        var xp=ML+(p.c-XMIN)/(XMAX-XMIN)*pw;
+        cx.strokeStyle='rgba(91,143,232,0.12)'; cx.lineWidth=.6; cx.setLineDash([2,4]);
+        cx.beginPath(); cx.moveTo(xp,MT); cx.lineTo(xp,MT+ph); cx.stroke(); cx.setLineDash([]);
+      });
+      var g=cx.createLinearGradient(0,MT,0,MT+ph);
+      g.addColorStop(0,'rgba(91,143,232,.16)'); g.addColorStop(1,'rgba(91,143,232,.02)');
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=ML+i/(N-1)*pw,yp=MT+ph*(1-v/mx);i?cx.lineTo(xp,yp):cx.moveTo(xp,yp);});
+      cx.lineTo(ML+pw,MT+ph); cx.lineTo(ML,MT+ph); cx.closePath();
+      cx.fillStyle=g; cx.fill();
+      cx.beginPath();
+      sp.forEach(function(v,i){var xp=ML+i/(N-1)*pw,yp=MT+ph*(1-v/mx);i?cx.lineTo(xp,yp):cx.moveTo(xp,yp);});
+      cx.strokeStyle='#5B8FE8'; cx.lineWidth=1.8; cx.lineJoin='round'; cx.stroke();
+      var alpha=Math.max(0,Math.min(1,(2-s)/1.5));
+      if(alpha>0.04){
+        PEAKS.forEach(function(p){
+          var xp=ML+(p.c-XMIN)/(XMAX-XMIN)*pw;
+          var yp=MT+ph*(1-p.h/mx)-8;
+          cx.fillStyle='rgba(91,143,232,'+alpha.toFixed(2)+')';
+          cx.font='7.5px IBM Plex Mono,monospace'; cx.textAlign='center';
+          cx.fillText(p.c+' cm⁻¹',xp,yp);
+        });
+      }
+      var resolved=s<2.5;
+      cx.fillStyle=resolved?'rgba(91,143,232,.8)':'rgba(74,71,66,.85)';
+      cx.font='8px IBM Plex Mono,monospace'; cx.textAlign='right';
+      cx.fillText(resolved?'● RESOLVED':'○ UNRESOLVED',ML+pw,MT+10);
+      cx.restore();
+    }
+    function anim(now){
+      if(t0===null)t0=now;
+      var p=ez(Math.min((now-t0)/600,1));
+      draw(lerp(fromSig,toSig,p));
+      if(p<1)rId=requestAnimationFrame(anim);
+      else{fromSig=toSig;rId=null;}
+    }
+    function setMode(sig){
+      var curVisual=t0?lerp(fromSig,toSig,ez(Math.min((performance.now()-t0)/600,1))):fromSig;
+      fromSig=curVisual; toSig=sig; t0=null;
+      if(rId)cancelAnimationFrame(rId);
+      if(noAnim){fromSig=toSig=sig;draw(sig);}
+      else rId=requestAnimationFrame(anim);
+    }
+    document.querySelectorAll('.res-toggle-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('.res-toggle-btn').forEach(function(b){b.classList.remove('res-active');});
+        btn.classList.add('res-active');
+        setMode(parseFloat(btn.dataset.sigma));
+      });
+    });
+    function resize(){
+      DPR=window.devicePixelRatio||1;
+      W=cv.parentElement.clientWidth;
+      cv.width=W*DPR; cv.height=H*DPR; cv.style.height=H+'px';
+      draw(fromSig);
+    }
+    if(window.ResizeObserver)new ResizeObserver(resize).observe(cv.parentElement);
+    else window.addEventListener('resize',resize);
+    resize();
   })();
 
   // Aperture scrollspy — beam-path section navigator, active node marks focal point
