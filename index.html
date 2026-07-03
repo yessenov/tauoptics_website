@@ -98,6 +98,7 @@
     /* Datum tokens — instrument-readout frame for key measurement results on publication entries */
     --datum-highlight: rgba(91,143,232,0.065);  /* faint NIR-channel tint behind a measured result */
     --datum-frame:     rgba(91,143,232,0.22);   /* spectral line edge around the measurement window */
+    --channel-lock:    rgba(91,143,232,0.055);  /* confirmed wireless link surface — Bluetooth channel established */
     /* Bench-scale token — 4 px per real mm; used in scale-proof SVG construction */
     --bench-scale:   4;
     /* Aperture scrollspy — beam-path section navigator */
@@ -315,6 +316,12 @@
   .form-submit { background: var(--accent); color: var(--bg); font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.75rem 2rem; border: none; cursor: pointer; transition: background 0.2s; align-self: flex-start; font-weight: 500; }
   .form-submit:hover { background: #7aaaf0; }
   .form-note { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+  /* CHANNEL LOCK — Bluetooth handshake confirmation after form submit */
+  .form-confirm { display: none; font-family: var(--mono); font-size: 0.63rem; color: var(--muted); line-height: 1.7; padding: 0.65rem 0.9rem; border: 1px solid var(--datum-frame); background: var(--channel-lock); }
+  .form-confirm.fc-on { display: block; }
+  .form-confirm strong { color: var(--accent); font-weight: 500; letter-spacing: 0.05em; }
+  .form-confirm a { color: var(--accent2); text-decoration: none; }
+  .form-confirm a:hover { color: var(--text); }
 
   /* PUBLICATIONS */
   .pub-list { list-style: none; }
@@ -2212,6 +2219,7 @@
         <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="Describe your inquiry, application of interest, or partnership opportunity." required></textarea></div>
         <p class="form-note">We aim to respond within 2 business days.</p>
         <button type="submit" class="form-submit">Send Message &rarr;</button>
+        <p class="form-confirm" id="form-confirm" role="status" aria-live="polite"><strong>&#10003; LINK CONFIRMED</strong> &mdash; your mail client should open with a pre-filled message. If it does not, reach us directly at <a href="mailto:info@tauoptics.com">info@tauoptics.com</a></p>
       </form>
     </div>
   </div>
@@ -2661,6 +2669,8 @@
     const message = document.getElementById('message').value;
     const body = `Name: ${name}\nOrganization: ${org}\nEmail: ${email}\n\n${message}`;
     window.location.href = `mailto:info@tauoptics.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
+    var fc = document.getElementById('form-confirm');
+    if (fc) fc.classList.add('fc-on');
   });
 
   // Spectrum viewer
