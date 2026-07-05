@@ -1056,6 +1056,37 @@
   @media (prefers-reduced-motion: reduce) { .js-animations .res-panel { opacity: 1 !important; transform: none !important; transition: none !important; } }
   @media (max-width: 600px) { .res-panels { grid-template-columns: 1fr; } .res-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); } }
 
+  /* PERFORMANCE MAP — resolution × footprint scatter; optics-vocabulary tokens
+     --focal-plane: axis lines; --instrument-cluster: competitor nodes;
+     --rcbg-frontier: the anomalous zone only r-CBG can occupy */
+  :root {
+    --focal-plane:         rgba(39,39,39,0.90);
+    --instrument-cluster:  rgba(122,118,114,0.22);
+    --rcbg-frontier:       rgba(91,143,232,0.045);
+    --rcbg-frontier-edge:  rgba(91,143,232,0.12);
+  }
+  .perf-map { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .perf-map-hdr { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .perf-map-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .perf-map-tag { font-family: var(--mono); font-size: 0.62rem; color: var(--accent); letter-spacing: 0.06em; }
+  .perf-map-panel { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.75rem 1rem; }
+  .perf-map-svg { width: 100%; height: auto; display: block; }
+  .perf-map-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.5; }
+  .js-animations .pm-competitor { opacity: 0; transition: opacity 0.5s ease; }
+  .js-animations .pm-hero-g     { opacity: 0; transition: opacity 0.7s ease 0.35s; }
+  .js-animations .pm-zone       { opacity: 0; transition: opacity 0.9s ease 0.05s; }
+  .js-animations .pm-hero-label { opacity: 0; transition: opacity 0.6s ease 0.6s; }
+  .js-animations .perf-map-panel.pm-fired .pm-competitor { opacity: 1; }
+  .js-animations .perf-map-panel.pm-fired .pm-hero-g     { opacity: 1; }
+  .js-animations .perf-map-panel.pm-fired .pm-zone       { opacity: 1; }
+  .js-animations .perf-map-panel.pm-fired .pm-hero-label { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .pm-competitor,
+    .js-animations .pm-hero-g,
+    .js-animations .pm-zone,
+    .js-animations .pm-hero-label { opacity: 1 !important; transition: none !important; }
+  }
+
   /* RESOLUTION COMPARISON VIS — inline peak-width illustration in FAQ */
   :root {
     --peak-narrow-trace: var(--accent);  /* SpectraMini Raman trace — reuses accent blue */
@@ -1910,6 +1941,97 @@
       </div>
       <p class="rp-note">Simulated spectra illustrating the effect of spectral resolution on a 29&thinsp;cm&#8315;&#185;-spaced Raman doublet. SpectraMini achieves benchtop-class resolution at 10&times; smaller footprint and a fraction of the cost.</p>
     </div>
+
+    <div class="perf-map">
+      <div class="perf-map-hdr">
+        <div class="perf-map-title">Performance Landscape &mdash; Resolution &times; Footprint</div>
+        <div class="perf-map-tag">Log scale &middot; representative instrument categories</div>
+      </div>
+      <div class="perf-map-panel" id="perf-map-panel">
+        <svg viewBox="0 0 500 230" class="perf-map-svg" xmlns="http://www.w3.org/2000/svg"
+          aria-label="Scatter plot: spectral resolution versus instrument footprint. SpectraMini occupies the upper-left r-CBG territory — best resolution at smallest footprint." role="img">
+
+          <!-- r-CBG frontier zone: small footprint AND high resolution — the space only r-CBG can reach -->
+          <polygon class="pm-zone" points="50,20 187,20 187,98 50,98"
+            fill="var(--rcbg-frontier)" stroke="var(--rcbg-frontier-edge)" stroke-width="0.75" stroke-dasharray="3,2.5"/>
+          <text class="pm-zone" x="56" y="35" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="rgba(91,143,232,0.48)" letter-spacing="0.08em">r-CBG</text>
+          <text class="pm-zone" x="56" y="45" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="rgba(91,143,232,0.48)" letter-spacing="0.08em">territory</text>
+
+          <!-- Subtle log-scale grid lines -->
+          <line x1="50"  y1="20" x2="50"  y2="200" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="155" y1="20" x2="155" y2="200" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="260" y1="20" x2="260" y2="200" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="365" y1="20" x2="365" y2="200" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="470" y1="20" x2="470" y2="200" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="50" y1="47"  x2="470" y2="47"  stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="50" y1="67"  x2="470" y2="67"  stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="50" y1="98"  x2="470" y2="98"  stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="50" y1="133" x2="470" y2="133" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+          <line x1="50" y1="180" x2="470" y2="180" stroke="#181818" stroke-width="0.5" stroke-dasharray="2,4"/>
+
+          <!-- Axis lines -->
+          <line x1="50" y1="20" x2="50" y2="200" stroke="#272727" stroke-width="1"/>
+          <line x1="50" y1="200" x2="470" y2="200" stroke="#272727" stroke-width="1"/>
+
+          <!-- X-axis: Footprint (cm²) — ticks + labels -->
+          <line x1="50"  y1="200" x2="50"  y2="205" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="50"  y="214" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1</text>
+          <line x1="155" y1="200" x2="155" y2="205" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="155" y="214" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">10</text>
+          <line x1="260" y1="200" x2="260" y2="205" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="260" y="214" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">100</text>
+          <line x1="365" y1="200" x2="365" y2="205" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="365" y="214" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">1k</text>
+          <line x1="470" y1="200" x2="470" y2="205" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="470" y="214" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="middle">10k</text>
+          <text x="260" y="226" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle">Instrument Footprint (cm²)</text>
+
+          <!-- Y-axis: Resolution (nm) — better at top (inverted log) -->
+          <line x1="50" y1="47"  x2="45" y2="47"  stroke="#3A3835" stroke-width="0.75"/>
+          <text x="43" y="50"  font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="end">0.05</text>
+          <line x1="50" y1="67"  x2="45" y2="67"  stroke="#3A3835" stroke-width="0.75"/>
+          <text x="43" y="70"  font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="end">0.1</text>
+          <line x1="50" y1="98"  x2="45" y2="98"  stroke="#3A3835" stroke-width="0.75"/>
+          <text x="43" y="101" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="end">0.5</text>
+          <line x1="50" y1="133" x2="45" y2="133" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="43" y="136" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="end">1</text>
+          <line x1="50" y1="180" x2="45" y2="180" stroke="#3A3835" stroke-width="0.75"/>
+          <text x="43" y="183" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555" text-anchor="end">5</text>
+          <text x="12" y="110" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle" transform="rotate(-90 12 110)">Resolution (nm) &mdash; better &#x2191;</text>
+
+          <!-- Competitor nodes (dim) — benchtop and portable clusters -->
+          <g class="pm-competitor">
+            <circle cx="407" cy="56" r="5.5" fill="var(--instrument-cluster)" stroke="rgba(122,118,114,0.35)" stroke-width="0.75"/>
+            <circle cx="438" cy="47" r="5.5" fill="var(--instrument-cluster)" stroke="rgba(122,118,114,0.35)" stroke-width="0.75"/>
+            <text x="444" y="45" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742">Benchtop</text>
+          </g>
+          <g class="pm-competitor" style="transition-delay:0.12s">
+            <circle cx="310" cy="145" r="5.5" fill="var(--instrument-cluster)" stroke="rgba(122,118,114,0.35)" stroke-width="0.75"/>
+            <circle cx="268" cy="153" r="5.5" fill="var(--instrument-cluster)" stroke="rgba(122,118,114,0.35)" stroke-width="0.75"/>
+            <text x="316" y="143" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742">Portable</text>
+          </g>
+          <g class="pm-competitor" style="transition-delay:0.22s">
+            <circle cx="237" cy="165" r="5.5" fill="var(--instrument-cluster)" stroke="rgba(122,118,114,0.35)" stroke-width="0.75"/>
+            <text x="243" y="162" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742">Miniature</text>
+            <text x="243" y="171" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742">portable</text>
+          </g>
+
+          <!-- SpectraMini hero node — glow rings + dot + leader line -->
+          <g class="pm-hero-g">
+            <circle cx="123" cy="67" r="16" fill="rgba(91,143,232,0.035)"/>
+            <circle cx="123" cy="67" r="10" fill="rgba(91,143,232,0.09)"/>
+            <circle cx="123" cy="67" r="5.5" fill="#5B8FE8" stroke="rgba(91,143,232,0.55)" stroke-width="1.5"/>
+            <line x1="131" y1="61" x2="152" y2="49" stroke="rgba(91,143,232,0.22)" stroke-width="0.75" stroke-dasharray="2,2"/>
+          </g>
+          <g class="pm-hero-label">
+            <text x="154" y="45" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#5B8FE8" font-weight="500">SpectraMini</text>
+            <text x="154" y="56" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="rgba(91,143,232,0.65)">~5 cm&sup2; &middot; ~0.1 nm</text>
+          </g>
+        </svg>
+        <p class="perf-map-caption">Representative instrument categories; positions are approximate and log-scaled on both axes. Benchtop instruments achieve high spectral resolution but occupy more than 400&times; the footprint of SpectraMini. Portable instruments trade resolution for size. Only the r-CBG architecture simultaneously achieves both.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -3114,6 +3236,15 @@
     if(window.ResizeObserver)new ResizeObserver(resize).observe(cv.parentElement);
     else window.addEventListener('resize',resize);
     resize();
+  })();
+
+  // Performance map — fire dot-entrance animation when scatter plot enters view
+  (function() {
+    var panel = document.getElementById('perf-map-panel');
+    if (!panel) return;
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { panel.classList.add('pm-fired'); } });
+    }, { threshold: 0.25 }).observe(panel);
   })();
 
   // Aperture scrollspy — beam-path section navigator, active node marks focal point
