@@ -1128,6 +1128,36 @@
     .js-animations .faq-vis .faq-vis-label,
     .js-animations .faq-vis .faq-fwhm-el { opacity: 1 !important; transition: none !important; }
   }
+  /* ── FAQ #2 wavelength-coverage vis ──────────────────────────────────── */
+  :root {
+    --xcbg-vis-ch: #9B6AE8;
+    --xcbg-nir-ch: var(--accent2);
+  }
+  .js-animations .cov-rail-span {
+    transform-box: fill-box; transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s;
+  }
+  .js-animations .faq-vis-active .cov-rail-span { transform: scaleX(1); }
+  .js-animations .cov-needle-g {
+    transform-box: fill-box; transform-origin: center bottom;
+    transform: scaleY(0);
+    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.75s;
+  }
+  .js-animations .faq-vis-active .cov-needle-g { transform: scaleY(1); }
+  .js-animations .cov-band-lbl  { opacity: 0; transition: opacity 0.4s ease 0.9s; }
+  .js-animations .faq-vis-active .cov-band-lbl  { opacity: 1; }
+  .js-animations .cov-needle-lbl { opacity: 0; transition: opacity 0.35s ease 1.1s; }
+  .js-animations .faq-vis-active .cov-needle-lbl { opacity: 1; }
+  .js-animations .cov-xcbg-row  { opacity: 0; transition: opacity 0.4s ease 1.2s; }
+  .js-animations .faq-vis-active .cov-xcbg-row  { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .cov-rail-span,
+    .js-animations .cov-needle-g,
+    .js-animations .cov-band-lbl,
+    .js-animations .cov-needle-lbl,
+    .js-animations .cov-xcbg-row { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -2408,7 +2438,49 @@
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" aria-controls="faq-a2">What wavelengths does SpectraMini cover?<span class="faq-icon" aria-hidden="true"></span></button>
-        <div class="faq-body" id="faq-a2" role="region"><p class="faq-a">The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact element. The first SpectraMini product targets 785 nm excitation Raman — the most widely used wavelength for biological, pharmaceutical, and narcotics identification — with a spectral resolution of approximately 0.1 nm in the NIR. A dual-band variant called the X-CBG multiplexes two independent spectral channels into one element, enabling simultaneous visible and near-infrared coverage without increasing device footprint.</p></div>
+        <div class="faq-body" id="faq-a2" role="region"><p class="faq-a">The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact element. The first SpectraMini product targets 785 nm excitation Raman — the most widely used wavelength for biological, pharmaceutical, and narcotics identification — with a spectral resolution of approximately 0.1 nm in the NIR. A dual-band variant called the X-CBG multiplexes two independent spectral channels into one element, enabling simultaneous visible and near-infrared coverage without increasing device footprint.</p>
+<div class="faq-vis" aria-hidden="true">
+  <svg viewBox="0 0 440 74" class="faq-vis-svg" role="img" aria-label="Wavelength coverage of the r-CBG platform: 400 nm to 2.5 μm, with 785 nm excitation marked and X-CBG dual-band channels shown below">
+    <defs>
+      <linearGradient id="cov-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#7B40D4" stop-opacity="0.75"/>
+        <stop offset="14%"  stop-color="#4060E8" stop-opacity="0.70"/>
+        <stop offset="24%"  stop-color="#40A040" stop-opacity="0.65"/>
+        <stop offset="33%"  stop-color="#C89030" stop-opacity="0.60"/>
+        <stop offset="42%"  stop-color="#C07040" stop-opacity="0.55"/>
+        <stop offset="65%"  stop-color="#805040" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="#405060" stop-opacity="0.35"/>
+      </linearGradient>
+    </defs>
+    <rect x="20"  y="22" width="57"  height="12" fill="#7B40D4" opacity="0.07" rx="1"/>
+    <rect x="77"  y="22" width="134" height="12" fill="#C07040" opacity="0.06" rx="1"/>
+    <rect x="211" y="22" width="209" height="12" fill="#5B8FE8" opacity="0.05" rx="1"/>
+    <text class="cov-band-lbl" x="48"  y="19" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7B60B0" text-anchor="middle">VIS</text>
+    <text class="cov-band-lbl" x="144" y="19" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C07040" text-anchor="middle">NIR</text>
+    <text class="cov-band-lbl" x="315" y="19" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B7090" text-anchor="middle">SWIR</text>
+    <rect class="cov-rail-span" x="20" y="22" width="400" height="12" fill="url(#cov-grad)" rx="2"/>
+    <g class="cov-needle-g">
+      <line x1="93" y1="14" x2="93" y2="40" stroke="#5B8FE8" stroke-width="1.25" opacity="0.85"/>
+      <circle cx="93" cy="40" r="2.5" fill="#5B8FE8" opacity="0.85"/>
+    </g>
+    <text class="cov-needle-lbl" x="98" y="13" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">785 nm</text>
+    <line x1="20"  y1="34" x2="420" y2="34" stroke="#272727" stroke-width="0.5"/>
+    <line x1="20"  y1="34" x2="20"  y2="39" stroke="#3A3836" stroke-width="0.75"/>
+    <line x1="77"  y1="34" x2="77"  y2="38" stroke="#3A3836" stroke-width="0.5"/>
+    <line x1="211" y1="34" x2="211" y2="39" stroke="#3A3836" stroke-width="0.75"/>
+    <line x1="420" y1="34" x2="420" y2="39" stroke="#3A3836" stroke-width="0.75"/>
+    <text x="20"  y="49" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5A5650" text-anchor="middle">400 nm</text>
+    <text x="77"  y="49" font-family="IBM Plex Mono,monospace" font-size="6" fill="#4A4642" text-anchor="middle">700 nm</text>
+    <text x="211" y="49" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5A5650" text-anchor="middle">1.4 μm</text>
+    <text x="420" y="49" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5A5650" text-anchor="middle">2.5 μm</text>
+    <g class="cov-xcbg-row">
+      <rect x="20" y="57" width="57"  height="5" fill="var(--xcbg-vis-ch)" opacity="0.65" rx="1"/>
+      <rect x="80" y="57" width="131" height="5" fill="var(--xcbg-nir-ch)" opacity="0.60" rx="1"/>
+      <text x="216" y="62" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5A5650">X-CBG: VIS + NIR simultaneously</text>
+    </g>
+  </svg>
+  <p class="faq-vis-cap">r-CBG covers 400 nm – 2.5 μm in one element; 785 nm excitation sits in the low-fluorescence NIR band. The X-CBG variant multiplexes two independent channels (VIS + NIR, above) in the same compact footprint.</p>
+</div></div>
       </div>
 
       <div class="faq-item">
