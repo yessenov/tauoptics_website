@@ -791,6 +791,52 @@
     .sc-fill { transition: none !important; width: 100% !important; }
   }
 
+  /* SPECTRAL PROBE — live wavelength readout cursor on coverage bar, evoking a detector scan head */
+  :root { --probe-bg: rgba(12,12,12,0.97); }
+  .sc-bar { cursor: crosshair; }
+  .sc-probe {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.25rem 0.55rem;
+    background: var(--probe-bg);
+    border: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    white-space: nowrap;
+    z-index: 10;
+  }
+  .sc-probe::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--rule);
+  }
+  .sc-probe.probe-on { opacity: 1; }
+  .sc-probe-hair {
+    position: absolute;
+    top: 0; bottom: 0; width: 1px;
+    background: rgba(255,255,255,0.14);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+  .sc-probe-hair.probe-on { opacity: 1; }
+  @media (hover: none) { .sc-bar { cursor: default; } .sc-probe, .sc-probe-hair { display: none; } }
+
   /* RESOLUTION DEMO — spectral doublet comparison, proof of ~0.1 nm resolving power */
   .rc-demo { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
   .rc-demo-title { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; }
@@ -1636,6 +1682,8 @@
           <div class="sc-fill" id="sc-fill"></div>
           <div class="sc-vline" id="sc-vline"></div>
           <div class="sc-dot" id="sc-dot"></div>
+          <div class="sc-probe" id="sc-probe" aria-hidden="true"></div>
+          <div class="sc-probe-hair" id="sc-probe-hair" aria-hidden="true"></div>
         </div>
         <div class="sc-axis">
           <span>400 nm</span>
@@ -2758,6 +2806,31 @@
       }
     }, { threshold: 0.2 }).observe(specCovEl);
   }
+
+  // Spectral coverage bar probe — hover shows wavelength + region at cursor position
+  (function() {
+    var bar = document.querySelector('.sc-bar');
+    var probe = document.getElementById('sc-probe');
+    var hair = document.getElementById('sc-probe-hair');
+    if (!bar || !probe) return;
+    function scRegion(wl) {
+      return wl < 700 ? 'Visible' : wl < 1400 ? 'Near‑IR' : 'SWIR';
+    }
+    bar.addEventListener('mousemove', function(e) {
+      var r = bar.getBoundingClientRect();
+      var frac = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+      var wl = Math.round(400 + frac * 2100);
+      var pct = (frac * 100).toFixed(1) + '%';
+      probe.style.left = pct;
+      probe.textContent = wl + ' nm — ' + scRegion(wl);
+      probe.classList.add('probe-on');
+      if (hair) { hair.style.left = pct; hair.classList.add('probe-on'); }
+    });
+    bar.addEventListener('mouseleave', function() {
+      probe.classList.remove('probe-on');
+      if (hair) hair.classList.remove('probe-on');
+    });
+  })();
 
   // News item staggered entrance
   var newsSection = document.getElementById('news');

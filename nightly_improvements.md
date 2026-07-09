@@ -1,5 +1,25 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-07-09 — Spectral coverage bar wavelength probe — hover-activated live readout turns static visualization into an interactive spectrometer instrument — No new files in Additional info/ (all 7 already in processed_files.md). Content cleanup confirmed complete from prior sessions; no changes required.
+
+**PART 0.5:** All five content cleanup items confirmed complete: Company Milestones absent, External Characterization and MIT news absent, UCF spinout news present, I-Corps snippet clean (no fentanyl/beachhead language).
+
+**PART 1:** All 7 files in `Additional info/` already in `processed_files.md`. No new content to extract.
+
+**PART 2 — Design improvement: Spectral coverage bar wavelength probe**
+
+Added a hover-activated wavelength readout probe to the spectral coverage bar in the Technology section. When hovering over any point on the 400–2,500 nm coverage bar, a compact tooltip floats above the cursor showing the exact wavelength in nm and the spectral region (Visible / Near-IR / SWIR), paired with a thin hairline at the cursor position.
+
+**Why it fits Tau Optics specifically:** SpectraMini exists to measure wavelengths with precision. Making the wavelength coverage visualization itself hover-interactive turns a static graphic into a miniature instrument readout — visitors directly experience the precision resolution concept before they've ever used the product. No generic startup would add a live wavelength readout to a coverage bar; this gesture belongs exclusively to a spectrometer company.
+
+**CSS tokens:** `--probe-bg: rgba(12,12,12,0.97)` (the darkest, most instrument-like surface in the design system). Components named `sc-probe` and `sc-probe-hair`, continuing the `sc-` (spectral coverage) prefix already established by `sc-bar`, `sc-fill`, `sc-vline`, `sc-dot`, `sc-ml`. "Probe" is the spectrometer vocabulary term for a measurement sensing element; "hair" echoes the hairline crosshair used in optical alignment. JS scoped in IIFE, gracefully absent on touch devices via `@media (hover: none)`.
+
+**4-check:**
+- Swap — No template or default tech-site component adds a hover wavelength readout to a coverage bar; this is purely spectrometer-company behavior. ✓
+- Squint — Probe is invisible at rest (opacity: 0, pointer-events: none); hierarchy stays anchored on the 785 nm marker, the fill animation, and the headline specs above. ✓
+- Signature — (1) crosshair cursor on bar, (2) sc-probe in IBM Plex Mono matching every other instrument-readout element, (3) spectral-region labels (Visible / Near-IR / SWIR) echo the sc-regions row below, (4) hairline at cursor echoes the sc-vline at 785 nm, (5) caret arrow below probe matches the overall token vocabulary = 5 connected elements. ✓
+- Token — `sc-probe`, `sc-probe-hair`, `--probe-bg` are unambiguously measurement-instrument vocabulary; "probe" and "hair" are terms used in optical bench work, not web UI patterns. ✓
+
 ## 2026-07-08 — FAQ #2 wavelength-coverage visualization — extends the inline-vis pattern from FAQ #1 to make the platform's full spectral range and X-CBG dual-band capability immediately legible
 
 No new files in `Additional info/` (all 7 already in processed_files.md). Content cleanup (milestones, MIT/External Characterization news, I-Corps text) confirmed complete from prior sessions — no changes required.
