@@ -210,6 +210,24 @@
     .js-animations .masthead-sub { animation: none; opacity: 1; }
   }
 
+  /* APERTURE SCAN — dispersion beam traces across eyebrow line on section enter */
+  @keyframes apertureScan {
+    from { width: 0; }
+    to   { width: 28px; }
+  }
+  .js-animations .masthead .masthead-eyebrow::before {
+    width: 0;
+    animation: apertureScan 0.55s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+  }
+  .js-animations .reveal .masthead-eyebrow::before { width: 0; }
+  .js-animations .reveal.visible .masthead-eyebrow::before {
+    animation: apertureScan 0.55s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .masthead .masthead-eyebrow::before,
+    .js-animations .reveal .masthead-eyebrow::before { width: 28px !important; animation: none !important; }
+  }
+
   /* SPEC ROW ENTRANCE */
   .js-animations .spec-card .spec-row { opacity: 0; transform: translateX(-8px); transition: opacity 0.42s cubic-bezier(0.16,1,0.3,1), transform 0.42s cubic-bezier(0.16,1,0.3,1), padding-left 0.22s cubic-bezier(0.4,0,0.2,1), background 0.22s; }
   .js-animations .spec-card .spec-row.spec-in { opacity: 1; transform: none; }
