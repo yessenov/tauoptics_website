@@ -309,11 +309,24 @@
 
   /* PARTNERS */
   .partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--rule); }
-  .partner-card {  padding: 2rem 1.25rem; display: flex; align-items: center; justify-content: center; min-height: 140px; transition: background 0.2s; background: #fff;  }
+  .partner-card { padding: 2rem 1.25rem; display: flex; align-items: center; justify-content: center; min-height: 140px; transition: background 0.2s; background: #fff; position: relative; }
   .partner-card:last-child { border-right: none; }
   .partner-card:hover { background: var(--surface); }
   .partner-card img { max-width: 100%; max-height: 120px; width: auto; height: auto; object-fit: contain; opacity: 0.85; transition: opacity 0.2s; }
   .partner-card:hover img { opacity: 1; }
+  /* Dispersion gradient accent — reveals on hover once background has darkened, integrating the
+     partner grid into the site's spectral design vocabulary */
+  .partner-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1.5px; background: var(--dispersion-gradient); opacity: 0; transition: opacity 0.18s ease 0.12s; pointer-events: none; }
+  .partner-card:hover::after { opacity: 0.45; }
+  /* Partner card staggered entrance — matches app-card, comparison-row, market-card cadence */
+  .js-animations .partner-card { opacity: 0; transform: translateY(12px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .partner-grid.partner-entered .partner-card { opacity: 1; transform: none; }
+  .js-animations .partner-grid.partner-entered .partner-card:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .partner-grid.partner-entered .partner-card:nth-child(2) { transition-delay: 60ms; }
+  .js-animations .partner-grid.partner-entered .partner-card:nth-child(3) { transition-delay: 120ms; }
+  .js-animations .partner-grid.partner-entered .partner-card:nth-child(4) { transition-delay: 180ms; }
+  .js-animations .partner-grid.partner-entered .partner-card:nth-child(5) { transition-delay: 240ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .partner-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
   /* BACKED BY */
   .backed-grid { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
@@ -2881,6 +2894,14 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { mktGrid.classList.add('mkt-in'); }
     }, { threshold: 0.07 }).observe(mktGrid);
+  }
+
+  // Partner card staggered entrance
+  var partnerGrid = document.querySelector('.partner-grid');
+  if (partnerGrid) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { partnerGrid.classList.add('partner-entered'); }
+    }, { threshold: 0.1 }).observe(partnerGrid);
   }
 
   // Spectral coverage animation
