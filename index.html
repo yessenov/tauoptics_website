@@ -335,6 +335,17 @@
   .backed-logo img { max-height: 150px; width: auto; object-fit: contain; opacity: 0.85; transition: opacity 0.2s; }
   .backed-logo:hover img { opacity: 1; }
 
+  /* NSF AWARD VALIDATION STRIP */
+  .award-strip { margin-top: 1.75rem; padding: 1.1rem 1.5rem; border: 1px solid var(--rule); display: flex; align-items: center; gap: 2.25rem; flex-wrap: wrap; }
+  .award-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .award-chip { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; padding: 0.22rem 0.5rem; border: 1px solid var(--rule); color: var(--muted); }
+  .award-chip-on { border-color: rgba(91,143,232,0.28); color: var(--accent); }
+  .award-signal { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.55rem; font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); }
+  .award-signal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0.5; animation: awardBeat 2.6s ease-in-out infinite; }
+  @keyframes awardBeat { 0%,100% { opacity: 0.3; } 50% { opacity: 0.85; } }
+  .award-caption { font-family: var(--serif); font-size: 0.83rem; color: var(--muted); line-height: 1.55; max-width: 44ch; }
+  @media (prefers-reduced-motion: reduce) { .award-signal-dot { animation: none !important; opacity: 0.7; } }
+
   /* NEWS */
   .news-item { display: grid; grid-template-columns: 120px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
   .news-item:first-child { border-top: 1px solid var(--rule); }
@@ -1276,6 +1287,7 @@
     .spectrum-mats { grid-row: auto; flex-direction: row; border-right: none; border-bottom: 1px solid var(--rule); overflow-x: auto; }
     .spectrum-mat { border-bottom: none; border-right: 1px solid var(--rule); flex: 1; min-width: 88px; }
     .spectrum-mat:last-child { border-right: none; }
+    .award-strip { flex-direction: column; gap: 1rem; }
   }
 
   /* Spectrum mat stagger entrance */
@@ -2604,6 +2616,16 @@
       <div class="backed-logo">
         <img src="Images/NSF Seed fund logo.jpg" alt="National Science Foundation">
       </div>
+    </div>
+    <div class="award-strip">
+      <div>
+        <div class="award-chips">
+          <span class="award-chip award-chip-on">NSF STTR</span>
+          <span class="award-chip">Phase I</span>
+        </div>
+        <div class="award-signal"><span class="award-signal-dot" aria-hidden="true"></span>Merit-reviewed award</div>
+      </div>
+      <p class="award-caption">The National Science Foundation STTR (Small Business Technology Transfer) program provides competitive merit-reviewed funding for technology commercialization from university research — validating both the scientific rigor and commercial potential of the r-CBG platform.</p>
     </div>
   </div>
 </section>
