@@ -1262,6 +1262,28 @@
     .js-animations .cov-xcbg-row { opacity: 1 !important; transform: none !important; transition: none !important; }
   }
 
+  /* OPTICAL TERM TOOLTIPS — inline definitions for photonics vocabulary, styled as instrument-panel annotations */
+  .oterm { border-bottom: 1px dashed rgba(91,143,232,0.38); cursor: help; }
+  #focal-tip {
+    position: fixed; z-index: 600; max-width: 300px;
+    background: var(--surface); border: 1px solid var(--rule);
+    padding: 0.7rem 0.95rem; pointer-events: none;
+    opacity: 0; transform: translateY(5px);
+    transition: opacity 0.14s ease, transform 0.14s ease;
+    display: none;
+  }
+  #focal-tip.tip-on { opacity: 1; transform: none; }
+  .focal-term-label {
+    font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase;
+    letter-spacing: 0.10em; color: var(--accent); display: block;
+    margin-bottom: 0.4rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--rule);
+  }
+  .focal-term-def {
+    font-size: 0.82rem; color: var(--muted); line-height: 1.58;
+    font-family: var(--body); font-weight: 300; display: block;
+  }
+  @media (prefers-reduced-motion: reduce) { #focal-tip { transition: none; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1466,7 +1488,7 @@
       <div class="hiw-step">
         <div class="hiw-num">Step 01 &mdash; Input</div>
         <h3>Light Enters the Element</h3>
-        <p>Broadband Raman signal enters directly through the r-CBG facet. No input slit, no lens — all available light is collected from the sample.</p>
+        <p>Broadband <span class="oterm" data-key="raman">Raman</span> signal enters directly through the r-CBG facet. No input slit, no lens — all available light is collected from the sample.</p>
       </div>
       <div class="hiw-step">
         <div class="hiw-num">Step 02 &mdash; Dispersion</div>
@@ -1476,7 +1498,7 @@
       <div class="hiw-step">
         <div class="hiw-num">Step 03 &mdash; Detection</div>
         <h3>Direct CCD Capture</h3>
-        <p>Dispersed wavelengths exit orthogonally onto an abutted CCD array. No mirrors, no lenses — the complete Raman spectrum is captured in a single simultaneous snapshot.</p>
+        <p>Dispersed wavelengths exit orthogonally onto an abutted <span class="oterm" data-key="ccd">CCD</span> array. No mirrors, no lenses — the complete Raman spectrum is captured in a single simultaneous snapshot.</p>
       </div>
       <div class="hiw-step">
         <div class="hiw-num">Step 04 &mdash; Readout</div>
@@ -1496,10 +1518,10 @@
     <div class="tech-grid">
       <div class="tech-body">
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
-        <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
+        <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (<span class="oterm" data-key="rcbg">r-CBG</span>)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
-        <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
-        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
+        <p>The grating element is fabricated in <strong>photo-thermo-refractive (<span class="oterm" data-key="ptr">PTR</span>) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
+        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong><span class="oterm" data-key="xcbg">X-CBG</span></strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
@@ -2774,6 +2796,8 @@
 
 <a href="#contact" class="float-cta" id="float-cta" aria-label="Request a demo of SpectraMini">Request a Demo &rarr;</a>
 
+<div id="focal-tip" role="tooltip" aria-hidden="true"><span class="focal-term-label" id="focal-label"></span><span class="focal-term-def" id="focal-def"></span></div>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
@@ -3557,6 +3581,68 @@
       }
     }, { threshold: 0.25 }).observe(snrCompare);
   }
+
+  // Optical term tooltips — precision definitions for photonics vocabulary
+  (function() {
+    var DEFS = {
+      rcbg:  { term: 'r-CBG', def: 'Rotated Chirped Bragg Grating — a holographic element inscribed at 45° in photosensitive glass. Its linearly varying grating period disperses each wavelength to a unique spatial position, enabling slitless, lens-free spectral separation.' },
+      ptr:   { term: 'PTR Glass', def: 'Photo-Thermo-Refractive glass — a silver- and cerium-doped silicate in which holographic gratings are fixed by UV exposure and a single thermal bake. Stable to ~400 °C, immune to radiation damage; enables harsh-environment field deployment.' },
+      xcbg:  { term: 'X-CBG', def: 'Cross-CBG — a dual-chirped-grating variant that multiplexes two independent spectral channels into one element, enabling simultaneous two-band coverage without increasing device footprint.' },
+      raman: { term: 'Raman Spectroscopy', def: 'A non-contact technique that identifies molecular composition by measuring the inelastic scattering of laser light. Each chemical bond produces a characteristic frequency shift — a unique spectral fingerprint — detectable without consumables or reagents.' },
+      ccd:   { term: 'CCD Detector', def: 'Charge-Coupled Device — an array that converts photons to electrical charge. In SpectraMini the CCD is abutted directly against the r-CBG exit face, capturing the full dispersed spectrum in one simultaneous shot with no moving parts.' }
+    };
+    var tip   = document.getElementById('focal-tip');
+    var label = document.getElementById('focal-label');
+    var defEl = document.getElementById('focal-def');
+    if (!tip) return;
+    var hideTimer, activeEl;
+
+    function show(el) {
+      clearTimeout(hideTimer);
+      var key = el.dataset.key;
+      var d = DEFS[key]; if (!d) return;
+      label.textContent = d.term;
+      defEl.textContent = d.def;
+      tip.classList.remove('tip-on');
+      tip.style.display = 'block';
+      tip.style.visibility = 'hidden';
+      activeEl = el;
+      requestAnimationFrame(function() {
+        var r   = el.getBoundingClientRect();
+        var tw  = tip.offsetWidth;
+        var th  = tip.offsetHeight;
+        var lft = r.left + r.width / 2 - tw / 2;
+        var top = r.top - th - 10;
+        lft = Math.max(8, Math.min(lft, window.innerWidth - tw - 8));
+        if (top < 8) top = r.bottom + 8;
+        tip.style.left = lft + 'px';
+        tip.style.top  = top + 'px';
+        tip.style.visibility = '';
+        requestAnimationFrame(function() { tip.classList.add('tip-on'); });
+      });
+    }
+
+    function hide() {
+      tip.classList.remove('tip-on');
+      activeEl = null;
+      hideTimer = setTimeout(function() { tip.style.display = 'none'; }, 160);
+    }
+
+    document.querySelectorAll('.oterm').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { show(el); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('click', function(e) {
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          e.stopPropagation();
+          if (activeEl === el && tip.classList.contains('tip-on')) { hide(); }
+          else { show(el); }
+        }
+      });
+    });
+
+    window.addEventListener('scroll', hide, { passive: true });
+    document.addEventListener('click', function(e) { if (!e.target.closest('.oterm')) hide(); });
+  }());
 
   // Use-case filter tabs
   (function() {
