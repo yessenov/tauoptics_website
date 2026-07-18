@@ -1287,6 +1287,13 @@
   }
   @media (prefers-reduced-motion: reduce) { #focal-tip { transition: none; } }
 
+  /* GRATING SAMPLE — photograph of fabricated r-CBG element, styled as optical-bench observation */
+  .grating-sample { margin-top: 1rem; border: 1px solid var(--rule); background: var(--surface); overflow: hidden; }
+  .grating-sample-hd { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); padding: 0.85rem 1.25rem 0.75rem; border-bottom: 1px solid var(--rule); }
+  .grating-sample img { display: block; width: 100%; height: auto; object-fit: cover; opacity: 0.88; transition: opacity 0.2s; }
+  .grating-sample:hover img { opacity: 1; }
+  .grating-sample-cap { font-size: 0.78rem; color: var(--muted); font-style: italic; padding: 0.7rem 1.25rem 1rem; line-height: 1.5; border-top: 1px solid var(--rule); }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1680,6 +1687,11 @@
             <text class="tp-el tp-g3" x="254" y="170" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B8FE8" text-anchor="middle">7 / 7 — full aperture, 60&times; more</text>
           </svg>
           <p class="diagram-caption">Slit-based instruments reject most collected light. r-CBG accepts the full input aperture with no slit — 60&times; more signal at equivalent spectral resolution.</p>
+        </div>
+        <div class="grating-sample">
+          <div class="grating-sample-hd">r-CBG Spectrometer &mdash; Fabricated Element</div>
+          <img src="Images/r-CBG spectrometer.png" alt="Fabricated r-CBG spectrometer element — monolithic PTR glass block containing the chirped Bragg grating inscribed at 45°, the dispersive core of SpectraMini">
+          <p class="grating-sample-cap">The fabricated r-CBG element: a monolithic PTR glass block in which the chirped Bragg structure is holographically inscribed at 45°. Light enters one facet; each wavelength reflects to a different position along the 25 mm length and exits orthogonally — directly onto an abutted CCD.</p>
         </div>
       </div>
     </div>
@@ -2640,6 +2652,9 @@
     <div class="backed-grid">
       <div class="backed-logo">
         <img src="Images/NSF Seed fund logo.jpg" alt="National Science Foundation">
+      </div>
+      <div class="backed-logo">
+        <img src="Images/NSF-icrops.png" alt="NSF I-Corps Program">
       </div>
     </div>
     <div class="award-strip">
