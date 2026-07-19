@@ -1373,6 +1373,22 @@
   .res-canvas { width: 100%; display: block; }
   .res-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.6; }
   @media (max-width: 480px) { .res-toggle-btn { font-size: 0.58rem; padding: 0.45rem 0.7rem; } }
+
+  /* EXCITATION WAVELENGTH SELECTOR — laser-line vocabulary for interactive Raman pump selection */
+  .excitation-selector { display: flex; gap: 0.4rem; margin-bottom: 1.1rem; flex-wrap: wrap; align-items: center; }
+  .excitation-selector::before { content: 'Excitation \03BB:'; font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); flex-shrink: 0; margin-right: 0.25rem; }
+  .exc-btn { background: none; border: 1px solid var(--rule); font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0.35rem 0.75rem; cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; white-space: nowrap; }
+  .exc-btn:hover { color: var(--text); border-color: var(--muted); background: var(--raised); }
+  .exc-btn.exc-active { color: var(--accent); border-color: rgba(91,143,232,0.45); background: rgba(91,143,232,0.07); }
+  /* STOKES WINDOW — Raman scattering spectral range from excitation laser to ~3000 cm⁻¹ Stokes shift */
+  .sc-stokes-window { position: absolute; top: 0; bottom: 0; background: rgba(91,143,232,0.055); border-left: 1px solid rgba(91,143,232,0.40); border-right: 1px dashed rgba(91,143,232,0.18); pointer-events: none; opacity: 0; transition: left 0.65s cubic-bezier(0.16,1,0.3,1), width 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.3s; }
+  .sc-stokes-window.sc-sw-on { opacity: 1; }
+  /* Stokes legend swatch */
+  .sc-sw-stokes { display: inline-block; width: 18px; height: 10px; background: rgba(91,143,232,0.07); border: 1px solid rgba(91,143,232,0.28); flex-shrink: 0; }
+  /* POST-REVEAL interactive transitions — left position animates after initial opacity entrance completes */
+  .sc-vline.sc-interactive, .sc-dot.sc-interactive { transition: left 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.2s; }
+  .sc-ml.sc-interactive { transition: left 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.4s; }
+  @media (prefers-reduced-motion: reduce) { .sc-stokes-window { transition: none !important; opacity: 1 !important; } }
 </style>
 </head>
 <body>
@@ -1829,12 +1845,19 @@
         <span class="sc-title">Spectral Coverage</span>
         <span class="sc-range-tag">400 nm &mdash; 2,500 nm</span>
       </div>
+      <div class="excitation-selector" role="group" aria-label="Laser excitation wavelength">
+        <button class="exc-btn" data-nm="532" data-pos="6.29" data-stokes-end="11.10" data-scatter="633">532 nm</button>
+        <button class="exc-btn" data-nm="633" data-pos="11.10" data-stokes-end="18.16" data-scatter="781">633 nm</button>
+        <button class="exc-btn exc-active" data-nm="785" data-pos="18.33" data-stokes-end="29.85" data-scatter="1027">785 nm</button>
+        <button class="exc-btn" data-nm="1064" data-pos="31.62" data-stokes-end="55.38" data-scatter="1563">1064 nm</button>
+      </div>
       <div class="sc-vis">
         <div class="sc-ml" id="sc-ml">785 nm &mdash; Raman target</div>
         <div class="sc-bar">
           <div class="sc-bg"></div>
           <div class="sc-comp"></div>
           <div class="sc-fill" id="sc-fill"></div>
+          <div class="sc-stokes-window" id="sc-stokes-window" aria-hidden="true"></div>
           <div class="sc-vline" id="sc-vline"></div>
           <div class="sc-dot" id="sc-dot"></div>
           <div class="sc-probe" id="sc-probe" aria-hidden="true"></div>
@@ -1854,6 +1877,7 @@
       <div class="sc-legend">
         <div class="sc-legend-item"><span class="sc-sw-main"></span>SpectraMini coverage (400–2,500 nm)</div>
         <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
+        <div class="sc-legend-item"><span class="sc-sw-stokes"></span>Raman Stokes window (0–3000 cm&#8315;&#185;)</div>
       </div>
     </div>
     <div class="rc-demo" id="rc-demo">
@@ -3798,6 +3822,53 @@
     new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { panel.classList.add('pm-fired'); } });
     }, { threshold: 0.25 }).observe(panel);
+  })();
+
+  // Excitation wavelength selector — shows Raman Stokes scatter window for selected pump laser
+  (function() {
+    var excBtns = document.querySelectorAll('.exc-btn');
+    if (!excBtns.length) return;
+    var vline  = document.getElementById('sc-vline');
+    var dot    = document.getElementById('sc-dot');
+    var ml     = document.getElementById('sc-ml');
+    var sw     = document.getElementById('sc-stokes-window');
+    var scSect = document.getElementById('spec-coverage');
+    if (!vline || !scSect) return;
+
+    // Initialize Stokes window at 785 nm default (matching exc-active button)
+    if (ml) ml.textContent = '785 nm — Stokes scatter → 1027 nm';
+    if (sw) { sw.style.left = '18.33%'; sw.style.width = '11.52%'; }
+
+    // After initial reveal animation settles (~2.1 s from intersection), enable position transitions
+    var scInteractObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        scInteractObs.disconnect();
+        setTimeout(function() {
+          [vline, dot, ml].forEach(function(el) { if (el) el.classList.add('sc-interactive'); });
+          if (sw) sw.classList.add('sc-sw-on');
+        }, 2100);
+      }
+    }, { threshold: 0.1 });
+    scInteractObs.observe(scSect);
+
+    function selectExcitation(btn) {
+      excBtns.forEach(function(b) { b.classList.remove('exc-active'); });
+      btn.classList.add('exc-active');
+      var pos     = btn.dataset.pos;
+      var stEnd   = btn.dataset.stokesEnd;
+      var nm      = btn.dataset.nm;
+      var scatter = btn.dataset.scatter;
+      var posNum  = parseFloat(pos);
+      var endNum  = parseFloat(stEnd);
+      if (vline) vline.style.left = 'calc(' + pos + '% - 1px)';
+      if (dot)   dot.style.left   = pos + '%';
+      if (ml)  { ml.style.left = pos + '%'; ml.textContent = nm + ' nm — Stokes scatter → ' + scatter + ' nm'; }
+      if (sw)  { sw.style.left = pos + '%'; sw.style.width = (endNum - posNum).toFixed(2) + '%'; }
+    }
+
+    excBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() { selectExcitation(btn); });
+    });
   })();
 
   // Aperture scrollspy — beam-path section navigator, active node marks focal point
