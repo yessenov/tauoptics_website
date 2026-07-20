@@ -1264,6 +1264,34 @@
     .js-animations .cov-needle-lbl,
     .js-animations .cov-xcbg-row { opacity: 1 !important; transform: none !important; transition: none !important; }
   }
+  /* ── FAQ #4 PTR glass thermal-stability vis ──────────────────────────── */
+  :root {
+    --ptr-thermal-bar: #5B8FE8;    /* holographic grating stability ceiling — matches PTR 400 °C thermal limit */
+    --substrate-baseline: #4A4742; /* conventional bonded-optic reference fill */
+  }
+  .js-animations .faq-vis .faq-ptr-bar {
+    transform: scaleX(0); transform-origin: left center; transform-box: fill-box;
+    transition: transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.12s;
+  }
+  .js-animations .faq-vis-active .faq-ptr-bar { transform: scaleX(1); }
+  .js-animations .faq-vis .faq-conv-bar {
+    transform: scaleX(0); transform-origin: left center; transform-box: fill-box;
+    transition: transform 0.44s cubic-bezier(0.16,1,0.3,1) 0.38s;
+  }
+  .js-animations .faq-vis-active .faq-conv-bar { transform: scaleX(1); }
+  .js-animations .faq-vis .faq-ptr-val,
+  .js-animations .faq-vis .faq-ptr-tick { opacity: 0; transition: opacity 0.35s ease 0.72s; }
+  .js-animations .faq-vis-active .faq-ptr-val { opacity: 1; }
+  .js-animations .faq-vis-active .faq-ptr-tick { opacity: 1; }
+  .js-animations .faq-vis .faq-ptr-prop { opacity: 0; transition: opacity 0.35s ease 0.95s; }
+  .js-animations .faq-vis-active .faq-ptr-prop { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .faq-vis .faq-ptr-bar,
+    .js-animations .faq-vis .faq-conv-bar { transform: scaleX(1) !important; transition: none !important; }
+    .js-animations .faq-vis .faq-ptr-val,
+    .js-animations .faq-vis .faq-ptr-tick,
+    .js-animations .faq-vis .faq-ptr-prop { opacity: 1 !important; transition: none !important; }
+  }
 
   /* OPTICAL TERM TOOLTIPS — inline definitions for photonics vocabulary, styled as instrument-panel annotations */
   .oterm { border-bottom: 1px dashed rgba(91,143,232,0.38); cursor: help; }
@@ -2790,7 +2818,33 @@
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" aria-controls="faq-a4">What material is the r-CBG element made from, and how durable is it?<span class="faq-icon" aria-hidden="true"></span></button>
-        <div class="faq-body" id="faq-a4" role="region"><p class="faq-a">The r-CBG grating is fabricated in photo-thermo-refractive (PTR) glass — a silver- and cerium-doped silicate substrate. The grating structure is holographically inscribed with UV laser beams and thermally fixed in a single bake, producing an element stable to approximately 400 °C and immune to UV, visible, and IR radiation damage. The monolithic design — all components abutted and fixed, with no free-space optical path — makes the assembly inherently shock-resistant and self-calibrating. This robustness is what enables SpectraMini's deployment in industrial process control and outdoor field environments.</p></div>
+        <div class="faq-body" id="faq-a4" role="region"><p class="faq-a">The r-CBG grating is fabricated in photo-thermo-refractive (PTR) glass — a silver- and cerium-doped silicate substrate. The grating structure is holographically inscribed with UV laser beams and thermally fixed in a single bake, producing an element stable to approximately 400 °C and immune to UV, visible, and IR radiation damage. The monolithic design — all components abutted and fixed, with no free-space optical path — makes the assembly inherently shock-resistant and self-calibrating. This robustness is what enables SpectraMini's deployment in industrial process control and outdoor field environments.</p>
+<div class="faq-vis" aria-hidden="true">
+  <svg viewBox="0 0 440 90" class="faq-vis-svg" role="img" aria-label="PTR glass temperature stability: r-CBG element stable to 400 °C versus conventional bonded optic limit of approximately 80 °C">
+    <!-- Row labels -->
+    <text x="0" y="27" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#5B8FE8">PTR Glass (r-CBG)</text>
+    <text x="0" y="51" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742">Conventional bonded optic</text>
+    <!-- PTR Glass bar — scaleX(0)→(1), grows left→right -->
+    <rect class="faq-ptr-bar" x="130" y="17" width="232" height="13" fill="var(--ptr-thermal-bar)" opacity="0.52" rx="1.5"/>
+    <!-- Conventional bonded-optic bar (~80 °C) -->
+    <rect class="faq-conv-bar" x="130" y="41" width="46" height="13" fill="var(--substrate-baseline)" opacity="0.70" rx="1.5"/>
+    <!-- 400 °C dashed ceiling marker (animated) -->
+    <line class="faq-ptr-tick" x1="362" y1="14" x2="362" y2="63" stroke="var(--ptr-thermal-bar)" stroke-width="0.75" stroke-dasharray="3,3" stroke-opacity="0.55"/>
+    <text class="faq-ptr-val" x="362" y="11" font-family="IBM Plex Mono,monospace" font-size="7" fill="var(--ptr-thermal-bar)" text-anchor="middle">400 °C</text>
+    <!-- Temperature axis (0–500 °C, bar range x=130–420) -->
+    <line x1="130" y1="63" x2="420" y2="63" stroke="#272727" stroke-width="0.75"/>
+    <line x1="130" y1="63" x2="130" y2="67" stroke="#3A3836" stroke-width="0.75"/>
+    <line x1="246" y1="63" x2="246" y2="66" stroke="#2D2B29" stroke-width="0.5"/>
+    <line x1="362" y1="63" x2="362" y2="67" stroke="var(--ptr-thermal-bar)" stroke-width="0.75" stroke-opacity="0.45"/>
+    <line x1="420" y1="63" x2="420" y2="67" stroke="#3A3836" stroke-width="0.75"/>
+    <text x="130" y="75" font-family="IBM Plex Mono,monospace" font-size="6" fill="#3E3C39" text-anchor="middle">0 °C</text>
+    <text x="246" y="75" font-family="IBM Plex Mono,monospace" font-size="6" fill="#3E3C39" text-anchor="middle">200 °C</text>
+    <text x="420" y="75" font-family="IBM Plex Mono,monospace" font-size="6" fill="#3E3C39" text-anchor="middle">500 °C</text>
+    <!-- Property attributes (fade in after bars) -->
+    <text class="faq-ptr-prop" x="130" y="87" font-family="IBM Plex Mono,monospace" font-size="6" fill="var(--ptr-thermal-bar)" opacity="0.80">UV-INSCRIBED · THERMALLY FIXED · MONOLITHIC</text>
+  </svg>
+  <p class="faq-vis-cap">PTR glass withstands 400 °C and is immune to UV, visible, and IR radiation — enabling industrial and outdoor field deployment. Conventional cemented optics are limited to ≈80 °C.</p>
+</div></div>
       </div>
 
       <div class="faq-item">
