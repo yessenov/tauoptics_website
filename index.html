@@ -755,6 +755,19 @@
   @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
   @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
 
+  /* SPECTRAL DIAGNOSTIC ZONES — Raman bond-vibration region backgrounds on the fingerprint viewer */
+  :root {
+    --fingerprint-i-zone:  rgba(155,106,232,0.055);
+    --fingerprint-ii-zone: rgba(91,143,232,0.048);
+    --doublebond-zone:     rgba(201,122,80,0.038);
+  }
+  .spectral-zones { opacity: 0; transition: opacity 1.0s ease 0.3s; }
+  .specview-panel.spv-zoned .spectral-zones { opacity: 1; }
+  .zone-key { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 0.55rem; }
+  .zone-key-item { display: flex; align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; color: var(--muted); }
+  .zk-swatch { display: inline-block; width: 10px; height: 6px; flex-shrink: 0; border: 1px solid; }
+  @media (prefers-reduced-motion: reduce) { .spectral-zones { opacity: 1 !important; transition: none !important; } }
+
   /* ACQUISITION STATUS — detector-state indicator, evoking the CCD readout cycle:
      ACQ (pulsing blue dot) while the trace draws left→right; RDY when complete.
      The dispersion-gradient bar below the SVG fills in sync with the 700ms draw,
@@ -1985,6 +1998,19 @@
     <figure class="specview-panel">
       <div class="acq-status" id="acq-status" aria-hidden="true"><span class="acq-dot"></span><span class="acq-text">RDY</span></div>
       <svg viewBox="0 0 500 195" class="specview-svg" aria-label="Raman spectrum plot">
+        <!-- Spectral diagnostic zones — Raman bond-vibration region bands; fade in with first trace -->
+        <g class="spectral-zones" aria-hidden="true">
+          <!-- Zone I: 600–900 cm⁻¹ | ring deformations, C–X stretches -->
+          <rect x="55" y="10" width="104" height="140" fill="var(--fingerprint-i-zone)"/>
+          <!-- Zone II: 900–1200 cm⁻¹ | C–C, C–N, C–O stretches -->
+          <rect x="159" y="10" width="104" height="140" fill="var(--fingerprint-ii-zone)"/>
+          <!-- Zone III: 1200–1800 cm⁻¹ | C=C, C=O, N–H functional groups -->
+          <rect x="263" y="10" width="207" height="140" fill="var(--doublebond-zone)"/>
+          <!-- Zone labels just above x-axis baseline -->
+          <text x="107" y="144" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="rgba(155,106,232,0.42)" text-anchor="middle" letter-spacing="0.06em">FINGERPRINT I</text>
+          <text x="211" y="144" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="rgba(91,143,232,0.40)" text-anchor="middle" letter-spacing="0.06em">FINGERPRINT II</text>
+          <text x="366" y="144" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="rgba(201,122,80,0.40)" text-anchor="middle" letter-spacing="0.06em">C=C · C=O</text>
+        </g>
         <!-- Axes -->
         <line x1="55" y1="150" x2="470" y2="150" stroke="#272727" stroke-width="1"/>
         <line x1="55" y1="10"  x2="55"  y2="150" stroke="#272727" stroke-width="1"/>
@@ -2060,6 +2086,11 @@
       </svg>
       <div class="acq-bar-wrap" aria-hidden="true"><div class="acq-bar" id="acq-bar"></div></div>
       <p class="specview-figcap">Simulated Raman fingerprint spectra — representative peak positions for illustrative purposes. Actual spectra depend on sample and acquisition parameters.</p>
+      <div class="zone-key" aria-hidden="true">
+        <span class="zone-key-item"><span class="zk-swatch" style="background:rgba(155,106,232,0.20);border-color:rgba(155,106,232,0.28);"></span>Fingerprint I (600–900 cm&#8315;&#185;)</span>
+        <span class="zone-key-item"><span class="zk-swatch" style="background:rgba(91,143,232,0.18);border-color:rgba(91,143,232,0.26);"></span>Fingerprint II (900–1200 cm&#8315;&#185;)</span>
+        <span class="zone-key-item"><span class="zk-swatch" style="background:rgba(201,122,80,0.16);border-color:rgba(201,122,80,0.24);"></span>C=C · C=O (1200–1800 cm&#8315;&#185;)</span>
+      </div>
     </figure>
   </div>
 </section>
@@ -3492,6 +3523,8 @@
         if (entries[0].isIntersecting && !initialized) {
           initialized = true;
           activate(0, true);
+          var spvPanel = document.querySelector('.specview-panel');
+          if (spvPanel) spvPanel.classList.add('spv-zoned');
         }
       }, { threshold: 0.18 }).observe(specSection);
     }

@@ -1,5 +1,11 @@
 # Tau Optics — Nightly Improvements Log
 
+## 2026-07-21 — Raman spectral diagnostic zone bands added to spectrum viewer — subtle tinted region overlays and a zone key legend contextualise each fingerprint trace within its bond-vibration family
+
+No new files in `Additional info/` (all 7 already in `processed_files.md`). All PART 0.5 content cleanup confirmed complete from prior runs.
+
+Design (PART 2): The `#spectrum-viewer` SVG showed four animated Raman traces but gave no Raman-science context for the x-axis. A visitor with no spectroscopy background saw peaks without knowing what molecular families they belong to. Added three subtly tinted band overlays — Fingerprint I (600–900 cm⁻¹, soft violet), Fingerprint II (900–1200 cm⁻¹, soft blue), and C=C·C=O (1200–1800 cm⁻¹, soft amber) — matching the existing `--accent` and `--accent2` palette. Zone labels in IBM Plex Mono appear at 5.5px just above the x-axis baseline. A `.zone-key` legend below the figcap provides colored swatches with wavenumber ranges in the `--mono` font at 0.58rem. The entire zone group fades in (1 s, 0.3 s delay) when the IntersectionObserver triggers the first trace — no layout shift, no extra DOM weight. Passes all four checks: zones are Raman-vocabulary Signature elements, Squint reads three distinct spectral territories, Token colors reuse existing CSS variables, Swap is unique to this scientific instrument context.
+
 ## 2026-07-20 — PTR glass thermal-stability visualization added to FAQ Q4 — inline bar chart extends the faq-vis pattern to the material-durability question, making the 400 °C stability claim visceral
 
 No new files in `Additional info/` (all 7 already in `processed_files.md`). All PART 0.5 content cleanup confirmed complete from prior runs (milestones section absent, MIT/External Characterization news items absent, UCF spinout item present, NSF I-Corps news item clean).
