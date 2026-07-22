@@ -423,6 +423,65 @@
   }
   @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
 
+  /* CCD DOT-NAV — vertical pixel array evokes the charge-coupled detector strip in the spectrometer */
+  :root {
+    --ccd-dot-px: 4px;
+  }
+  .ccd-nav {
+    position: fixed;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    pointer-events: none;
+  }
+  .ccd-dot {
+    position: relative;
+    display: block;
+    width: var(--ccd-dot-px);
+    height: var(--ccd-dot-px);
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(122,118,114,0.45);
+    opacity: 0.32;
+    transition: opacity 0.28s ease, background 0.28s ease, transform 0.28s cubic-bezier(0.4,0,0.2,1), box-shadow 0.28s ease, border-color 0.28s ease;
+    cursor: pointer;
+    pointer-events: auto;
+    flex-shrink: 0;
+  }
+  .ccd-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    right: calc(100% + 0.65rem);
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    pointer-events: none;
+  }
+  .ccd-dot:hover { opacity: 0.9; transform: scale(1.8); }
+  .ccd-dot:hover::after { opacity: 1; }
+  .ccd-dot.pixel-lit {
+    background: var(--accent);
+    border-color: var(--accent);
+    opacity: 1;
+    transform: scale(1.5);
+    box-shadow: 0 0 0 3px rgba(91,143,232,0.13);
+  }
+  .ccd-dot.pixel-lit:hover { transform: scale(1.85); }
+  @media (max-width: 900px) { .ccd-nav { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .ccd-dot { transition: none !important; } }
+
   /* HOW IT WORKS */
   .hiw-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); }
   .hiw-step { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
@@ -623,6 +682,20 @@
 </head>
 <body>
 <div class="read-progress" aria-hidden="true"><div id="read-fill"></div></div>
+
+<nav class="ccd-nav" aria-label="Page sections">
+  <a class="ccd-dot" href="#top"            data-label="Top"          aria-label="Navigate to Top"></a>
+  <a class="ccd-dot" href="#how-it-works"   data-label="How It Works" aria-label="Navigate to How It Works"></a>
+  <a class="ccd-dot" href="#technology"     data-label="Technology"   aria-label="Navigate to Technology"></a>
+  <a class="ccd-dot" href="#spectrum-viewer" data-label="Spectra"     aria-label="Navigate to Spectral View"></a>
+  <a class="ccd-dot" href="#comparison"     data-label="Comparison"   aria-label="Navigate to Comparison"></a>
+  <a class="ccd-dot" href="#applications"   data-label="Use Cases"    aria-label="Navigate to Use Cases"></a>
+  <a class="ccd-dot" href="#about"          data-label="About"        aria-label="Navigate to About"></a>
+  <a class="ccd-dot" href="#partners"       data-label="Partners"     aria-label="Navigate to Partners"></a>
+  <a class="ccd-dot" href="#news"           data-label="News"         aria-label="Navigate to News"></a>
+  <a class="ccd-dot" href="#publications"   data-label="Research"     aria-label="Navigate to Research"></a>
+  <a class="ccd-dot" href="#contact"        data-label="Contact"      aria-label="Navigate to Contact"></a>
+</nav>
 
 <nav>
   <div class="nav-inner">
@@ -1655,6 +1728,28 @@
       if (entries[0].isIntersecting) { spectralStrip.classList.add('strip-active'); }
     }, { threshold: 0.45 }).observe(spectralStrip);
   }
+
+  // CCD dot-nav: each dot is a detector pixel that lights up when its section is in view
+  (function() {
+    var dots = document.querySelectorAll('.ccd-dot');
+    if (!dots.length) return;
+    var dotMap = {};
+    dots.forEach(function(d) { dotMap[d.getAttribute('href').slice(1)] = d; });
+    var currentLit = null;
+    var ccdObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          if (currentLit) currentLit.classList.remove('pixel-lit');
+          currentLit = dotMap[e.target.id];
+          if (currentLit) currentLit.classList.add('pixel-lit');
+        }
+      });
+    }, { rootMargin: '-38% 0px -57% 0px', threshold: 0 });
+    Object.keys(dotMap).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) ccdObs.observe(el);
+    });
+  }());
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
