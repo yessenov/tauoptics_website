@@ -619,6 +619,36 @@
     .market-card:nth-child(3), .market-card:nth-child(4) { border-bottom: 1px solid var(--rule); }
     .market-card:last-child { border-bottom: none; }
   }
+
+  /* THROUGHPUT COMPARISON */
+  .throughput-compare { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .tc-eyebrow { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.75rem; display: flex; align-items: center; gap: 0.75rem; }
+  .tc-eyebrow::before { content: ''; display: block; width: 18px; height: 1px; background: var(--dispersion-gradient); }
+  .tc-rows { display: flex; flex-direction: column; gap: 1.1rem; }
+  .tc-row { display: grid; grid-template-columns: 200px 1fr 110px; gap: 1rem; align-items: center; }
+  .tc-name { font-family: var(--mono); font-size: 0.68rem; color: var(--text); letter-spacing: 0.02em; }
+  .tc-desc-inline { font-family: var(--mono); font-size: 0.57rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.04em; }
+  .tc-track { height: 26px; background: var(--raised); border: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .tc-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; transition: width 1.4s cubic-bezier(0.16,1,0.3,1); }
+  .tc-fill-conv { background: rgba(122,118,114,0.22); }
+  .tc-fill-best { background: var(--dispersion-gradient); transition-delay: 0.3s; }
+  .throughput-compare.tc-on .tc-fill-conv { width: 2%; }
+  .throughput-compare.tc-on .tc-fill-best { width: 100%; }
+  .tc-pct { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; display: flex; flex-direction: column; gap: 0.2rem; }
+  .tc-pct-low { color: #4A4742; }
+  .tc-pct-best { color: var(--accent); }
+  .tc-multiplier { font-size: 0.58rem; color: var(--muted); font-weight: 400; letter-spacing: 0.06em; }
+  .tc-footnote { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.5rem; line-height: 1.65; max-width: 72ch; }
+  @media (max-width: 768px) {
+    .tc-row { grid-template-columns: 1fr 64px; grid-template-rows: auto auto; }
+    .tc-row-label { grid-column: 1 / -1; }
+    .tc-desc-inline { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tc-fill { transition: none !important; }
+    .throughput-compare.tc-on .tc-fill-conv { width: 2% !important; }
+    .throughput-compare.tc-on .tc-fill-best { width: 100% !important; }
+  }
 </style>
 </head>
 <body>
@@ -831,6 +861,28 @@
           <button class="diagram-replay" id="diagram-replay" aria-label="Replay diagram animation">&#8635; Replay</button>
         </div>
       </div>
+    </div>
+    <div class="throughput-compare" id="throughput-compare">
+      <div class="tc-eyebrow">Optical Throughput &mdash; Slitless vs. Slit-Based</div>
+      <div class="tc-rows">
+        <div class="tc-row">
+          <div class="tc-row-label">
+            <div class="tc-name">Conventional (slit-grating)</div>
+            <div class="tc-desc-inline">lens &rarr; slit &rarr; grating &rarr; detector</div>
+          </div>
+          <div class="tc-track"><div class="tc-fill tc-fill-conv"></div></div>
+          <div class="tc-pct tc-pct-low">~2%</div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-row-label">
+            <div class="tc-name">SpectraMini r-CBG</div>
+            <div class="tc-desc-inline">aperture &rarr; r-CBG &rarr; CCD &nbsp;&middot;&nbsp; slitless</div>
+          </div>
+          <div class="tc-track"><div class="tc-fill tc-fill-best"></div></div>
+          <div class="tc-pct tc-pct-best">~100%<span class="tc-multiplier">60&times; higher</span></div>
+        </div>
+      </div>
+      <p class="tc-footnote">Throughput relative to light entering the collection aperture. Conventional slit spectrometers reject ~98% of available signal to define spatial resolution at the entrance slit. The r-CBG encodes wavelength by diffraction angle &mdash; spectral resolution is intrinsic to the grating&rsquo;s chirp, not gated by a physical aperture.</p>
     </div>
     <div class="spec-coverage" id="spec-coverage">
       <div class="sc-head">
@@ -1654,6 +1706,14 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { spectralStrip.classList.add('strip-active'); }
     }, { threshold: 0.45 }).observe(spectralStrip);
+  }
+
+  // Throughput comparison bar animation
+  var tcEl = document.getElementById('throughput-compare');
+  if (tcEl) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { tcEl.classList.add('tc-on'); }
+    }, { threshold: 0.3 }).observe(tcEl);
   }
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
