@@ -1365,6 +1365,37 @@
     .js-animations .faq-vis .faq-ptr-prop { opacity: 1 !important; transition: none !important; }
   }
 
+  /* FAQ 3 — Bluetooth signal-lock wireless connectivity vis */
+  .js-animations .faq-vis .faq-bt-arc-1 { opacity: 0; transition: opacity 0.30s ease 0.10s; }
+  .js-animations .faq-vis .faq-bt-arc-2 { opacity: 0; transition: opacity 0.30s ease 0.20s; }
+  .js-animations .faq-vis .faq-bt-arc-3 { opacity: 0; transition: opacity 0.30s ease 0.30s; }
+  .js-animations .faq-vis-active .faq-bt-arc-1 { opacity: 0.32; }
+  .js-animations .faq-vis-active .faq-bt-arc-2 { opacity: 0.22; }
+  .js-animations .faq-vis-active .faq-bt-arc-3 { opacity: 0.14; }
+  .js-animations .faq-vis .faq-bt-bar-1 { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.42s; }
+  .js-animations .faq-vis .faq-bt-bar-2 { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.52s; }
+  .js-animations .faq-vis .faq-bt-bar-3 { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.62s; }
+  .js-animations .faq-vis .faq-bt-bar-4 { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0.38s cubic-bezier(0.16,1,0.3,1) 0.72s; }
+  .js-animations .faq-vis-active .faq-bt-bar-1,
+  .js-animations .faq-vis-active .faq-bt-bar-2,
+  .js-animations .faq-vis-active .faq-bt-bar-3,
+  .js-animations .faq-vis-active .faq-bt-bar-4 { transform: scaleY(1); }
+  .js-animations .faq-vis .faq-bt-link { opacity: 0; transition: opacity 0.35s ease 0.82s; }
+  .js-animations .faq-vis-active .faq-bt-link { opacity: 1; }
+  .js-animations .faq-vis .faq-bt-chip { opacity: 0; transition: opacity 0.35s ease 1.00s; }
+  .js-animations .faq-vis-active .faq-bt-chip { opacity: 0.80; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .faq-vis .faq-bt-arc-1,
+    .js-animations .faq-vis .faq-bt-arc-2,
+    .js-animations .faq-vis .faq-bt-arc-3 { opacity: 0.22 !important; transition: none !important; }
+    .js-animations .faq-vis .faq-bt-bar-1,
+    .js-animations .faq-vis .faq-bt-bar-2,
+    .js-animations .faq-vis .faq-bt-bar-3,
+    .js-animations .faq-vis .faq-bt-bar-4 { transform: scaleY(1) !important; transition: none !important; }
+    .js-animations .faq-vis .faq-bt-link,
+    .js-animations .faq-vis .faq-bt-chip { opacity: 1 !important; transition: none !important; }
+  }
+
   /* OPTICAL TERM TOOLTIPS — inline definitions for photonics vocabulary, styled as instrument-panel annotations */
   .oterm { border-bottom: 1px dashed rgba(91,143,232,0.38); cursor: help; }
   #focal-tip {
@@ -2968,7 +2999,35 @@
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" aria-controls="faq-a3">How does SpectraMini connect to a smartphone or computer?<span class="faq-icon" aria-hidden="true"></span></button>
-        <div class="faq-body" id="faq-a3" role="region"><p class="faq-a">SpectraMini includes integrated Bluetooth connectivity, streaming processed Raman spectra directly to a companion smartphone application in real-time. No dedicated laptop, docking station, or proprietary interface hardware is required for data acquisition or visualization. This wireless architecture is a key enabler for field deployment scenarios — including handheld fentanyl screening, point-of-care diagnostics, and wearable continuous glucose monitoring.</p></div>
+        <div class="faq-body" id="faq-a3" role="region"><p class="faq-a">SpectraMini includes integrated Bluetooth connectivity, streaming processed Raman spectra directly to a companion smartphone application in real-time. No dedicated laptop, docking station, or proprietary interface hardware is required for data acquisition or visualization. This wireless architecture is a key enabler for field deployment scenarios — including handheld fentanyl screening, point-of-care diagnostics, and wearable continuous glucose monitoring.</p>
+<div class="faq-vis" aria-hidden="true">
+  <svg viewBox="0 0 440 90" class="faq-vis-svg" role="img" aria-label="Bluetooth wireless connection: SpectraMini streams real-time Raman spectra to a companion app with no cables or laptop required">
+    <!-- SpectraMini device box -->
+    <rect x="5" y="22" width="90" height="42" fill="none" stroke="#272727" stroke-width="1"/>
+    <text x="50" y="39" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="middle">SPECTRAMINI</text>
+    <text x="50" y="51" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#4A4742" text-anchor="middle">BT 5.0 · WIRELESS</text>
+    <!-- Radio arcs emanating right from device right edge (x=95, y=43) — right-side half-circles -->
+    <path class="faq-bt-arc-1" d="M 95 29 A 14 14 0 0 1 95 57" fill="none" stroke="#5B8FE8" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="faq-bt-arc-2" d="M 95 19 A 24 24 0 0 1 95 67" fill="none" stroke="#5B8FE8" stroke-width="1.2" stroke-linecap="round"/>
+    <path class="faq-bt-arc-3" d="M 95 9 A 34 34 0 0 1 95 77" fill="none" stroke="#5B8FE8" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- RSSI signal-strength bars (4 bars, staggered heights, baseline y=69.5) -->
+    <rect class="faq-bt-bar-1" x="148" y="62" width="9" height="7"  fill="#5B8FE8" opacity="0.55" rx="1.5"/>
+    <rect class="faq-bt-bar-2" x="160" y="52" width="9" height="17" fill="#5B8FE8" opacity="0.55" rx="1.5"/>
+    <rect class="faq-bt-bar-3" x="172" y="42" width="9" height="27" fill="#5B8FE8" opacity="0.55" rx="1.5"/>
+    <rect class="faq-bt-bar-4" x="184" y="32" width="9" height="37" fill="#5B8FE8" opacity="0.55" rx="1.5"/>
+    <line x1="144" y1="69.5" x2="198" y2="69.5" stroke="#272727" stroke-width="0.75"/>
+    <!-- Signal lock label + data-flow arrow + APP endpoint (fade in together after bars) -->
+    <text class="faq-bt-link" x="171" y="24" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B8FE8" text-anchor="middle">SIGNAL LOCK</text>
+    <line class="faq-bt-link" x1="211" y1="43" x2="273" y2="43" stroke="#3A3836" stroke-width="0.75" stroke-dasharray="4,3"/>
+    <text class="faq-bt-link" x="242" y="37" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3E3C39" text-anchor="middle">SPECTRUM DATA &#x2192;</text>
+    <rect class="faq-bt-link" x="278" y="22" width="74" height="42" fill="none" stroke="#272727" stroke-width="1"/>
+    <text class="faq-bt-link" x="315" y="39" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">APP</text>
+    <text class="faq-bt-link" x="315" y="51" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3836" text-anchor="middle">LIVE READOUT</text>
+    <!-- Property attributes chip -->
+    <text class="faq-bt-chip" x="5" y="85" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B8FE8">BLUETOOTH 5.0 &middot; REAL-TIME SPECTRUM STREAMING &middot; NO LAPTOP REQUIRED</text>
+  </svg>
+  <p class="faq-vis-cap">Raman spectra stream wirelessly to a companion app in real-time — no laptop, cable, or docking station needed for data acquisition or visualization in the field.</p>
+</div></div>
       </div>
 
       <div class="faq-item">
