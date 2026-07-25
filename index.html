@@ -542,6 +542,32 @@
   @media (max-width: 480px) { .specview-panel { padding: 1rem 0.75rem; } }
   @media (prefers-reduced-motion: reduce) { .spec-trace { transition: none !important; stroke-dashoffset: 0 !important; } .spec-callout { transition: none !important; } }
 
+  /* MOLECULAR FINGERPRINT DEMO — material selector, canvas wrapper, peak labels */
+  .spectrum-mats { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .spectrum-mat {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    background: var(--surface); border: 1px solid var(--rule);
+    padding: 0.65rem 1rem; cursor: pointer; min-width: 116px;
+    text-align: left; transition: border-color 0.18s cubic-bezier(0.4,0,0.2,1), background 0.18s;
+  }
+  .spectrum-mat:hover { background: var(--raised); border-color: rgba(255,255,255,0.14); }
+  .spectrum-mat.s-active { background: var(--raised); border-color: rgba(255,255,255,0.24); }
+  .s-tag { display: flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
+  .s-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .s-name { font-family: var(--mono); font-size: 0.70rem; letter-spacing: 0.04em; color: var(--text); }
+  .spectrum-canvas-wrap { background: var(--surface); border: 1px solid var(--rule); padding: 1rem 0.5rem 0.25rem; overflow: hidden; }
+  .spectrum-peaks { display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem; margin-top: 0; padding: 0.55rem 0.75rem; background: var(--surface); border: 1px solid var(--rule); border-top: none; min-height: 2.2rem; }
+  .s-peak { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap; }
+  @keyframes matFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .js-animations .spectrum-mat { opacity: 0; }
+  .js-animations .section-inner.reveal.visible .spectrum-mat { animation: matFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+  .js-animations .section-inner.reveal.visible .spectrum-mat:nth-child(1) { animation-delay: 60ms; }
+  .js-animations .section-inner.reveal.visible .spectrum-mat:nth-child(2) { animation-delay: 120ms; }
+  .js-animations .section-inner.reveal.visible .spectrum-mat:nth-child(3) { animation-delay: 180ms; }
+  .js-animations .section-inner.reveal.visible .spectrum-mat:nth-child(4) { animation-delay: 240ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .spectrum-mat { opacity: 1 !important; animation: none !important; } }
+  @media (max-width: 768px) { .spectrum-mats { gap: 0.35rem; } .spectrum-mat { min-width: calc(50% - 0.25rem); } }
+
   /* SPECTRAL COVERAGE */
   .spec-coverage { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
   .sc-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
