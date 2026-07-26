@@ -1422,6 +1422,28 @@
     .js-animations .faq-vis .faq-bt-chip { opacity: 1 !important; transition: none !important; }
   }
 
+  /* FAQ 6 — Holographic recording physics diagram: UV beam paths → PTR glass → chirped Bragg planes */
+  .js-animations .faq-vis .faq-holo-block { opacity: 0; transition: opacity 0.25s ease 0.10s; }
+  .js-animations .faq-vis-active .faq-holo-block { opacity: 1; }
+  .js-animations .faq-vis .faq-uv-beam-1 { opacity: 0; transition: opacity 0.30s ease 0.28s; }
+  .js-animations .faq-vis-active .faq-uv-beam-1 { opacity: 0.72; }
+  .js-animations .faq-vis .faq-uv-beam-2 { opacity: 0; transition: opacity 0.30s ease 0.40s; }
+  .js-animations .faq-vis-active .faq-uv-beam-2 { opacity: 0.72; }
+  .js-animations .faq-vis .faq-holo-planes { opacity: 0; transition: opacity 0.45s ease 0.58s; }
+  .js-animations .faq-vis-active .faq-holo-planes { opacity: 1; }
+  .js-animations .faq-vis .faq-holo-lbl { opacity: 0; transition: opacity 0.35s ease 0.75s; }
+  .js-animations .faq-vis-active .faq-holo-lbl { opacity: 1; }
+  .js-animations .faq-vis .faq-holo-chip { opacity: 0; transition: opacity 0.35s ease 0.92s; }
+  .js-animations .faq-vis-active .faq-holo-chip { opacity: 0.80; }
+  @media (prefers-reduced-motion: reduce) {
+    .js-animations .faq-vis .faq-holo-block,
+    .js-animations .faq-vis .faq-uv-beam-1,
+    .js-animations .faq-vis .faq-uv-beam-2,
+    .js-animations .faq-vis .faq-holo-planes,
+    .js-animations .faq-vis .faq-holo-lbl,
+    .js-animations .faq-vis .faq-holo-chip { opacity: 1 !important; transition: none !important; }
+  }
+
   /* OPTICAL TERM TOOLTIPS — inline definitions for photonics vocabulary, styled as instrument-panel annotations */
   .oterm { border-bottom: 1px dashed rgba(91,143,232,0.38); cursor: help; }
   #focal-tip {
@@ -3094,7 +3116,56 @@
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" aria-controls="faq-a6">Where was the r-CBG technology developed, and who holds the IP?<span class="faq-icon" aria-hidden="true"></span></button>
-        <div class="faq-body" id="faq-a6" role="region"><p class="faq-a">The r-CBG concept was invented and first experimentally demonstrated at the University of Central Florida's CREOL — the College of Optics &amp; Photonics — and peer-reviewed in <em>Optics Letters</em> (2023). Tau Optics holds an exclusive license to the r-CBG patents from UCF, and was founded in 2024 as a UCF spinout. Active fabrication and R&amp;D continues in Prof. Ivan Divliansky's holographic optics laboratory at UCF, with characterization work conducted in collaboration with the Department of Electrical and Computer Engineering at the University of Utah and at MIT.</p></div>
+        <div class="faq-body" id="faq-a6" role="region"><p class="faq-a">The r-CBG concept was invented and first experimentally demonstrated at the University of Central Florida's CREOL — the College of Optics &amp; Photonics — and peer-reviewed in <em>Optics Letters</em> (2023). Tau Optics holds an exclusive license to the r-CBG patents from UCF, and was founded in 2024 as a UCF spinout. Active fabrication and R&amp;D continues in Prof. Ivan Divliansky's holographic optics laboratory at UCF, with characterization work conducted in collaboration with the Department of Electrical and Computer Engineering at the University of Utah and at MIT.</p>
+<div class="faq-vis" aria-hidden="true">
+  <svg viewBox="0 0 440 90" class="faq-vis-svg" role="img" aria-label="Holographic recording of r-CBG grating: two UV laser beams interfere inside PTR glass, inscribing a 45-degree chirped Bragg grating structure at UCF CREOL">
+    <defs>
+      <clipPath id="faq6-holo-clip">
+        <rect x="155" y="18" width="130" height="54" rx="1"/>
+      </clipPath>
+    </defs>
+    <!-- UV recording beam 1 (upper) — converges into the PTR glass block from upper-left -->
+    <circle class="faq-uv-beam-1" cx="12" cy="10" r="3.5" fill="rgba(123,0,212,0.12)" stroke="#7B00D4" stroke-width="0.75"/>
+    <line  class="faq-uv-beam-1" x1="15" y1="12" x2="154" y2="34" stroke="#7B00D4" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- UV recording beam 2 (lower) — converges from lower-left -->
+    <circle class="faq-uv-beam-2" cx="12" cy="80" r="3.5" fill="rgba(123,0,212,0.12)" stroke="#7B00D4" stroke-width="0.75"/>
+    <line  class="faq-uv-beam-2" x1="15" y1="78" x2="154" y2="56" stroke="#7B00D4" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- UV source labels -->
+    <text class="faq-holo-lbl" x="26" y="8"  font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#7B00D4" opacity="0.75">UV BEAM</text>
+    <text class="faq-holo-lbl" x="26" y="87" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#7B00D4" opacity="0.75">UV BEAM</text>
+    <!-- "HOLOGRAPHIC RECORDING" label between the two beams -->
+    <text class="faq-holo-lbl" x="78" y="43" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3E3B38" text-anchor="middle">HOLOGRAPHIC</text>
+    <text class="faq-holo-lbl" x="78" y="52" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3E3B38" text-anchor="middle">RECORDING</text>
+    <!-- PTR glass block -->
+    <rect class="faq-holo-block" x="155" y="18" width="130" height="54" rx="1" fill="rgba(91,143,232,0.06)" stroke="#5B8FE8" stroke-width="0.75"/>
+    <!-- "PTR GLASS" label on block (fades in with block) -->
+    <text class="faq-holo-block" x="220" y="48" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3E3B38" text-anchor="middle">PTR GLASS</text>
+    <!-- Chirped Bragg grating planes (45°, clipped to block, density increasing left→right shows chirp) -->
+    <g clip-path="url(#faq6-holo-clip)" class="faq-holo-planes">
+      <line x1="162" y1="72" x2="216" y2="18" stroke="rgba(91,143,232,0.40)" stroke-width="0.65"/>
+      <line x1="169" y1="72" x2="223" y2="18" stroke="rgba(91,143,232,0.40)" stroke-width="0.65"/>
+      <line x1="176" y1="72" x2="230" y2="18" stroke="rgba(91,143,232,0.40)" stroke-width="0.65"/>
+      <line x1="183" y1="72" x2="237" y2="18" stroke="rgba(91,143,232,0.40)" stroke-width="0.65"/>
+      <line x1="194" y1="72" x2="248" y2="18" stroke="rgba(91,143,232,0.30)" stroke-width="0.65"/>
+      <line x1="207" y1="72" x2="261" y2="18" stroke="rgba(91,143,232,0.30)" stroke-width="0.65"/>
+      <line x1="225" y1="72" x2="279" y2="18" stroke="rgba(91,143,232,0.22)" stroke-width="0.65"/>
+      <line x1="248" y1="72" x2="302" y2="18" stroke="rgba(91,143,232,0.22)" stroke-width="0.65"/>
+      <line x1="272" y1="72" x2="326" y2="18" stroke="rgba(91,143,232,0.22)" stroke-width="0.65"/>
+    </g>
+    <!-- Chirp direction indicator (above block) -->
+    <text class="faq-holo-lbl" x="162" y="14" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#5B8FE8" opacity="0.60">dense</text>
+    <line class="faq-holo-lbl" x1="196" y1="12" x2="246" y2="12" stroke="rgba(91,143,232,0.22)" stroke-width="0.6"/>
+    <text class="faq-holo-lbl" x="280" y="14" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#5B8FE8" opacity="0.60" text-anchor="end">sparse</text>
+    <!-- Right annotation: r-CBG element result -->
+    <line class="faq-holo-lbl" x1="287" y1="45" x2="302" y2="45" stroke="#272727" stroke-width="0.75"/>
+    <text class="faq-holo-lbl" x="305" y="38" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8">r-CBG ELEMENT</text>
+    <text class="faq-holo-lbl" x="305" y="50" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#4A4742">45° chirped structure</text>
+    <text class="faq-holo-lbl" x="305" y="60" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#3A3836">thermally fixed</text>
+    <!-- Property chip -->
+    <text class="faq-holo-chip" x="10" y="87" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7B00D4">UV-INSCRIBED &middot; HOLOGRAPHIC RECORDING &middot; UCF CREOL</text>
+  </svg>
+  <p class="faq-vis-cap">r-CBG grating recorded at UCF CREOL: two coherent UV beams interfere inside PTR glass, imprinting 45° chirped Bragg planes in a single exposure. A thermal bake crystallizes the index modulation — no adhesives, no alignment tolerances.</p>
+</div></div>
       </div>
 
     </div>
