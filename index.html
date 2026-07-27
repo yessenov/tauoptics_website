@@ -739,6 +739,9 @@
   :root {
     --photon-violet: #7B00D4;
     --photon-nir:    #1A0000;
+    /* Resolving-power tokens — Rayleigh criterion comparison vocabulary */
+    --resolving-power: var(--accent);
+    --slit-diffusion:  var(--muted);
   }
   .spectral-strip { border-bottom: 1px solid var(--rule); padding: 2.5rem 2rem; background: var(--surface); }
   .spectral-inner { max-width: var(--max); margin: 0 auto; }
@@ -1472,6 +1475,32 @@
   .grating-sample img { display: block; width: 100%; height: auto; object-fit: cover; opacity: 0.88; transition: opacity 0.2s; }
   .grating-sample:hover img { opacity: 1; }
   .grating-sample-cap { font-size: 0.78rem; color: var(--muted); font-style: italic; padding: 0.7rem 1.25rem 1rem; line-height: 1.5; border-top: 1px solid var(--rule); }
+
+  /* RESOLUTION VISUALIZER — Rayleigh criterion demo */
+  .res-viz { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .res-viz-header { font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  .res-viz-tag { color: var(--accent); }
+  .res-viz-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; min-width: 0; }
+  .res-viz-svg { width: 100%; height: auto; display: block; min-width: 360px; }
+  .rv-fill-main { fill: url(#rv-grad-main); }
+  .rv-fill-comp { fill: url(#rv-grad-comp); }
+  .rv-peak-main { fill: none; stroke: var(--resolving-power); stroke-width: 1.8; stroke-linejoin: round; }
+  .rv-peak-comp { fill: none; stroke: var(--slit-diffusion); stroke-width: 1.4; stroke-linejoin: round; }
+  .rv-peak-main, .rv-fill-main, .rv-peak-comp, .rv-fill-comp, .rv-annot { opacity: 0; transition: opacity 0.5s ease; }
+  .rv-peak-main  { transition-delay: 0.1s; }
+  .rv-fill-main  { transition-delay: 0.18s; }
+  .rv-peak-comp  { transition-delay: 0.32s; }
+  .rv-fill-comp  { transition-delay: 0.40s; }
+  .rv-annot      { transition-delay: 0.55s; }
+  .res-viz.rv-on .rv-peak-main,
+  .res-viz.rv-on .rv-fill-main,
+  .res-viz.rv-on .rv-peak-comp,
+  .res-viz.rv-on .rv-fill-comp,
+  .res-viz.rv-on .rv-annot { opacity: 1; }
+  .res-viz-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.6; max-width: 82ch; }
+  @media (prefers-reduced-motion: reduce) {
+    .rv-peak-main, .rv-fill-main, .rv-peak-comp, .rv-fill-comp, .rv-annot { transition: none !important; opacity: 1 !important; }
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -2661,6 +2690,86 @@
       </div>
     </div>
 
+
+    <div class="res-viz" id="res-viz">
+      <div class="res-viz-header">
+        <span>Spectral Resolution — Why It Matters</span>
+        <span class="res-viz-tag">Two peaks, 0.2 nm apart &mdash; same signal, different instruments</span>
+      </div>
+      <div class="res-viz-scroll">
+        <svg viewBox="0 0 444 148" class="res-viz-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Two Raman peaks 0.2 nm apart: SpectraMini resolves them as two distinct spikes; a slit-based portable instrument merges them into one unresolvable blob">
+          <defs>
+            <linearGradient id="rv-grad-main" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5B8FE8" stop-opacity="0.26"/>
+              <stop offset="100%" stop-color="#5B8FE8" stop-opacity="0.03"/>
+            </linearGradient>
+            <linearGradient id="rv-grad-comp" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7A7672" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#7A7672" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Panel backgrounds + borders -->
+          <rect x="8" y="6" width="198" height="116" fill="rgba(22,22,22,0.7)"/>
+          <rect x="8" y="6" width="198" height="116" fill="none" stroke="#272727" stroke-width="0.75"/>
+          <rect x="238" y="6" width="198" height="116" fill="rgba(22,22,22,0.7)"/>
+          <rect x="238" y="6" width="198" height="116" fill="none" stroke="#272727" stroke-width="0.75"/>
+
+          <!-- Baselines -->
+          <line x1="8"   y1="118" x2="206" y2="118" stroke="#272727" stroke-width="0.75"/>
+          <line x1="238" y1="118" x2="436" y2="118" stroke="#272727" stroke-width="0.75"/>
+
+          <!-- LEFT PANEL FILL: SpectraMini — two resolved peaks -->
+          <polygon class="rv-fill-main" points="
+            30,118 55,118 65,117.5 72,117 77,115 81,110 83,101 85,84 87,60 89,36 90,21 91,36 93,60 95,84 97,101 99,110 103,115 109,117 117,118 124,117 129,115 133,110 135,101 137,84 139,60 140,36 141,21 142,36 143,60 145,84 147,101 149,110 153,115 160,117 170,118 190,118
+          "/>
+          <!-- LEFT PANEL PEAK LINE -->
+          <polyline class="rv-peak-main" points="
+            8,118 30,118 55,118 65,117.5 72,117 77,115 81,110 83,101 85,84 87,60 89,36 90,21 91,36 93,60 95,84 97,101 99,110 103,115 109,117 117,118 124,117 129,115 133,110 135,101 137,84 139,60 140,36 141,21 142,36 143,60 145,84 147,101 149,110 153,115 160,117 170,118 190,118 206,118
+          "/>
+
+          <!-- RIGHT PANEL FILL: Portable Raman — broad merged blob -->
+          <polygon class="rv-fill-comp" points="
+            238,118 252,117.5 263,116 274,113 286,108 298,100 310,86 321,70 330,55 338,42 344,33 346,29 348,33 355,42 362,55 372,70 384,86 396,100 408,108 420,113 431,116 436,117 436,118
+          "/>
+          <!-- RIGHT PANEL PEAK LINE -->
+          <polyline class="rv-peak-comp" points="
+            238,118 252,117.5 263,116 274,113 286,108 298,100 310,86 321,70 330,55 338,42 344,33 346,29 348,33 355,42 362,55 372,70 384,86 396,100 408,108 420,113 431,116 436,117 436,118
+          "/>
+
+          <!-- ANNOTATIONS — LEFT PANEL -->
+          <g class="rv-annot">
+            <text x="17" y="25" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#5B8FE8" font-weight="500">SpectraMini</text>
+            <text x="17" y="35" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B8FE8" opacity="0.75">0.1 nm FWHM</text>
+            <!-- Peak 1 callout -->
+            <line x1="90" y1="21" x2="90" y2="9" stroke="#5B8FE8" stroke-width="0.8"/>
+            <text x="90" y="7" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle">&#955;&#8321;</text>
+            <!-- Peak 2 callout -->
+            <line x1="141" y1="21" x2="141" y2="9" stroke="#5B8FE8" stroke-width="0.8"/>
+            <text x="141" y="7" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle">&#955;&#8322;</text>
+            <!-- Resolved label -->
+            <text x="107" y="133" font-family="IBM Plex Mono,monospace" font-size="7" fill="#5B8FE8" text-anchor="middle">RESOLVED &#10003;</text>
+          </g>
+
+          <!-- ANNOTATIONS — RIGHT PANEL -->
+          <g class="rv-annot">
+            <text x="247" y="25" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#7A7672" font-weight="500">Portable Raman</text>
+            <text x="247" y="35" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7672" opacity="0.75">&#126;1&#8211;2 nm FWHM</text>
+            <!-- Ghost guides showing where λ1 and λ2 should be, buried in the blob -->
+            <line x1="317" y1="118" x2="317" y2="72" stroke="#4A4742" stroke-width="0.75" stroke-dasharray="3,2.5"/>
+            <text x="317" y="67" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle">&#955;&#8321;</text>
+            <line x1="374" y1="118" x2="374" y2="72" stroke="#4A4742" stroke-width="0.75" stroke-dasharray="3,2.5"/>
+            <text x="374" y="67" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#4A4742" text-anchor="middle">&#955;&#8322;</text>
+            <!-- Unresolved label -->
+            <text x="337" y="133" font-family="IBM Plex Mono,monospace" font-size="7" fill="#4A4742" text-anchor="middle">UNRESOLVED &#10007;</text>
+          </g>
+
+          <!-- Divider label -->
+          <text x="222" y="68" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836" text-anchor="middle" transform="rotate(-90,222,68)">vs</text>
+        </svg>
+      </div>
+      <p class="res-viz-note">At 0.1 nm FWHM, SpectraMini resolves closely-spaced Raman lines that merge into a single indistinguishable peak in slit-broadened spectra. The difference between detecting a substance and missing it entirely often comes down to a fraction of a nanometer — SpectraMini operates at that precision in a device the size of a USB stick.</p>
+    </div>
   </div>
 </section>
 
@@ -3733,6 +3842,14 @@
       if (entries[0].isIntersecting) { sMatGrid.classList.add('smats-in'); }
     }, { threshold: 0.2 }).observe(sMatGrid);
   }
+  // Resolution visualizer entrance
+  var resViz = document.getElementById('res-viz');
+  if (resViz) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { resViz.classList.add('rv-on'); }
+    }, { threshold: 0.22 }).observe(resViz);
+  }
+
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
