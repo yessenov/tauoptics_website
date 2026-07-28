@@ -579,6 +579,41 @@
     .sc-fill { transition: none !important; width: 100% !important; }
   }
 
+  /* PRECISION EDGE — beam-fill advantage bars */
+  :root {
+    --beam-track: rgba(255,255,255,0.04);
+    --beam-edge:  rgba(91,143,232,0.65);
+  }
+  .precision-bars { list-style: none; }
+  .precision-row { display: grid; grid-template-columns: 180px 1fr 110px; gap: 1.5rem; align-items: center; padding: 1.25rem 0; border-bottom: 1px solid var(--rule); }
+  .precision-row:first-child { border-top: 1px solid var(--rule); }
+  .prec-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; line-height: 1.55; }
+  .prec-sublabel { display: block; font-size: 0.59rem; color: #3A3735; margin-top: 0.2rem; letter-spacing: 0.04em; }
+  .prec-track { position: relative; height: 3px; background: var(--beam-track); border: 1px solid rgba(255,255,255,0.04); overflow: visible; }
+  .prec-fill { position: absolute; top: -1px; left: 0; height: calc(100% + 2px); width: 0; background: linear-gradient(to right, rgba(91,143,232,0.45), var(--accent)); transition: width 1.5s cubic-bezier(0.16,1,0.3,1); }
+  .prec-fill::after { content: ''; position: absolute; right: 0; top: -4px; width: 1.5px; height: 9px; background: var(--accent); box-shadow: 0 0 8px var(--beam-edge); }
+  .prec-val { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; letter-spacing: 0.04em; text-align: right; white-space: nowrap; }
+  .prec-val-sub { display: block; font-size: 0.58rem; color: var(--muted); font-weight: 400; margin-top: 0.1rem; letter-spacing: 0.05em; }
+  .precision-bars.prec-in .prec-fill { width: var(--prec-w, 80%); }
+  .precision-bars.prec-in .precision-row:nth-child(1) .prec-fill { transition-delay: 0ms; }
+  .precision-bars.prec-in .precision-row:nth-child(2) .prec-fill { transition-delay: 170ms; }
+  .precision-bars.prec-in .precision-row:nth-child(3) .prec-fill { transition-delay: 340ms; }
+  .precision-bars.prec-in .precision-row:nth-child(4) .prec-fill { transition-delay: 510ms; }
+  .js-animations .precision-row { opacity: 0; transform: translateY(10px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .precision-bars.prec-in .precision-row { opacity: 1; transform: none; }
+  .js-animations .precision-bars.prec-in .precision-row:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .precision-bars.prec-in .precision-row:nth-child(2) { transition-delay: 80ms; }
+  .js-animations .precision-bars.prec-in .precision-row:nth-child(3) { transition-delay: 160ms; }
+  .js-animations .precision-bars.prec-in .precision-row:nth-child(4) { transition-delay: 240ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .prec-fill { transition: none !important; width: var(--prec-w, 80%) !important; }
+    .js-animations .precision-row { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+  @media (max-width: 768px) {
+    .precision-row { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.5rem 0; }
+    .prec-val { text-align: left; }
+  }
+
   /* MARKET OPPORTUNITY */
   .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--rule); }
   .market-card { padding: 2.25rem 2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); transition: background 0.2s; }
@@ -1026,6 +1061,37 @@
       </div>
     </div>
     <p class="compare-note">Representative comparison vs. portable instruments (Ocean Insight, B&amp;WTek) and benchtop systems (Renishaw, Horiba). SpectraMini target cost reflects projected volume-production pricing.</p>
+  </div>
+</section>
+
+<section id="precision-edge">
+  <div class="section-inner reveal">
+    <div class="section-header">
+      <div class="masthead-eyebrow" style="margin-bottom:1rem;">Optical Advantage Quantified</div>
+      <h2>Precision Edge</h2>
+    </div>
+    <ul class="precision-bars" id="precision-bars">
+      <li class="precision-row">
+        <div class="prec-label">Footprint vs. portable Raman<span class="prec-sublabel">~5 cm² vs 100–500 cm²</span></div>
+        <div class="prec-track"><div class="prec-fill" style="--prec-w:91%"></div></div>
+        <div class="prec-val">up to 100×<span class="prec-val-sub">smaller footprint</span></div>
+      </li>
+      <li class="precision-row">
+        <div class="prec-label">Light throughput<span class="prec-sublabel">slitless vs slit-based design</span></div>
+        <div class="prec-track"><div class="prec-fill" style="--prec-w:83%"></div></div>
+        <div class="prec-val">60×<span class="prec-val-sub">more photons collected</span></div>
+      </li>
+      <li class="precision-row">
+        <div class="prec-label">Optical component count<span class="prec-sublabel">~5 parts vs 20+ in portable instruments</span></div>
+        <div class="prec-track"><div class="prec-fill" style="--prec-w:70%"></div></div>
+        <div class="prec-val">20 fewer<span class="prec-val-sub">optical parts</span></div>
+      </li>
+      <li class="precision-row">
+        <div class="prec-label">Cost at volume<span class="prec-sublabel">projected vs. current portable Raman</span></div>
+        <div class="prec-track"><div class="prec-fill" style="--prec-w:75%"></div></div>
+        <div class="prec-val">10×<span class="prec-val-sub">lower cost target</span></div>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -1821,6 +1887,14 @@
       card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
     });
   })();
+
+  // Precision edge beam-fill bars
+  var precBars = document.getElementById('precision-bars');
+  if (precBars) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { precBars.classList.add('prec-in'); }
+    }, { threshold: 0.15 }).observe(precBars);
+  }
 
   // Use-case filter tabs
   (function() {
