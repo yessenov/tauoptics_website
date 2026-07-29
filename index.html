@@ -506,6 +506,10 @@
     .spectral-tick:nth-child(2), .spectral-tick:nth-child(4) { display: none; }
   }
 
+  /* WAVELENGTH PROBE — scanning cursor evokes optical monochromator crosshair */
+  .spectral-bar { cursor: crosshair; }
+  .spectral-cursor.probing { transition: left 0.04s linear; opacity: 1; }
+
   /* READING PROGRESS */
   .read-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 200; pointer-events: none; }
   #read-fill { height: 100%; background: var(--dispersion-gradient); transform: scaleX(0); transform-origin: left; will-change: transform; }
@@ -1843,6 +1847,67 @@
           }
         });
       });
+    });
+  })();
+
+  // Spectral strip wavelength probe — hover reveals scanning cursor + nm readout
+  // Evokes an optical monochromator's mechanical crosshair scanning the spectrum
+  (function() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    var trackWrap = document.querySelector('.spectral-track-wrap');
+    var cursor = document.getElementById('spectral-cursor');
+    var labelRight = document.querySelector('.spectral-label-right');
+    if (!trackWrap || !cursor || !labelRight) return;
+    var bar = trackWrap.querySelector('.spectral-bar');
+    if (!bar) return;
+
+    var defaultLabel = labelRight.textContent;
+
+    // Piecewise linear map: [position_pct, wavelength_nm] derived from tick placements
+    var MAP = [[0, 400], [16, 532], [38, 785], [55, 1064], [100, 2500]];
+
+    function pctToNm(pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      for (var i = 1; i < MAP.length; i++) {
+        if (pct <= MAP[i][0]) {
+          var t = (pct - MAP[i - 1][0]) / (MAP[i][0] - MAP[i - 1][0]);
+          return Math.round(MAP[i - 1][1] + t * (MAP[i][1] - MAP[i - 1][1]));
+        }
+      }
+      return 2500;
+    }
+
+    function fmtNm(nm) {
+      if (nm >= 2000) return (nm / 1000).toFixed(1) + ' μm';
+      if (nm >= 1000) return (nm / 1000).toFixed(2) + ' μm';
+      return nm + ' nm';
+    }
+
+    function regionHint(nm) {
+      if (nm < 400) return 'UV';
+      if (nm < 700) return 'Visible';
+      if (nm >= 780 && nm <= 795) return 'Near-Infrared · Raman target';
+      if (nm < 1100) return 'Near-Infrared';
+      if (nm <= 2500) return 'Shortwave IR';
+      return 'SWIR';
+    }
+
+    trackWrap.addEventListener('mouseenter', function() {
+      cursor.classList.add('probing');
+    });
+
+    trackWrap.addEventListener('mousemove', function(e) {
+      var rect = bar.getBoundingClientRect();
+      var pct = Math.max(0, Math.min(100, (e.clientX - rect.left) / rect.width * 100));
+      cursor.style.left = pct + '%';
+      var nm = pctToNm(pct);
+      labelRight.textContent = fmtNm(nm) + ' · ' + regionHint(nm);
+    });
+
+    trackWrap.addEventListener('mouseleave', function() {
+      cursor.classList.remove('probing');
+      cursor.style.left = '';
+      labelRight.textContent = defaultLabel;
     });
   })();
 </script>
