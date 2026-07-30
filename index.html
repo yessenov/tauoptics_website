@@ -411,6 +411,50 @@
   .pub-item:nth-child(3) .pub-datum { border-color: rgba(155,106,232,0.22); background: rgba(155,106,232,0.065); }
   .pub-item:nth-child(3) .pub-datum::before { color: var(--pub-line-3); }
 
+  /* PUBLICATION KEY RESULT — expandable proof-record panel
+     --proof-window: the spectroscopic "aperture" through which verified measurements are viewed
+     --verification-line: the quality-check step in holographic recording — a mark of validation */
+  :root {
+    --proof-window:      rgba(91,143,232,0.035);
+    --verification-line: rgba(91,143,232,0.38);
+  }
+  .pub-result-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem; background: none; border: none;
+    cursor: pointer; padding: 0; margin-top: 0.65rem;
+    font-family: var(--mono); font-size: 0.61rem; text-transform: uppercase;
+    letter-spacing: 0.10em; color: var(--muted); transition: color 0.2s;
+  }
+  .pub-result-btn:hover { color: var(--accent); }
+  .pub-result-btn .prb-arrow {
+    display: inline-block; transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+    font-size: 0.54rem; line-height: 1;
+  }
+  .pub-result-btn[aria-expanded="true"] .prb-arrow { transform: rotate(90deg); }
+  .pub-result-btn[aria-expanded="true"] { color: var(--accent); }
+  .pub-result-panel {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1);
+  }
+  .pub-result-inner {
+    margin-top: 0.9rem; padding: 0.85rem 1rem;
+    border-left: 2px solid var(--verification-line);
+    background: var(--proof-window);
+  }
+  .pub-result-label {
+    font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase;
+    letter-spacing: 0.11em; color: var(--accent); display: flex; align-items: center;
+    gap: 0.6rem; margin-bottom: 0.55rem;
+  }
+  .pub-result-label::before {
+    content: ''; display: block; width: 18px; height: 1px;
+    background: var(--dispersion-gradient); flex-shrink: 0;
+  }
+  .pub-result-text { font-size: 0.88rem; color: var(--muted); line-height: 1.72; max-width: 70ch; }
+  @media (prefers-reduced-motion: reduce) {
+    .pub-result-btn .prb-arrow { transition: none; }
+    .pub-result-panel { transition: none; }
+  }
+
   /* FOOTER */
   footer { padding: 2.5rem 2rem; background: var(--surface); border-top: 1px solid var(--rule); }
   .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -3082,6 +3126,15 @@
           <div class="pub-authors">O. Mhibik, M. Yessenov, L. Mach, L. Glebov, I. Divliansky, A. F. Abouraddy — CREOL, University of Central Florida</div>
           <div class="pub-datum">~0.1 nm spectral resolution &middot; 785 nm NIR &middot; 3 &times; 6 &times; 25 mm element &middot; slitless architecture</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.483904" target="_blank">View Paper &#8599;</a>
+          <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-1">
+            <span class="prb-arrow">&#9658;</span> Key Result
+          </button>
+          <div class="pub-result-panel" id="pub-result-1" role="region">
+            <div class="pub-result-inner">
+              <div class="pub-result-label">Peer-Reviewed Finding</div>
+              <p class="pub-result-text">A single 3 &times; 6 &times; 25 mm r-CBG element resolved Raman spectra at &sim;0.1 nm in the NIR — with no lenses, no slit, and no free-space optical path. This proved that sub-nanometre resolution is governed by the grating's internal chirp rate, not by device size: high-resolution Raman spectroscopy is achievable in a centimetre-scale form factor for the first time.</p>
+            </div>
+          </div>
         </div>
       </li>
       <li class="pub-item">
@@ -3092,6 +3145,15 @@
           <div class="pub-authors">O. Mhibik et al. — CREOL, University of Central Florida</div>
           <div class="pub-datum">Simultaneous dual spectral channels &middot; single compact element &middot; no footprint increase</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.498216" target="_blank">View Paper &#8599;</a>
+          <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-2">
+            <span class="prb-arrow">&#9658;</span> Key Result
+          </button>
+          <div class="pub-result-panel" id="pub-result-2" role="region">
+            <div class="pub-result-inner">
+              <div class="pub-result-label">Peer-Reviewed Finding</div>
+              <p class="pub-result-text">Two independent spectral channels — visible and NIR Raman simultaneously — were multiplexed into a single X-CBG element with no increase in footprint or parts count. This establishes that the r-CBG platform scales to multi-band instruments without added size or alignment complexity, enabling applications that require concurrent coverage of two distinct spectral windows.</p>
+            </div>
+          </div>
         </div>
       </li>
       <li class="pub-item">
@@ -3102,6 +3164,15 @@
           <div class="pub-authors">M. Yessenov et al. — CREOL, University of Central Florida</div>
           <div class="pub-datum">25 &times; 25 &times; 8 mm&sup3; total volume &middot; 100 fs pulse demonstrated &middot; cascaded r-CBG architecture</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.483902" target="_blank">View Paper &#8599;</a>
+          <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-3">
+            <span class="prb-arrow">&#9658;</span> Key Result
+          </button>
+          <div class="pub-result-panel" id="pub-result-3" role="region">
+            <div class="pub-result-inner">
+              <div class="pub-result-label">Peer-Reviewed Finding</div>
+              <p class="pub-result-text">Cascaded r-CBG elements performed 100 fs ultrafast pulse shaping in a 25 &times; 25 &times; 8 mm&sup3; assembly — a capability that previously required large optical benches. This demonstrates that the r-CBG platform extends well beyond Raman spectroscopy into ultrafast laser physics and precision photonics, pointing to a broader family of compact instruments on the same fabrication platform.</p>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -3734,6 +3805,23 @@
             });
           }
         }
+      }
+    });
+  });
+
+  // Publication key result accordion
+  document.querySelectorAll('.pub-result-btn').forEach(function(btn) {
+    var panelId = btn.getAttribute('aria-controls');
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    btn.addEventListener('click', function() {
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        btn.setAttribute('aria-expanded', 'false');
+        panel.style.maxHeight = '';
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
       }
     });
   });
