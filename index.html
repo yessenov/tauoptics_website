@@ -261,6 +261,18 @@
   .diagram-label { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.25rem; }
   .diagram-caption { font-size: 0.80rem; color: var(--muted); font-style: italic; margin-top: 1rem; line-height: 1.5; }
 
+  /* CHIRP RATE DIAGRAM */
+  .chirp-panel { margin-top: 1.5rem; border: 1px solid var(--rule); background: var(--surface); padding: 1.1rem 1.25rem; }
+  .chirp-panel-label { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 0.9rem; }
+  .chirp-panel-svg { width: 100%; height: auto; display: block; }
+  .chirp-panel-cap { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.75rem; line-height: 1.5; }
+  .chirp-beam { opacity: 0; transition: opacity 0.35s ease; }
+  .chirp-panel.chirp-on .chirp-beam-1 { opacity: 1; transition-delay: 0.10s; }
+  .chirp-panel.chirp-on .chirp-beam-2 { opacity: 1; transition-delay: 0.30s; }
+  .chirp-panel.chirp-on .chirp-beam-3 { opacity: 1; transition-delay: 0.50s; }
+  .chirp-panel.chirp-on .chirp-beam-4 { opacity: 1; transition-delay: 0.70s; }
+  @media (prefers-reduced-motion: reduce) { .chirp-beam { opacity: 1 !important; transition: none !important; } }
+
   /* USE CASES */
   .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); }
   .app-card { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); transition: background 0.2s; }
@@ -1880,6 +1892,56 @@
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
         <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (<span class="oterm" data-key="rcbg">r-CBG</span>)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
         <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
+        <div class="chirp-panel" id="chirp-panel">
+          <div class="chirp-panel-label">r-CBG &mdash; Chirp Mechanism &middot; Wavelength-to-Position Mapping</div>
+          <svg viewBox="0 0 300 118" class="chirp-panel-svg" xmlns="http://www.w3.org/2000/svg" aria-label="r-CBG chirp mechanism: varying Bragg plane spacing maps each wavelength to a unique exit position">
+            <rect x="22" y="58" width="258" height="46" fill="rgba(91,143,232,0.04)" stroke="rgba(201,122,80,0.55)" stroke-width="0.8"/>
+            <text x="151" y="88" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6" fill="#3A3735">PTR GLASS &nbsp;&middot;&nbsp; r-CBG ELEMENT</text>
+            <line x1="28" y1="104" x2="46" y2="58" stroke="rgba(91,143,232,0.42)" stroke-width="0.6"/>
+            <line x1="34" y1="104" x2="52" y2="58" stroke="rgba(91,143,232,0.42)" stroke-width="0.6"/>
+            <line x1="40" y1="104" x2="58" y2="58" stroke="rgba(91,143,232,0.38)" stroke-width="0.6"/>
+            <line x1="46" y1="104" x2="64" y2="58" stroke="rgba(91,143,232,0.38)" stroke-width="0.6"/>
+            <line x1="52" y1="104" x2="70" y2="58" stroke="rgba(91,143,232,0.33)" stroke-width="0.6"/>
+            <line x1="58" y1="104" x2="76" y2="58" stroke="rgba(91,143,232,0.30)" stroke-width="0.5"/>
+            <line x1="68" y1="104" x2="114" y2="58" stroke="rgba(91,143,232,0.24)" stroke-width="0.5"/>
+            <line x1="82" y1="104" x2="128" y2="58" stroke="rgba(91,143,232,0.20)" stroke-width="0.5"/>
+            <line x1="100" y1="104" x2="146" y2="58" stroke="rgba(91,143,232,0.17)" stroke-width="0.5"/>
+            <line x1="118" y1="104" x2="164" y2="58" stroke="rgba(91,143,232,0.14)" stroke-width="0.5"/>
+            <line x1="142" y1="104" x2="200" y2="58" stroke="rgba(91,143,232,0.12)" stroke-width="0.5"/>
+            <line x1="168" y1="104" x2="226" y2="58" stroke="rgba(91,143,232,0.10)" stroke-width="0.5"/>
+            <line x1="198" y1="104" x2="256" y2="58" stroke="rgba(91,143,232,0.08)" stroke-width="0.5"/>
+            <line x1="232" y1="104" x2="280" y2="58" stroke="rgba(91,143,232,0.08)" stroke-width="0.5"/>
+            <text x="22" y="114" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="rgba(91,143,232,0.60)">dense</text>
+            <text x="270" y="114" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="rgba(91,143,232,0.30)">sparse</text>
+            <line x1="50" y1="111" x2="250" y2="111" stroke="rgba(91,143,232,0.12)" stroke-width="0.5"/>
+            <polygon points="250,109 255,111 250,113" fill="rgba(91,143,232,0.18)"/>
+            <line x1="2" y1="81" x2="20" y2="81" stroke="#5B8FE8" stroke-width="1.5"/>
+            <polygon points="17,78 22,81 17,84" fill="#5B8FE8"/>
+            <rect x="38" y="35.5" width="220" height="2" fill="rgba(91,143,232,0.22)" stroke="rgba(91,143,232,0.28)" stroke-width="0.5"/>
+            <text x="148" y="22" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#4A4742">CCD DETECTOR ARRAY</text>
+            <g class="chirp-beam chirp-beam-1">
+              <line x1="58" y1="58" x2="58" y2="38" stroke="#8B5CF6" stroke-width="1.4"/>
+              <polygon points="55,41 58,36 61,41" fill="#8B5CF6"/>
+              <text x="58" y="32" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6" fill="#8B5CF6">&lambda;&#x2081;</text>
+            </g>
+            <g class="chirp-beam chirp-beam-2">
+              <line x1="118" y1="58" x2="118" y2="38" stroke="#5B8FE8" stroke-width="1.4"/>
+              <polygon points="115,41 118,36 121,41" fill="#5B8FE8"/>
+              <text x="118" y="32" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6" fill="#5B8FE8">&lambda;&#x2082;</text>
+            </g>
+            <g class="chirp-beam chirp-beam-3">
+              <line x1="178" y1="58" x2="178" y2="38" stroke="#80C842" stroke-width="1.4"/>
+              <polygon points="175,41 178,36 181,41" fill="#80C842"/>
+              <text x="178" y="32" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6" fill="#80C842">&lambda;&#x2083;</text>
+            </g>
+            <g class="chirp-beam chirp-beam-4">
+              <line x1="238" y1="58" x2="238" y2="38" stroke="#E09A3A" stroke-width="1.4"/>
+              <polygon points="235,41 238,36 241,41" fill="#E09A3A"/>
+              <text x="238" y="32" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="6" fill="#E09A3A">&lambda;&#x2084;</text>
+            </g>
+          </svg>
+          <p class="chirp-panel-cap">Varying Bragg period along the element length spatially encodes wavelength: &lambda;&#x2081; (short) satisfies the Bragg condition early where planes are densest and exits near the input face; &lambda;&#x2084; (long) travels further before diffracting, emerging near the far end. This chirp-rate mechanism enables compact, lens-free spectral analysis with no free-space optical path.</p>
+        </div>
         <p>The grating element is fabricated in <strong>photo-thermo-refractive (<span class="oterm" data-key="ptr">PTR</span>) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
         <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong><span class="oterm" data-key="xcbg">X-CBG</span></strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
@@ -4626,6 +4688,14 @@
     }, { rootMargin: '-40% 0px -55% 0px' });
     sectionEls.forEach(function(el) { apObs.observe(el); });
     if (nodes.length) nodes[0].classList.add('ap-active');
+  })();
+
+  (function() {
+    var chirpPanel = document.getElementById('chirp-panel');
+    if (!chirpPanel) return;
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { chirpPanel.classList.add('chirp-on'); }
+    }, { threshold: 0.25 }).observe(chirpPanel);
   })();</script>
 </body>
 </html>
