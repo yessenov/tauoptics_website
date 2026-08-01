@@ -561,6 +561,17 @@
     .pc-bar-hero { transition: none !important; width: 100% !important; }
   }
 
+  /* Photon-ratio bars — inline throughput/compactness visualization in comparison rows */
+  .cbar-row .compare-cell { flex-direction: column; align-items: flex-start; }
+  .cbar { display: block; width: 100%; height: 2px; margin-top: 10px; position: relative; background: rgba(255,255,255,0.05); }
+  .cbar::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform: scaleX(0); transform-origin: left; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+  .cbar-photon::after { background: var(--dispersion-gradient); }
+  .cbar-shadow::after { background: var(--muted); opacity: 0.4; }
+  .cmp-animated .cbar::after { transform: scaleX(var(--photon-ratio, 1)); }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(2) .cbar::after { transition-delay: 460ms; }
+  .js-animations .compare-table.cmp-animated .compare-row:nth-child(4) .cbar::after { transition-delay: 640ms; }
+  @media (prefers-reduced-motion: reduce) { .cbar::after { transition: none !important; transform: scaleX(var(--photon-ratio, 1)) !important; } }
+
   /* SCROLL REVEAL */
   .js-animations .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
   .js-animations .reveal.visible { opacity: 1; transform: none; }
@@ -2550,11 +2561,11 @@
             <div class="compare-sub">Free-space optics</div>
           </div>
         </div>
-        <div class="compare-row">
+        <div class="compare-row cbar-row">
           <div class="compare-cell compare-cell-label">Footprint</div>
-          <div class="compare-cell compare-cell-hero"><span class="cv-best">~5 cm²</span></div>
-          <div class="compare-cell"><span class="cv-mid">~100–500 cm²</span></div>
-          <div class="compare-cell"><span class="cv-low">&gt;2,000 cm²</span></div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">~5 cm²</span><div class="cbar cbar-photon" style="--photon-ratio:1" aria-hidden="true"></div></div>
+          <div class="compare-cell"><span class="cv-mid">~100–500 cm²</span><div class="cbar cbar-shadow" style="--photon-ratio:0.017" aria-hidden="true"></div></div>
+          <div class="compare-cell"><span class="cv-low">&gt;2,000 cm²</span><div class="cbar cbar-shadow" style="--photon-ratio:0.0025" aria-hidden="true"></div></div>
         </div>
         <div class="compare-row">
           <div class="compare-cell compare-cell-label">Spectral Resolution (NIR)</div>
@@ -2562,11 +2573,11 @@
           <div class="compare-cell"><span class="cv-low">0.5–2 nm</span></div>
           <div class="compare-cell"><span class="cv-mid">~0.05–0.1 nm</span></div>
         </div>
-        <div class="compare-row">
+        <div class="compare-row cbar-row">
           <div class="compare-cell compare-cell-label">Light Throughput</div>
-          <div class="compare-cell compare-cell-hero"><span class="cv-best">60&times; higher (no slit)</span></div>
-          <div class="compare-cell"><span class="cv-low">Slit-limited</span></div>
-          <div class="compare-cell"><span class="cv-low">Slit-limited</span></div>
+          <div class="compare-cell compare-cell-hero"><span class="cv-best">60&times; higher (no slit)</span><div class="cbar cbar-photon" style="--photon-ratio:1" aria-hidden="true"></div></div>
+          <div class="compare-cell"><span class="cv-low">Slit-limited</span><div class="cbar cbar-shadow" style="--photon-ratio:0.017" aria-hidden="true"></div></div>
+          <div class="compare-cell"><span class="cv-low">Slit-limited</span><div class="cbar cbar-shadow" style="--photon-ratio:0.017" aria-hidden="true"></div></div>
         </div>
         <div class="compare-row">
           <div class="compare-cell compare-cell-label">Optical Part Count</div>
