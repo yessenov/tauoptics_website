@@ -597,6 +597,53 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* GLOSSARY TOOLTIPS — focal-depth layering, precision reticle vocabulary */
+  .gloss {
+    border-bottom: 1px dotted rgba(91,143,232,0.28);
+    cursor: help;
+  }
+  .gloss:hover { border-bottom-color: var(--accent); }
+  .gloss-tip {
+    position: fixed;
+    width: 240px;
+    background: #141414;
+    border: 1px solid var(--rule);
+    padding: 0.7rem 0.9rem 0.65rem;
+    z-index: 95;
+    pointer-events: none;
+    opacity: 0;
+    left: -9999px;
+    top: 0;
+    transition: opacity 0.18s ease;
+  }
+  .gloss-tip::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--dispersion-gradient);
+    opacity: 0.55;
+  }
+  .gloss-tip.gloss-on { opacity: 1; }
+  .gloss-tip-term {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.60rem;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .gloss-tip-def {
+    display: block;
+    font-size: 0.80rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  @media (prefers-reduced-motion: reduce) { .gloss-tip { transition: none !important; } }
+  @media (max-width: 768px) { .gloss { border-bottom: none; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -768,10 +815,10 @@
     <div class="tech-grid">
       <div class="tech-body">
         <p>Conventional Raman spectrometers require a lens, a narrow input slit, a diffraction grating, and a detector — all precisely aligned across a large free-space optical path. Any displacement detuned the instrument; any miniaturization sacrifices resolution.</p>
-        <p>Tau Optics replaces this architecture entirely with a <strong>rotated chirped Bragg grating (r-CBG)</strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
-        <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and chirp rate — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
-        <p>The grating element is fabricated in <strong>photo-thermo-refractive (PTR) glass</strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. Diffraction efficiency reaches up to 95%.</p>
-        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong>X-CBG</strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
+        <p>Tau Optics replaces this architecture entirely with a <strong><span class="gloss" tabindex="0" data-gloss-term="r-CBG — Rotated Chirped Bragg Grating" data-gloss-def="A photosensitive glass element where each wavelength diffracts to a unique spatial position — no slit, no lens, no free-space path. The element measures just 3×6×25 mm.">rotated chirped Bragg grating (r-CBG)</span></strong> — a photosensitive glass element in which the Bragg structure is inscribed at 45° to its facets. Light enters one face; each wavelength is reflected at a different position along the grating and exits orthogonally, directly onto a CCD array. No free space. No lens. No moving parts. All components are abutted and fixed — making the device shock-resistant and self-calibrating.</p>
+        <p>Because performance is governed by the r-CBG's internal parameters — refractive-index contrast and <span class="gloss" tabindex="0" data-gloss-term="Chirp Rate" data-gloss-def="The gradient in Bragg period along the grating element. Controls wavelength-to-position mapping — a steeper chirp maps a wider spectral range across the same detector length.">chirp rate</span> — rather than physical dimensions, resolution does not degrade with miniaturization. The grating element itself measures just 3 × 6 × 25 mm — the entire spectrometer module fits within ~5 cm².</p>
+        <p>The grating element is fabricated in <strong><span class="gloss" tabindex="0" data-gloss-term="PTR Glass" data-gloss-def="Silicate substrate doped with silver and cerium, patterned via UV holography and a single thermal bake. Stable to ~400 °C and immune to laser-induced damage — enabling harsh-environment deployment.">photo-thermo-refractive (PTR) glass</span></strong> — a silicate substrate doped with silver and cerium — via holographic recording with UV beams and a single thermal bake. The resulting element is stable to temperatures approaching 400 °C and immune to IR, visible, and UV radiation, making it suitable for harsh industrial and field environments. <span class="gloss" tabindex="0" data-gloss-term="Diffraction Efficiency" data-gloss-def="Fraction of incident light redirected into the usable diffraction order. r-CBG achieves up to 95% — conventional ruled gratings typically reach 50–80%.">Diffraction efficiency</span> reaches up to 95%.</p>
+        <p>The r-CBG platform supports wavelengths from 400 nm to 2.5 μm in a single compact form factor. An advanced dual-band variant, the <strong><span class="gloss" tabindex="0" data-gloss-term="X-CBG" data-gloss-def="A dual-band r-CBG variant that multiplexes two independent spectral channels in one element — enabling simultaneous visible + NIR coverage with no increase in device footprint.">X-CBG</span></strong>, multiplexes two independent spectral channels into one element — enabling simultaneous coverage of, for example, visible and near-infrared bands without increasing device footprint. Cascaded r-CBG configurations further enable compact ultrafast laser pulse shaping — demonstrated with 100 fs input pulses — and space-time wave packet synthesis in a total volume under 25 × 25 × 8 mm³, pointing to a broader precision photonics platform beyond Raman spectroscopy.</p>
         <span class="patent-badge">&#9632; &nbsp; Patented</span>
         <ul class="advantage-list">
           <li><span class="adv-num">01</span><span><strong>10× smaller</strong> than portable Raman spectrometers at equivalent spectral resolution.</span></li>
@@ -1655,6 +1702,47 @@
       if (entries[0].isIntersecting) { spectralStrip.classList.add('strip-active'); }
     }, { threshold: 0.45 }).observe(spectralStrip);
   }
+
+  // Technical term glossary tooltips — focal-depth reticle tooltip system
+  (function() {
+    var glossItems = document.querySelectorAll('.gloss');
+    if (!glossItems.length) return;
+    var tip = document.createElement('div');
+    tip.className = 'gloss-tip';
+    tip.innerHTML = '<span class="gloss-tip-term"></span><span class="gloss-tip-def"></span>';
+    document.body.appendChild(tip);
+    var termEl = tip.querySelector('.gloss-tip-term');
+    var defEl  = tip.querySelector('.gloss-tip-def');
+    var GAP = 10, TW = 240;
+
+    function positionTip(gloss) {
+      var r = gloss.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var tipLeft = Math.max(8, Math.min(cx - TW / 2, window.innerWidth - TW - 8));
+      tip.style.left      = tipLeft + 'px';
+      tip.style.top       = (r.top - GAP) + 'px';
+      tip.style.transform = 'translateY(-100%)';
+    }
+
+    function showTip(gloss) {
+      termEl.textContent = gloss.dataset.glossTerm;
+      defEl.textContent  = gloss.dataset.glossDef;
+      positionTip(gloss);
+      tip.classList.add('gloss-on');
+    }
+
+    function hideTip() {
+      tip.classList.remove('gloss-on');
+      tip.style.left = '-9999px';
+    }
+
+    glossItems.forEach(function(g) {
+      g.addEventListener('mouseenter', function() { showTip(g); });
+      g.addEventListener('mouseleave', hideTip);
+      g.addEventListener('focusin',   function() { showTip(g); });
+      g.addEventListener('focusout',  hideTip);
+    });
+  })();
 
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
