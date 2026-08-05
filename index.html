@@ -1813,6 +1813,34 @@
   .sc-vline.sc-interactive, .sc-dot.sc-interactive { transition: left 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.2s; }
   .sc-ml.sc-interactive { transition: left 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.4s; }
   @media (prefers-reduced-motion: reduce) { .sc-stokes-window { transition: none !important; opacity: 1 !important; } }
+
+  /* COPY-CITE — one-click APA citation for research collaborators         */
+  /* --cite-ink:  photon-dim; barely signals the action exists at rest     */
+  /* --cite-flash: λ₃ green from the r-CBG dispersion diagram — confirms  */
+  :root {
+    --cite-ink:   rgba(122,118,114,0.52);
+    --cite-flash: #80C842;
+  }
+  .focal-cite {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    font-family: var(--mono);
+    font-size: 0.60rem;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--cite-ink);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 1rem;
+    margin-top: 0.6rem;
+    transition: color 0.18s;
+    vertical-align: middle;
+  }
+  .focal-cite:hover { color: var(--muted); }
+  .focal-cite.aperture-confirm { color: var(--cite-flash); pointer-events: none; }
 </style>
 </head>
 <body>
@@ -3280,6 +3308,7 @@
           <div class="pub-authors">O. Mhibik, M. Yessenov, L. Mach, L. Glebov, I. Divliansky, A. F. Abouraddy — CREOL, University of Central Florida</div>
           <div class="pub-datum">~0.1 nm spectral resolution &middot; 785 nm NIR &middot; 3 &times; 6 &times; 25 mm element &middot; slitless architecture</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.483904" target="_blank">View Paper &#8599;</a>
+          <button class="focal-cite" data-cite="Mhibik, O., Yessenov, M., Mach, L., Glebov, L., Divliansky, I., &amp; Abouraddy, A. F. (2023). Rotated chirped volume Bragg gratings for compact spectral analysis. Optics Letters, 48(5). https://doi.org/10.1364/OL.483904" aria-label="Copy APA citation"><span class="fc-label">⧉ Copy APA</span></button>
           <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-1">
             <span class="prb-arrow">&#9658;</span> Key Result
           </button>
@@ -3299,6 +3328,7 @@
           <div class="pub-authors">O. Mhibik et al. — CREOL, University of Central Florida</div>
           <div class="pub-datum">Simultaneous dual spectral channels &middot; single compact element &middot; no footprint increase</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.498216" target="_blank">View Paper &#8599;</a>
+          <button class="focal-cite" data-cite="Mhibik, O., et al. (2023). Compact dual-band spectral analysis via multiplexed rotated chirped volume Bragg gratings. Optics Letters, 48(19). https://doi.org/10.1364/OL.498216" aria-label="Copy APA citation"><span class="fc-label">⧉ Copy APA</span></button>
           <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-2">
             <span class="prb-arrow">&#9658;</span> Key Result
           </button>
@@ -3318,6 +3348,7 @@
           <div class="pub-authors">M. Yessenov et al. — CREOL, University of Central Florida</div>
           <div class="pub-datum">25 &times; 25 &times; 8 mm&sup3; total volume &middot; 100 fs pulse demonstrated &middot; cascaded r-CBG architecture</div>
           <a class="pub-link" href="https://doi.org/10.1364/OL.483902" target="_blank">View Paper &#8599;</a>
+          <button class="focal-cite" data-cite="Yessenov, M., et al. (2023). Ultra-compact synthesis of space-time wave packets. Optics Letters, 48(10). https://doi.org/10.1364/OL.483902" aria-label="Copy APA citation"><span class="fc-label">⧉ Copy APA</span></button>
           <button class="pub-result-btn" aria-expanded="false" aria-controls="pub-result-3">
             <span class="prb-arrow">&#9658;</span> Key Result
           </button>
@@ -4831,6 +4862,38 @@
     new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting) { chirpPanel.classList.add('chirp-on'); }
     }, { threshold: 0.25 }).observe(chirpPanel);
+  })();
+
+  /* COPY-CITE — one-click APA clipboard copy on publication entries */
+  (function() {
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      ta.remove();
+    }
+    document.querySelectorAll('.focal-cite').forEach(function(btn) {
+      var labelEl = btn.querySelector('.fc-label');
+      btn.addEventListener('click', function() {
+        var text = btn.dataset.cite.replace(/&amp;/g, '&');
+        function confirm() {
+          btn.classList.add('aperture-confirm');
+          labelEl.textContent = '✓ Copied';
+          setTimeout(function() {
+            btn.classList.remove('aperture-confirm');
+            labelEl.textContent = '⧉ Copy APA';
+          }, 2200);
+        }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(confirm).catch(function() { legacyCopy(text); confirm(); });
+        } else {
+          legacyCopy(text); confirm();
+        }
+      });
+    });
   })();</script>
 </body>
 </html>
