@@ -399,6 +399,17 @@
   .c-value { font-size: 0.95rem; }
   .c-value a { color: var(--accent); text-decoration: none; }
   .c-value a:hover { text-decoration: underline; }
+  /* INQUIRY TYPE SELECTOR — contact form pre-qualifier; spectral vocabulary from --dispersion-gradient */
+  .inquiry-type { margin-bottom: 0.25rem; }
+  .inquiry-type-label { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 0.65rem; }
+  .inquiry-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); margin-bottom: 0.25rem; }
+  .inq-pill { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.4rem 0.85rem; border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease; position: relative; overflow: hidden; }
+  .inq-pill::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--dispersion-gradient); opacity: 0; transition: opacity 0.18s ease; pointer-events: none; }
+  .inq-pill.inq-active { color: var(--text); border-color: rgba(91,143,232,0.35); background: rgba(91,143,232,0.05); }
+  .inq-pill.inq-active::after { opacity: 0.72; }
+  .inq-pill:hover:not(.inq-active) { color: var(--text); border-color: rgba(255,255,255,0.18); }
+  @media (max-width: 768px) { .inq-pill { font-size: 0.57rem; padding: 0.38rem 0.7rem; } }
+
   .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
   label { font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); }
@@ -3624,10 +3635,19 @@
         </div>
       </div>
       <form class="contact-form">
+        <div class="inquiry-type" role="group" aria-labelledby="inq-label">
+          <div class="inquiry-type-label" id="inq-label">I am reaching out as a</div>
+          <div class="inquiry-pills">
+            <button type="button" class="inq-pill inq-active" data-subject-prefix="Demo Request" data-placeholder="Tell us about your application, measurement environment, and timeline. We will suggest the best pilot configuration.">Product Evaluator</button>
+            <button type="button" class="inq-pill" data-subject-prefix="Research Inquiry" data-placeholder="Describe the spectroscopy challenge you are working on. We welcome academic and laboratory collaborations.">Researcher</button>
+            <button type="button" class="inq-pill" data-subject-prefix="Partnership Inquiry" data-placeholder="Describe your organization and the partnership or technology licensing opportunity you have in mind.">Partner / OEM</button>
+            <button type="button" class="inq-pill" data-subject-prefix="Investor Inquiry" data-placeholder="Tell us about your interest in the photonics and spectroscopy market and how we can share more.">Investor</button>
+          </div>
+        </div>
         <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Dr. Jane Smith" required></div>
         <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="jane@institution.edu" required></div>
         <div class="form-group"><label for="org">Organization</label><input type="text" id="org" name="organization" placeholder="University / Company"></div>
-        <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="Describe your inquiry, application of interest, or partnership opportunity." required></textarea></div>
+        <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell us about your application, measurement environment, and timeline. We will suggest the best pilot configuration." required></textarea></div>
         <p class="form-note">We aim to respond within 2 business days.</p>
         <button type="submit" class="form-submit">Send Message &rarr;</button>
         <p class="form-confirm" id="form-confirm" role="status" aria-live="polite"><strong>&#10003; LINK CONFIRMED</strong> &mdash; your mail client should open with a pre-filled message. If it does not, reach us directly at <a href="mailto:info@tauoptics.com">info@tauoptics.com</a></p>
@@ -4236,14 +4256,29 @@
   }
 
 
+  // Inquiry-type pill selector — adjusts subject prefix and message placeholder
+  (function() {
+    var pills = document.querySelectorAll('.inq-pill');
+    var msgArea = document.getElementById('message');
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('inq-active'); });
+        pill.classList.add('inq-active');
+        if (msgArea && pill.dataset.placeholder) { msgArea.placeholder = pill.dataset.placeholder; }
+      });
+    });
+  })();
+
   document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const org = document.getElementById('org').value;
     const message = document.getElementById('message').value;
+    const activePill = document.querySelector('.inq-pill.inq-active');
+    const prefix = activePill ? activePill.dataset.subjectPrefix + ' from ' : 'Inquiry from ';
     const body = `Name: ${name}\nOrganization: ${org}\nEmail: ${email}\n\n${message}`;
-    window.location.href = `mailto:info@tauoptics.com?subject=Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:info@tauoptics.com?subject=${encodeURIComponent(prefix + name)}&body=${encodeURIComponent(body)}`;
     var fc = document.getElementById('form-confirm');
     if (fc) fc.classList.add('fc-on');
   });
