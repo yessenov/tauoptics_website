@@ -597,6 +597,23 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* PEER-VALIDATED RESULTS — measurement tiles above publication list */
+  :root { --datum-rim: rgba(201,122,80,0.38); }
+  .pub-datum-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); margin-bottom: 2.5rem; }
+  .pub-datum-tile { padding: 1.5rem 1.4rem; border-right: 1px solid var(--rule); border-left: 3px solid var(--datum-rim); background: var(--surface); transition: background 0.2s; }
+  .pub-datum-tile:hover { background: var(--raised); }
+  .pub-datum-tile:last-child { border-right: none; }
+  .pub-datum-label { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 0.65rem; }
+  .pub-datum-val { font-family: var(--serif); font-size: clamp(1.4rem, 2.8vw, 1.95rem); font-weight: 500; color: var(--accent); line-height: 1.1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .pub-datum-unit { font-size: 0.72em; color: var(--muted); font-weight: 400; font-style: normal; }
+  .pub-datum-src { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); letter-spacing: 0.05em; line-height: 1.5; }
+  .js-animations .pub-datum-tile { opacity: 0; transform: translateY(10px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1), background 0.2s; }
+  .js-animations .pub-datum-row.datum-in .pub-datum-tile { opacity: 1; transform: none; }
+  .js-animations .pub-datum-row.datum-in .pub-datum-tile:nth-child(1) { transition-delay: 0ms; }
+  .js-animations .pub-datum-row.datum-in .pub-datum-tile:nth-child(2) { transition-delay: 90ms; }
+  .js-animations .pub-datum-row.datum-in .pub-datum-tile:nth-child(3) { transition-delay: 180ms; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .pub-datum-tile { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -618,6 +635,9 @@
     .market-card { border-right: none !important; }
     .market-card:nth-child(3), .market-card:nth-child(4) { border-bottom: 1px solid var(--rule); }
     .market-card:last-child { border-bottom: none; }
+    .pub-datum-row { grid-template-columns: 1fr; }
+    .pub-datum-tile { border-right: none; border-bottom: 1px solid var(--rule); }
+    .pub-datum-tile:last-child { border-bottom: none; }
   }
 </style>
 </head>
@@ -1206,7 +1226,7 @@
         <div>
           <div class="news-source">NSF I-Corps · Fall Cohort II</div>
           <div class="news-headline">Tau Optics completes NSF I-Corps program with 100+ customer discovery interviews</div>
-          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews across multiple market segments over ten weeks of systematic customer engagement.</div>
+          <div class="news-snippet">Tau Optics completed the NSF I-Corps program, conducting over 100 customer discovery interviews.</div>
         </div>
       </div>
       <div class="news-item">
@@ -1236,6 +1256,23 @@
   <div class="section-inner reveal">
     <div class="section-header">
       <h2>Research &amp; Publications</h2>
+    </div>
+    <div class="pub-datum-row" aria-label="Peer-validated performance outcomes">
+      <div class="pub-datum-tile">
+        <div class="pub-datum-label">Spectral Resolution</div>
+        <div class="pub-datum-val">~0.1 <span class="pub-datum-unit">nm</span></div>
+        <div class="pub-datum-src">Optics Letters · Vol. 48, No. 5 · 2023</div>
+      </div>
+      <div class="pub-datum-tile">
+        <div class="pub-datum-label">Dual-Band in One Element</div>
+        <div class="pub-datum-val">X-CBG</div>
+        <div class="pub-datum-src">Optics Letters · Vol. 48, No. 19 · 2023</div>
+      </div>
+      <div class="pub-datum-tile">
+        <div class="pub-datum-label">Pulse Module Envelope</div>
+        <div class="pub-datum-val">25×25×8 <span class="pub-datum-unit">mm</span></div>
+        <div class="pub-datum-src">Optics Letters · Vol. 48, No. 10 · 2023</div>
+      </div>
     </div>
     <ul class="pub-list">
       <li class="pub-item">
@@ -1528,6 +1565,14 @@
       }
     }, { threshold: 0.05 });
     newsObs.observe(newsSection);
+  }
+
+  // Peer-validated results tile staggered entrance
+  var datumRow = document.querySelector('.pub-datum-row');
+  if (datumRow) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { datumRow.classList.add('datum-in'); }
+    }, { threshold: 0.15 }).observe(datumRow);
   }
 
   // Publication item staggered entrance
