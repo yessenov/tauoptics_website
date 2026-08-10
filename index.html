@@ -463,6 +463,28 @@
   .sp-note { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; color: #3A3735; }
   .spectrum-svg { width: 100%; height: auto; display: block; }
 
+  /* SPECTRUM DEMO (canvas-based interactive Raman fingerprint viewer) */
+  .spectrum-wrap { display: grid; grid-template-columns: 158px 1fr; gap: 0; align-items: start; }
+  .spectrum-mats { display: flex; flex-direction: column; border: 1px solid var(--rule); border-right: none; }
+  .spectrum-mat { background: none; border: none; border-bottom: 1px solid var(--rule); cursor: pointer; padding: 0.9rem 1.1rem; text-align: left; transition: background 0.2s; display: flex; flex-direction: column; gap: 0.25rem; width: 100%; }
+  .spectrum-mat:last-child { border-bottom: none; }
+  .spectrum-mat:hover { background: var(--surface); }
+  .spectrum-mat.s-active { background: var(--surface); }
+  .spectrum-mat.s-active .s-name { color: var(--accent); }
+  .s-tag { display: flex; align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); line-height: 1.2; }
+  .s-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .s-name { font-family: var(--serif); font-size: 0.9rem; font-weight: 500; color: var(--text); line-height: 1.25; transition: color 0.2s; }
+  .spectrum-canvas-wrap { border: 1px solid var(--rule); background: var(--surface); }
+  .spectrum-peaks { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0.65rem 0 0.1rem; }
+  .s-peak { font-family: var(--mono); font-size: 0.60rem; color: var(--muted); border: 1px solid var(--rule); padding: 0.2rem 0.5rem; background: var(--bg); }
+  .s-peak span { font-weight: 500; }
+  @media (max-width: 600px) {
+    .spectrum-wrap { grid-template-columns: 1fr; }
+    .spectrum-mats { flex-direction: row; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); overflow-x: auto; }
+    .spectrum-mat { border-right: 1px solid var(--rule); border-bottom: none; flex: 1; min-width: 100px; padding: 0.65rem 0.75rem; }
+    .spectrum-mat:last-child { border-right: none; }
+  }
+
   /* SPECTRAL WAVELENGTH STRIP */
   :root {
     --photon-violet: #7B00D4;
