@@ -619,6 +619,27 @@
   .js-animations .market-grid.mkt-in .market-card:nth-child(4) { transition-delay: 270ms; }
   @media (prefers-reduced-motion: reduce) { .js-animations .market-card { opacity: 1 !important; transform: none !important; transition: background 0.2s !important; } }
 
+  /* RESOLUTION COMPARISON — spectral resolution advantage visualization */
+  /* Classes: rdemo-resolved / rdemo-merged evoke optics resolution vocabulary */
+  .resolution-demo { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .rdemo-eyebrow { font-family: var(--mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .rdemo-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--dispersion-gradient); }
+  .rdemo-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .rdemo-panel { padding: 1.25rem; border: 1px solid var(--rule); background: var(--raised); }
+  .rdemo-resolved { border-color: rgba(91,143,232,0.22); position: relative; overflow: hidden; }
+  .rdemo-resolved::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--dispersion-gradient); opacity: 0.7; }
+  .rdemo-panel-label { font-family: var(--mono); font-size: 0.60rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 0.75rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--rule); }
+  .rdemo-resolved .rdemo-panel-label { color: var(--accent); }
+  .rdemo-svg { width: 100%; height: auto; display: block; }
+  .rdemo-caption { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 1.25rem; line-height: 1.55; }
+  .js-animations .rdemo-peak-group { opacity: 0; transform: translateY(6px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .js-animations .resolution-demo.rdemo-in .rdemo-peak-group { opacity: 1; transform: none; }
+  .js-animations .resolution-demo.rdemo-in .rdemo-merged { transition-delay: 0.05s; }
+  .js-animations .resolution-demo.rdemo-in .rdemo-peak-a { transition-delay: 0.12s; }
+  .js-animations .resolution-demo.rdemo-in .rdemo-peak-b { transition-delay: 0.26s; }
+  @media (prefers-reduced-motion: reduce) { .js-animations .rdemo-peak-group { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  @media (max-width: 768px) { .rdemo-panels { grid-template-columns: 1fr; } }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .masthead-inner, .tech-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -883,6 +904,57 @@
         <div class="sc-legend-item"><span class="sc-sw-main"></span>SpectraMini coverage (400–2,500 nm)</div>
         <div class="sc-legend-item"><span class="sc-sw-comp"></span>Typical portable Raman (800–1,150 nm)</div>
       </div>
+    </div>
+    <!-- Resolution comparison: shows why 0.1 nm matters vs 1–2 nm conventional -->
+    <div class="resolution-demo">
+      <div class="rdemo-eyebrow">Spectral Resolution Advantage</div>
+      <div class="rdemo-panels">
+        <div class="rdemo-panel">
+          <div class="rdemo-panel-label">Conventional Portable Raman &mdash; 1&ndash;2&thinsp;nm FWHM</div>
+          <svg viewBox="0 0 230 82" class="rdemo-svg" aria-label="Conventional spectrometer: two Raman peaks appear merged into one broad feature">
+            <!-- Faint guides showing where the two peaks are — invisible to the instrument -->
+            <line x1="100" y1="14" x2="100" y2="64" stroke="#222220" stroke-width="0.75" stroke-dasharray="3,3"/>
+            <line x1="150" y1="14" x2="150" y2="64" stroke="#222220" stroke-width="0.75" stroke-dasharray="3,3"/>
+            <!-- Baseline -->
+            <line x1="28" y1="64" x2="222" y2="64" stroke="#272727" stroke-width="0.75"/>
+            <!-- Merged broad hump — conventional resolution merges two peaks into one featureless blob -->
+            <g class="rdemo-peak-group rdemo-merged">
+              <path d="M 28,64 C 53,64 75,19 125,19 C 175,19 197,64 222,64" fill="rgba(58,56,54,0.16)" stroke="#3A3836" stroke-width="1.6"/>
+              <text x="125" y="12" font-family="IBM Plex Mono,monospace" font-size="6" fill="#3A3836" text-anchor="middle">unresolved</text>
+            </g>
+            <!-- X-axis ticks: peak positions exist but cannot be distinguished -->
+            <line x1="100" y1="64" x2="100" y2="68" stroke="#2A2A2A" stroke-width="0.75"/>
+            <text x="100" y="76" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#2E2C2B" text-anchor="middle">1000</text>
+            <line x1="150" y1="64" x2="150" y2="68" stroke="#2A2A2A" stroke-width="0.75"/>
+            <text x="150" y="76" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#2E2C2B" text-anchor="middle">1005</text>
+            <text x="125" y="82" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#252322" text-anchor="middle">cm&#8315;&#185;</text>
+          </svg>
+        </div>
+        <div class="rdemo-panel rdemo-resolved">
+          <div class="rdemo-panel-label">SpectraMini r&#8209;CBG &mdash; ~0.1&thinsp;nm FWHM</div>
+          <svg viewBox="0 0 230 82" class="rdemo-svg" aria-label="SpectraMini: same two Raman peaks clearly resolved as distinct spectral lines">
+            <!-- Baseline -->
+            <line x1="28" y1="64" x2="222" y2="64" stroke="#272727" stroke-width="0.75"/>
+            <!-- Peak at 1000 cm⁻¹ -->
+            <g class="rdemo-peak-group rdemo-peak-a">
+              <path d="M 80,64 C 82,57 91,19 100,19 C 109,19 118,57 120,64" fill="rgba(91,143,232,0.14)" stroke="#5B8FE8" stroke-width="1.5"/>
+              <text x="100" y="13" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle">1000</text>
+            </g>
+            <!-- Peak at 1005 cm⁻¹ -->
+            <g class="rdemo-peak-group rdemo-peak-b">
+              <path d="M 130,64 C 132,57 141,19 150,19 C 159,19 168,57 170,64" fill="rgba(91,143,232,0.14)" stroke="#5B8FE8" stroke-width="1.5"/>
+              <text x="150" y="13" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#5B8FE8" text-anchor="middle">1005</text>
+            </g>
+            <!-- X-axis ticks -->
+            <line x1="100" y1="64" x2="100" y2="68" stroke="#333" stroke-width="0.75"/>
+            <text x="100" y="76" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836" text-anchor="middle">1000</text>
+            <line x1="150" y1="64" x2="150" y2="68" stroke="#333" stroke-width="0.75"/>
+            <text x="150" y="76" font-family="IBM Plex Mono,monospace" font-size="6.5" fill="#3A3836" text-anchor="middle">1005</text>
+            <text x="125" y="82" font-family="IBM Plex Mono,monospace" font-size="5.5" fill="#2E2C2B" text-anchor="middle">cm&#8315;&#185;</text>
+          </svg>
+        </div>
+      </div>
+      <p class="rdemo-caption">Same two Raman peaks &mdash; 5&thinsp;cm&#8315;&#185; apart. Portable instruments at 0.5&ndash;2&thinsp;nm FWHM merge them into an indistinguishable shoulder. SpectraMini resolves them as separate spectral lines, enabling compound-level discrimination that conventional portable Raman cannot deliver.</p>
     </div>
   </div>
 </section>
@@ -1867,6 +1939,14 @@
       });
     });
   })();
+
+  // Resolution comparison demo — animate peaks in on scroll
+  var rDemo = document.querySelector('.resolution-demo');
+  if (rDemo) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { rDemo.classList.add('rdemo-in'); }
+    }, { threshold: 0.25 }).observe(rDemo);
+  }
 </script>
 </body>
 </html>
