@@ -423,6 +423,28 @@
   }
   @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
 
+  /* SPECTRUM DEMO — instrument-channel material selector + canvas readout */
+  .spectrum-wrap { }
+  .spectrum-mats { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.1rem; }
+  .spectrum-mat {
+    display: flex; flex-direction: column; gap: 0.22rem;
+    background: var(--surface); border: 1px solid var(--rule);
+    padding: 0.65rem 1rem; cursor: pointer; text-align: left;
+    min-width: 116px; transition: background 0.2s, border-color 0.2s;
+  }
+  .spectrum-mat:hover { background: var(--raised); border-color: var(--muted); }
+  .spectrum-mat.s-active { border-color: var(--accent); background: rgba(91,143,232,0.06); }
+  .s-tag { display: flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .s-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .s-name { font-family: var(--serif); font-size: 0.92rem; font-weight: 500; color: var(--text); margin-top: 0.08rem; line-height: 1.2; }
+  .spectrum-mat.s-active .s-name { color: var(--accent); }
+  .spectrum-canvas-wrap { background: var(--surface); border: 1px solid var(--rule); }
+  .spectrum-peaks { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.85rem; }
+  .s-peak { font-family: var(--mono); font-size: 0.63rem; border: 1px solid var(--rule); padding: 0.28rem 0.6rem; color: var(--muted); letter-spacing: 0.04em; }
+  @media (max-width: 768px) {
+    .spectrum-mat { min-width: calc(50% - 0.25rem); }
+  }
+
   /* HOW IT WORKS */
   .hiw-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); }
   .hiw-step { padding: 2rem 1.75rem; border-right: 1px solid var(--rule); background: var(--surface); transition: background 0.2s; }
