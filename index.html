@@ -85,6 +85,9 @@
     /* Reticle tokens — precision dot-grid for the masthead, evoking optical bench surface */
     --reticle-pitch: 28px;
     --reticle-dot:   rgba(255,255,255,0.022);
+    /* CCD dot-nav tokens — charge-coupled device pixel array scrollspy */
+    --ccd-dot-px: 4px;
+    --ccd-glow:   rgba(91,143,232,0.13);
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 17px; font-weight: 300; line-height: 1.75; }
@@ -422,6 +425,16 @@
     .float-cta { bottom: 1.25rem; right: 1.25rem; font-size: 0.62rem; padding: 0.75rem 1.1rem; }
   }
   @media (prefers-reduced-motion: reduce) { .float-cta { transition: none !important; } }
+
+  /* CCD DOT-NAV — vertical pixel array scrollspy, mirrors CCD detector columns in SpectraMini */
+  .ccd-nav { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .ccd-dot { display: block; width: var(--ccd-dot-px); height: var(--ccd-dot-px); border-radius: 50%; background: transparent; border: 1px solid rgba(255,255,255,0.32); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), background 0.25s, box-shadow 0.25s, border-color 0.25s; position: relative; }
+  .ccd-dot::after { content: attr(data-label); position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted); white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .ccd-dot:hover::after { opacity: 1; }
+  .ccd-dot:hover { transform: scale(1.8); border-color: rgba(91,143,232,0.6); }
+  .ccd-dot.pixel-lit { background: var(--accent); border-color: var(--accent); transform: scale(1.5); box-shadow: 0 0 0 3px var(--ccd-glow); }
+  @media (max-width: 900px) { .ccd-nav { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .ccd-dot { transition: none !important; } }
 
   /* SPECTRUM DEMO — instrument-channel material selector + canvas readout */
   .spectrum-wrap { }
@@ -1447,6 +1460,20 @@
 
 <a href="#contact" class="float-cta" id="float-cta" aria-label="Request a demo of SpectraMini">Request a Demo &rarr;</a>
 
+<nav class="ccd-nav" id="ccd-nav" aria-label="Page sections navigation">
+  <a class="ccd-dot" href="#top"           data-target="top"           data-label="Overview"></a>
+  <a class="ccd-dot" href="#how-it-works"  data-target="how-it-works"  data-label="How It Works"></a>
+  <a class="ccd-dot" href="#technology"    data-target="technology"    data-label="Technology"></a>
+  <a class="ccd-dot" href="#spectrum-viewer" data-target="spectrum-viewer" data-label="Spectra"></a>
+  <a class="ccd-dot" href="#comparison"    data-target="comparison"    data-label="Comparison"></a>
+  <a class="ccd-dot" href="#applications"  data-target="applications"  data-label="Use Cases"></a>
+  <a class="ccd-dot" href="#about"         data-target="about"         data-label="About"></a>
+  <a class="ccd-dot" href="#news"          data-target="news"          data-label="News"></a>
+  <a class="ccd-dot" href="#publications"  data-target="publications"  data-label="Research"></a>
+  <a class="ccd-dot" href="#faq"           data-target="faq"           data-label="FAQ"></a>
+  <a class="ccd-dot" href="#contact"       data-target="contact"       data-label="Contact"></a>
+</nav>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="../TauOpticsLogoBlack2.png" alt="Tau Optics"></div>
@@ -1947,6 +1974,33 @@
       if (entries[0].isIntersecting) { rDemo.classList.add('rdemo-in'); }
     }, { threshold: 0.25 }).observe(rDemo);
   }
+
+  // CCD dot-nav scrollspy — each section lights its pixel when centred in view
+  (function() {
+    var nav = document.getElementById('ccd-nav');
+    if (!nav) return;
+    var dots = nav.querySelectorAll('.ccd-dot[data-target]');
+    if (!dots.length) return;
+    var targets = Array.from(dots).map(function(d) { return document.getElementById(d.dataset.target); });
+    var active = -1;
+    function update() {
+      var mid = window.innerHeight * 0.5;
+      var best = 0, bestDist = Infinity;
+      targets.forEach(function(el, i) {
+        if (!el) return;
+        var r = el.getBoundingClientRect();
+        var dist = Math.abs(r.top + r.height / 2 - mid);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      if (best !== active) {
+        if (active >= 0 && dots[active]) dots[active].classList.remove('pixel-lit');
+        dots[best].classList.add('pixel-lit');
+        active = best;
+      }
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
 </script>
 </body>
 </html>
